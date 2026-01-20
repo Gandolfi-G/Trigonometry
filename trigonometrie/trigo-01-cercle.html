@@ -54,8 +54,7 @@
     <p class="lead">
       Le <strong>cercle trigonométrique</strong> est le <strong>cercle unité</strong> : un cercle de <strong>rayon 1</strong>,
       centré en <strong>O</strong>, placé dans un repère orthonormé.
-      Il sert à associer à un angle orienté <span class="pill">θ</span> un point <span class="pill">M</span> sur le cercle,
-      et donc des valeurs de <strong>cos(θ)</strong> et <strong>sin(θ)</strong>.
+      Il sert à associer à un angle orienté <span class="pill">θ</span> un point (le point rouge) sur le cercle.
     </p>
 
     <section id="definition">
@@ -119,22 +118,6 @@
       </p>
     </section>
 
-    <section id="cos-sin">
-      <h2>Lire cos(θ) et sin(θ) sur le cercle</h2>
-      <p>
-        Si <span class="pill">M</span> est le point du cercle associé à θ, alors :
-        <strong>cos(θ)</strong> est l’<strong>abscisse</strong> de M (projection sur l’axe horizontal) et
-        <strong>sin(θ)</strong> est l’<strong>ordonnée</strong> de M (projection sur l’axe vertical).
-        Les pointillés rouges/verts sur la figure montrent ces projections.
-      </p>
-      <ul>
-        <li>Quadrant I : cos &gt; 0, sin &gt; 0</li>
-        <li>Quadrant II : cos &lt; 0, sin &gt; 0</li>
-        <li>Quadrant III : cos &lt; 0, sin &lt; 0</li>
-        <li>Quadrant IV : cos &gt; 0, sin &lt; 0</li>
-      </ul>
-    </section>
-
     <section id="angles-reperes">
       <h2>Angles repères (points cardinaux)</h2>
       <p>
@@ -150,8 +133,7 @@
         <li>Cercle unité : centre O, <strong>rayon 1</strong>.</li>
         <li>Point de départ A(1,0) : angle 0.</li>
         <li>Anti‑horaire : angles positifs. Horaire : angles négatifs.</li>
-        <li>Coordonnées : <strong>M(cos(θ), sin(θ))</strong>.</li>
-        <li>Périodicité : θ et θ + 2kπ donnent le même point (k entier).</li>
+        <li>Périodicité : θ et θ + k x 360° donnent le même point (k entier).</li>
       </ul>
     </section>
 
@@ -160,7 +142,6 @@
       <ol>
         <li>Donner les coordonnées exactes des points pour 0, π/2, π, 3π/2.</li>
         <li>Dire dans quel quadrant se trouve : 30°, 120°, 225°, 330°.</li>
-        <li>Convertir : 360° → ? rad ; π → ?°.</li>
       </ol>
     </section>
 
@@ -210,7 +191,6 @@
       <li><a href="#definition">Définition</a></li>
       <li><a href="#animation-sens">Animation (sens)</a></li>
       <li><a href="#angle-oriente">Angle orienté</a></li>
-      <li><a href="#cos-sin">Lire cos / sin</a></li>
       <li><a href="#angles-reperes">Angles repères</a></li>
       <li><a href="#points-cles">Points clés</a></li>
       <li><a href="#exercices">Exercices</a></li>
@@ -219,7 +199,7 @@
   </aside>
 </main>
 
-<footer><div class="container">© 2025 Enseignant de Mathématiques à Genève</div></footer>
+<footer><div class="container">© 2026 Gandolfi Ghislain, enseignant de Mathématiques à Genève</div></footer>
 <script src="script.js"></script>
 <script>
 (() => {
@@ -297,14 +277,14 @@
   });
 
   // Labels cos/sin (placés à peu près au milieu des projections)
-  board.create('text', [() => P.X()/2, -0.12, () => 'cos(θ)'], {
+  board.create('text', [() => P.X()/2, -0.12, () => 'x'], {
     fixed: true,
     anchorX: 'middle',
     anchorY: 'top',
     fontSize: 14
   });
 
-  board.create('text', [-0.22, () => P.Y()/2, () => 'sin(θ)'], {
+  board.create('text', [-0.22, () => P.Y()/2, () => 'y'], {
     fixed: true,
     anchorX: 'right',
     anchorY: 'middle',
