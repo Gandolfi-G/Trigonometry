@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+
+  <style>
+    /* Layout cercle + tableau (comme un "panneau" à droite) */
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width: 980px){.stage{grid-template-columns:1fr}.table-col{max-width:720px}}
+    .board-wrap{max-width:720px;margin:0}
+    #cossin-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:12px;background:#ffffff}
+
+    .readout{max-width:720px;margin-top:.75rem}
+    .readout .row{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.25rem}
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.25rem .6rem;font-weight:600}
+    .pill small{opacity:.7;font-weight:500}
+
+    .table-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:1rem;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+    .table-card h3{margin:.25rem 0 .75rem 0;font-size:1rem}
+    .controls{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.75rem}
+    .btn{appearance:none;border:0;border-radius:10px;padding:.55rem .8rem;font-weight:700;cursor:pointer}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-ghost{background:#eef2ff;color:#1f2937}
+    .btn:active{transform:translateY(1px)}
+    .toggle{display:flex;align-items:center;gap:.5rem;font-size:.92rem}
+    .toggle input{transform:translateY(1px)}
+
+    table.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+    table.data th, table.data td{border:1px solid #e8e8e8;padding:.45rem .5rem;text-align:center}
+    table.data thead th{background:#f7f8ff}
+    table.data td .sub{display:block;font-size:.78rem;opacity:.7;margin-top:.15rem}
+    .hint{font-size:.9rem;opacity:.85;line-height:1.35;margin-top:.5rem}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+  </style>
+
+  <title>05. Cosinus et sinus</title>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container">
+  <h1 id="top">05. Cosinus et sinus</h1>
+  <p class="lead">
+    Sur le cercle trigonométrique, les coordonnées du point <strong>P</strong> dépendent uniquement de l’angle
+    <span class="mono">θ</span>. On peut donc définir deux fonctions : l’une associe <span class="mono">θ</span> à la valeur
+    <strong>x</strong> (le cosinus), l’autre associe <span class="mono">θ</span> à la valeur <strong>y</strong> (le sinus).
+  </p>
+
+  <section class="stage" aria-label="Cercle trigonométrique et tableau de valeurs">
+    <div>
+      <div class="board-wrap">
+        <div id="cossin-box"></div>
+      </div>
+
+      <div class="readout" aria-live="polite">
+        <div class="row">
+          <span class="pill">θ = <span id="thetaTxt">0</span> <small>(rad)</small></span>
+          <span class="pill">cos(θ) = <span id="cosTxt">1</span></span>
+          <span class="pill">sin(θ) = <span id="sinTxt">0</span></span>
+        </div>
+        <div class="row">
+          <span class="pill">P = (<span id="pX">1</span>, <span id="pY">0</span>)</span>
+          <span class="pill">A = (<span id="aX">1</span>, 0)</span>
+          <span class="pill">B = (0, <span id="bY">0</span>)</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="table-col">
+      <div class="table-card">
+        <h3>Table de valeurs (construction)</h3>
+
+        <div class="controls">
+          <button class="btn btn-primary" id="addRowBtn" type="button">Enregistrer</button>
+          <button class="btn btn-ghost" id="clearBtn" type="button" title="Supprime toutes les lignes">Réinitialiser</button>
+          <label class="toggle" title="Ajoute sin(θ) dans le tableau">
+            <input type="checkbox" id="withSin" checked>
+            Afficher sin(θ)
+          </label>
+          <label class="toggle" title="Affiche aussi l'approximation décimale">
+            <input type="checkbox" id="withDec" checked>
+            Décimal
+          </label>
+
+          <label class="toggle" title="Aimante le point P sur des angles remarquables (0, π/6, π/4, π/3, …)">
+            <input type="checkbox" id="snapAngles" checked>
+            Aimantation angles
+          </label>
+        </div>
+
+        <table class="data" id="dataTable">
+          <thead>
+            <tr>
+              <th>θ (rad)</th>
+              <th>cos(θ)</th>
+              <th class="sin-col">sin(θ)</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+
+        <p class="hint">
+          Déplace le point <strong>P</strong> sur le cercle, puis clique sur <strong>Enregistrer</strong>.
+          Tu construis progressivement une table qui relie l’angle <span class="mono">θ</span> à la valeur <span class="mono">x</span>.
+          C’est exactement l’idée de la fonction <strong>cosinus</strong> (et, si tu coches l’option, de la fonction <strong>sinus</strong>).
+        </p>
+      </div>
+    </aside>
+  </section>
+
+  <section id="points-cles">
+    <h2>Points-clés</h2>
+    <ul>
+      <li>Sur le cercle unité, <strong>P</strong> a pour coordonnées <strong>(cos(θ), sin(θ))</strong>.</li>
+      <li><strong>cos(θ)</strong> est la projection de <strong>P</strong> sur l’axe des abscisses : c’est la coordonnée <strong>x</strong>.</li>
+      <li><strong>sin(θ)</strong> est la projection de <strong>P</strong> sur l’axe des ordonnées : c’est la coordonnée <strong>y</strong>.</li>
+      <li>En bougeant <strong>P</strong>, on voit que chaque angle <span class="mono">θ</span> donne une <em>seule</em> valeur pour <strong>x</strong> et pour <strong>y</strong> : ce sont des fonctions.</li>
+    </ul>
+  </section>
+
+  <div class="spacer"></div>
+  <a class="button" href="trigonometry.html">← Retour au sommaire</a>
+</main>
+
+<footer>
+  <div class="container">Ressources de trigonométrie • Cercle unité • cosinus / sinus</div>
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+(() => {
+  // --- Helpers --------------------------------------------------------------
+  const TAU = 2 * Math.PI;
+
+  function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+
+  function stripZeros(s){
+    return s.replace(/\.0+$/,'').replace(/(\.[0-9]*?)0+$/,'$1');
+  }
+  function fmtDec(x, d=3){
+    const s = x.toFixed(d);
+    return stripZeros(s);
+  }
+
+  function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a||1; }
+
+  // Essaie d'écrire θ comme fraction de π (0, π/6, 3π/2, ...)
+  function fmtTheta(t){
+    // normalisation [0, 2π)
+    while(t < 0) t += TAU;
+    while(t >= TAU) t -= TAU;
+
+    const dens = [1,2,3,4,6,8,12];
+    let best = null;
+
+    for(const d of dens){
+      const n = Math.round((t/Math.PI) * d);
+      const approx = (n/d) * Math.PI;
+      const err = Math.abs(t - approx);
+      if(best === null || err < best.err){
+        best = {n, d, err};
+      }
+    }
+
+    // tolérance ~ 0.01 rad (~0.6°)
+    if(best && best.err < 0.01){
+      let n = best.n, d = best.d;
+      if(n === 0) return '0';
+      // Réduction de la fraction n/d
+      const g = gcd(n,d);
+      n = n/g; d = d/g;
+
+      // Cas multiples entiers de π
+      if(d === 1){
+        if(n === 1) return 'π';
+        return `${n}π`;
+      }
+
+      // Cas 1π/d
+      if(n === 1) return `π/${d}`;
+
+      // Cas kπ/d
+      return `${n}π/${d}`;
+    }
+
+    // Sinon : décimal
+    return fmtDec(t, 3);
+  }
+
+  // Essaie d'afficher cos/sin sous forme "connue" (√2/2, √3/2, ...)
+  function fmtTrig(v){
+    const cand = [
+      {v: 1, s: '1'},
+      {v: -1, s: '-1'},
+      {v: 0, s: '0'},
+      {v: 0.5, s: '1/2'},
+      {v: -0.5, s: '-1/2'},
+      {v: Math.SQRT2/2, s: '√2/2'},
+      {v: -Math.SQRT2/2, s: '-√2/2'},
+      {v: Math.sqrt(3)/2, s: '√3/2'},
+      {v: -Math.sqrt(3)/2, s: '-√3/2'}
+    ];
+    let best = null;
+    for(const c of cand){
+      const err = Math.abs(v - c.v);
+      if(best === null || err < best.err) best = {err, s: c.s};
+    }
+    if(best && best.err < 0.02) return best.s;
+    return fmtDec(v, 3);
+  }
+
+  function thetaFromXY(x,y){
+    let t = Math.atan2(y, x);
+    if(t < 0) t += TAU;
+    return t;
+  }
+
+  // --- UI refs --------------------------------------------------------------
+  const thetaTxt = document.getElementById('thetaTxt');
+  const cosTxt   = document.getElementById('cosTxt');
+  const sinTxt   = document.getElementById('sinTxt');
+  const pX = document.getElementById('pX');
+  const pY = document.getElementById('pY');
+  const aX = document.getElementById('aX');
+  const bY = document.getElementById('bY');
+
+  const addRowBtn = document.getElementById('addRowBtn');
+  const clearBtn  = document.getElementById('clearBtn');
+  const rowsEl    = document.getElementById('rows');
+  const withSinEl = document.getElementById('withSin');
+  const withDecEl = document.getElementById('withDec');
+  const snapEl   = document.getElementById('snapAngles');
+
+  const tableEl = document.getElementById('dataTable');
+
+  function updateSinColumnVisibility(){
+    const show = withSinEl.checked;
+    tableEl.querySelectorAll('.sin-col').forEach(th => th.style.display = show ? '' : 'none');
+    rowsEl.querySelectorAll('tr').forEach(tr => {
+      const td = tr.querySelector('td.sin-col');
+      if(td) td.style.display = show ? '' : 'none';
+    });
+  }
+  withSinEl.addEventListener('change', updateSinColumnVisibility);
+
+  // --- Persistence (optionnelle, mais pratique) -----------------------------
+  const LS_KEY = 'trigo05_cossin_rows_v1';
+  function saveRows(){
+    const data = [];
+    rowsEl.querySelectorAll('tr').forEach(tr => {
+      const t = tr.dataset.theta || '';
+      const c = tr.dataset.cos || '';
+      const s = tr.dataset.sin || '';
+      data.push({theta:t, cos:c, sin:s});
+    });
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+  }
+  function loadRows(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(!raw) return;
+      const data = JSON.parse(raw);
+      if(!Array.isArray(data)) return;
+      data.forEach(r => appendRow(r.theta, r.cos, r.sin, false));
+    }catch(e){ /* ignore */ }
+    updateSinColumnVisibility();
+  }
+  function clearRows(){
+    rowsEl.innerHTML = '';
+    localStorage.removeItem(LS_KEY);
+  }
+
+  // --- Board JSXGraph -------------------------------------------------------
+  // Thème clair : fond blanc, axes foncés, cercle jaune, point P rouge
+  const board = JXG.JSXGraph.initBoard('cossin-box', {
+    boundingbox: [-1.6, 1.6, 1.6, -1.6],
+    axis: false,
+    grid: true,
+    keepaspectratio: true,
+    showNavigation: false,
+    showCopyright: false
+  });
+
+  // Ajustements de style (grid)
+  try{
+    board.options.grid.strokeColor = '#e5e7eb';
+    board.options.grid.strokeOpacity = 1;
+    board.options.grid.strokeWidth = 1;
+    board.fullUpdate();
+  }catch(e){ /* si l'API change, on garde la grille par défaut */ }
+
+  // Axes custom (blanc)
+  const xAxis = board.create('line', [[-2,0],[2,0]], {straightFirst:false, straightLast:false, strokeColor:'#111827', strokeWidth:2});
+  const yAxis = board.create('line', [[0,-2],[0,2]], {straightFirst:false, straightLast:false, strokeColor:'#111827', strokeWidth:2});
+
+  // Origine O
+  const O = board.create('point', [0,0], {name:'', size:2.5, strokeColor:'#111827', fillColor:'#111827', fixed:true, withLabel:false});
+
+  // Cercle unité
+  const C = board.create('circle', [O, 1], {strokeWidth:3, strokeColor:'#eab308'});
+
+  // Point P glissant
+  const P = board.create('glider', [1,0,C], {name:'', size:4, strokeColor:'#ef4444', fillColor:'#ef4444', withLabel:false});
+
+  // --- Aimantation sur angles remarquables ---------------------------------
+  // Objectif : pouvoir "tomber" facilement sur 0, π/6, π/4, π/3, π/2, ... sans viser au pixel près.
+  const SNAP_ANGLES = [
+    0,
+    Math.PI/6, Math.PI/4, Math.PI/3, Math.PI/2,
+    2*Math.PI/3, 3*Math.PI/4, 5*Math.PI/6,
+    Math.PI,
+    7*Math.PI/6, 5*Math.PI/4, 4*Math.PI/3, 3*Math.PI/2,
+    5*Math.PI/3, 7*Math.PI/4, 11*Math.PI/6
+  ];
+  const SNAP_TOL = 0.06; // radians (~3.4°)
+
+  function angDiff(a,b){
+    // différence angulaire modulo 2π, dans [-π, π]
+    const d = Math.atan2(Math.sin(a-b), Math.cos(a-b));
+    return Math.abs(d);
+  }
+
+  let _snapping = false;
+  function snapIfClose(){
+    if(!snapEl || !snapEl.checked) return;
+    if(_snapping) return;
+
+    const t = thetaFromXY(P.X(), P.Y());
+    let bestA = null;
+    let bestD = Infinity;
+
+    for(const a of SNAP_ANGLES){
+      const d = angDiff(t, a);
+      if(d < bestD){
+        bestD = d;
+        bestA = a;
+      }
+    }
+
+    if(bestA !== null && bestD < SNAP_TOL){
+      _snapping = true;
+      P.moveTo([Math.cos(bestA), Math.sin(bestA)], 0);
+      _snapping = false;
+    }
+  }
+
+  // Snap pendant le déplacement + au relâchement
+  try{
+    P.on('drag', snapIfClose);
+    P.on('up', snapIfClose);
+  }catch(e){
+    // si l'API change, l'aimantation reste désactivée
+  }
+
+
+  // Rayons / projections
+  const OP = board.create('segment', [O, () => [P.X(), P.Y()]], {strokeColor:'#93c5fd', strokeWidth:4, strokeOpacity:0.9});
+
+  // Projections A(x,0) et B(0,y)
+  const A = board.create('point', [() => P.X(), 0], {name:'', size:3.2, strokeColor:'#38bdf8', fillColor:'#38bdf8', fixed:true, withLabel:false});
+  const B = board.create('point', [0, () => P.Y()], {name:'', size:3.2, strokeColor:'#34d399', fillColor:'#34d399', fixed:true, withLabel:false});
+
+  // Traits pointillés de projection
+  const PA = board.create('segment', [() => [P.X(), P.Y()], () => [P.X(), 0]], {
+    strokeColor:'#38bdf8', strokeWidth:2, dash:2, strokeOpacity:0.85
+  });
+  const PB = board.create('segment', [() => [P.X(), P.Y()], () => [0, P.Y()]], {
+    strokeColor:'#34d399', strokeWidth:2, dash:2, strokeOpacity:0.85
+  });
+
+  // Segments OA et OB (lecture cos / sin)
+  const OA = board.create('segment', [O, () => [P.X(), 0]], {strokeColor:'#38bdf8', strokeWidth:4, strokeOpacity:0.9});
+  const OB = board.create('segment', [O, () => [0, P.Y()]], {strokeColor:'#34d399', strokeWidth:4, strokeOpacity:0.9});
+
+  // Textes sur le board
+  const tInfo = board.create('text', [-1.55, 1.45, () => {
+    const t = thetaFromXY(P.X(), P.Y());
+    return `θ = ${fmtTheta(t)} rad`;
+  }], {strokeColor:'#111827', fontSize:16});
+
+  const pLabel = board.create('text', [() => P.X() + 0.08, () => P.Y() + 0.08, () => {
+    const x = P.X(), y = P.Y();
+    return `P`;
+  }], {strokeColor:'#111827', fontSize:16});
+
+  const coordLabel = board.create('text', [() => P.X() - 0.35, () => P.Y() + 0.18, () => {
+    const x = fmtDec(P.X(),2), y = fmtDec(P.Y(),2);
+    return `(${x}, ${y})`;
+  }], {strokeColor:'#111827', fontSize:14});
+
+  // --- Readout sync ---------------------------------------------------------
+  function syncReadout(){
+    const x = P.X();
+    const y = P.Y();
+    const t = thetaFromXY(x,y);
+
+    const tPretty = fmtTheta(t);
+    const cPretty = fmtTrig(x);
+    const sPretty = fmtTrig(y);
+
+    thetaTxt.textContent = tPretty;
+    cosTxt.textContent   = cPretty;
+    sinTxt.textContent   = sPretty;
+
+    pX.textContent = fmtDec(x,3);
+    pY.textContent = fmtDec(y,3);
+    aX.textContent = fmtDec(x,3);
+    bY.textContent = fmtDec(y,3);
+  }
+
+  board.on('update', syncReadout);
+  syncReadout();
+
+  // --- Table logic ----------------------------------------------------------
+  function mkCell(main, dec){
+    const td = document.createElement('td');
+    td.textContent = main;
+    if(withDecEl.checked && dec != null && dec !== main){
+      const s = document.createElement('span');
+      s.className = 'sub';
+      s.textContent = `≈ ${dec}`;
+      td.appendChild(s);
+    }
+    return td;
+  }
+
+  function appendRow(thetaStr, cosStr, sinStr, persist=true){
+    const tr = document.createElement('tr');
+    tr.dataset.theta = thetaStr;
+    tr.dataset.cos = cosStr;
+    tr.dataset.sin = sinStr;
+
+    // Décimaux "référence"
+    const tDec = (() => {
+      // si thetaStr est déjà décimal, on le garde, sinon on calcule à partir du point courant
+      return fmtDec(thetaFromXY(P.X(), P.Y()), 3);
+    })();
+    const cDec = fmtDec(P.X(), 3);
+    const sDec = fmtDec(P.Y(), 3);
+
+    tr.appendChild(mkCell(thetaStr, tDec));
+    tr.appendChild(mkCell(cosStr, cDec));
+
+    const tdSin = mkCell(sinStr, sDec);
+    tdSin.classList.add('sin-col');
+    tr.appendChild(tdSin);
+
+    rowsEl.appendChild(tr);
+    updateSinColumnVisibility();
+    if(persist) saveRows();
+  }
+
+  addRowBtn.addEventListener('click', () => {
+    const x = P.X(), y = P.Y();
+    const t = thetaFromXY(x,y);
+    appendRow(fmtTheta(t), fmtTrig(x), fmtTrig(y), true);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    clearRows();
+    updateSinColumnVisibility();
+  });
+
+  withDecEl.addEventListener('change', () => {
+    // On reconstruit la table pour refléter l'option d'affichage
+    const data = [];
+    rowsEl.querySelectorAll('tr').forEach(tr => data.push({theta:tr.dataset.theta, cos:tr.dataset.cos, sin:tr.dataset.sin}));
+    rowsEl.innerHTML = '';
+    data.forEach(r => appendRow(r.theta, r.cos, r.sin, false));
+    saveRows();
+    updateSinColumnVisibility();
+  });
+
+  // --- Resize square --------------------------------------------------------
+  const boxEl = document.getElementById('cossin-box');
+  function resizeSquare(){
+    const w = boxEl.clientWidth;
+    board.resizeContainer(w, w);
+    board.setBoundingBox([-1.6, 1.6, 1.6, -1.6], true);
+  }
+  resizeSquare();
+  window.addEventListener('resize', resizeSquare);
+
+  // Load rows from localStorage
+  loadRows();
+})();
+</script>
+
+</body>
+</html>

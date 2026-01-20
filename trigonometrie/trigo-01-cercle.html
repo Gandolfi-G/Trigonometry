@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+  <style>
+    /* Conteneur responsive et carré */
+    .board-wrap{max-width:720px;margin:1rem 0}
+    #cercle-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:10px}
+  </style>
+  <title>01. Le cercle trigonométrique</title>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">01. Le cercle trigonométrique</h1>
+    <p class="lead">Repère orthonormé, sens trigonométrique, rayon 1, points cardinaux et angles repères.</p>
+    <div class="board-wrap">
+      <div id="cercle-box"></div>
+    </div>
+    <section id="storyboard">
+     
+    </section>
+
+    <section id="points-cles">
+      <h2>Points-clés</h2>
+      <ul>
+        <li>Cercle de centre O, <strong>rayon 1</strong> : on parle de « cercle unité ».</li>
+        <li>Orientation <strong>sens trigonométrique</strong> (anti-horaire).</li>
+        <li>Angles repères : 0, π/2, π, 3π/2, 2π.</li>
+        <li>Points sur le cercle : (1,0), (0,1), (-1,0), (0,-1).</li>
+      </ul>
+    </section>
+
+    <section id="exemples">
+      <h2>Exemples visuels</h2>
+      <ul>
+        <li>Placer le point M à 45° (π/4) : il est dans le 1er quadrant.</li>
+        <li>Placer le point N à 210° (7π/6) : il est dans le 3e quadrant.</li>
+      </ul>
+    </section>
+
+    <section id="exercices">
+      <h2>Exercices rapides</h2>
+      <ol>
+        <li>Donner les coordonnées exactes des points A, B, C, D du cercle unité.</li>
+        <li>Dire dans quel quadrant se trouve un angle : 30°, 120°, 225°, 330°.</li>
+        <li>Convertir : 360° → ? rad ; π → ? degrés.</li>
+      </ol>
+    </section>
+
+    <section id="quiz">
+      <h2>Quiz</h2>
+      <div class="quiz">
+        <div class="q" data-qid="q1" data-answer="A">
+          <div class="question">Le cercle trigonométrique a pour rayon :</div>
+          <div class="answers">
+            <label><input type="radio" name="q1" value="A"> 1</label>
+            <label><input type="radio" name="q1" value="B"> π</label>
+            <label><input type="radio" name="q1" value="C"> 2π</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+        <div class="q" data-qid="q2" data-answer="C">
+          <div class="question">Dans le sens trigonométrique, on tourne :</div>
+          <div class="answers">
+            <label><input type="radio" name="q2" value="A"> Dans le sens des aiguilles</label>
+            <label><input type="radio" name="q2" value="B"> Au hasard</label>
+            <label><input type="radio" name="q2" value="C"> Dans le sens inverse des aiguilles</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+        <div class="q" data-qid="q3" data-answer="B">
+          <div class="question">L’angle 3π/2 correspond au point :</div>
+          <div class="answers">
+            <label><input type="radio" name="q3" value="A"> (1, 0)</label>
+            <label><input type="radio" name="q3" value="B"> (0, -1)</label>
+            <label><input type="radio" name="q3" value="C"> (-1, 0)</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+        <button class="check">Vérifier</button>
+        <div class="score" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-02-perimetre.html">Suivant →</a>
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#storyboard">Storyboard</a>
+        <ul>
+          <li><a href="#plan1">Plan 1</a></li>
+          <li><a href="#plan2">Plan 2</a></li>
+          <li><a href="#plan3">Plan 3</a></li>
+          <li><a href="#plan4">Plan 4</a></li>
+          <li><a href="#plan5">Plan 5</a></li>
+        </ul>
+      </li>
+      <li><a href="#points-cles">Points-clés</a></li>
+      <li><a href="#exemples">Exemples visuels</a></li>
+      <li><a href="#exercices">Exercices</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2025 Enseignant de Mathématiques à Genève</div></footer>
+<script src="script.js"></script>
+<script>
+(() => {
+  // Init du board
+  const board = JXG.JSXGraph.initBoard('cercle-box', {
+    boundingbox: [-1.6, 1.6, 1.6, -1.6],
+    axis: true,
+    grid: true,
+    keepaspectratio: true,
+    showNavigation: false,
+    showCopyright: false
+  });
+
+  // Centre O (sans label)
+  const O = board.create('point', [0, 0], {
+    name: '',
+    fixed: true,
+    size: 2,
+    strokeColor: '#111',
+    fillColor: '#111'
+  });
+
+  // Cercle unité (rayon = 1)
+  const C = board.create('circle', [O, 1], {
+    strokeWidth: 3,
+    strokeColor: '#eab308' /* jaune doux */
+  });
+
+  // Point P qui glisse sur le cercle (label masqué)
+  const P = board.create('glider', [1, 0, C], {
+    name: '',
+    size: 3.5,
+    strokeColor: '#ef4444',
+    fillColor: '#ef4444',
+    withLabel: false
+  });
+
+  // Option : petit rayon OP (léger) purement visuel
+  const OP = board.create('segment', [O, () => [P.X(), P.Y()]], {
+    strokeColor: '#9ca3af', strokeOpacity: 0.5, strokeWidth: 2
+  });
+
+  // Maintenir le canvas carré au resize
+  const boxEl = document.getElementById('cercle-box');
+  function resizeSquare(){
+    const w = boxEl.clientWidth;
+    board.resizeContainer(w, w);
+    board.setBoundingBox([-1.6, 1.6, 1.6, -1.6], true);
+  }
+  resizeSquare();
+  window.addEventListener('resize', resizeSquare);
+})();
+</script>
+
+</body>
+</html>

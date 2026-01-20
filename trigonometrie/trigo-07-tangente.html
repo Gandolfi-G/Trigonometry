@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+
+  <style>
+    /* Layout : cercle + panneau de contrôle */
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width: 980px){.stage{grid-template-columns:1fr}.panel{max-width:720px}}
+    .board-wrap{max-width:760px;margin:0}
+    #tan-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+
+    .panel{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+    .panel h3{margin:.2rem 0 .6rem 0}
+    .controls{display:flex;flex-direction:column;gap:.65rem}
+    .controls .row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.55rem .75rem;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .btn:active{transform:translateY(1px)}
+
+    .hint{font-size:.92rem;opacity:.9;line-height:1.35}
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.25rem .6rem;font-weight:700}
+
+    .kv{display:grid;grid-template-columns:1fr auto;gap:.35rem .75rem;margin-top:.25rem}
+    .kv div{padding:.12rem 0}
+    .kv .k{opacity:.75}
+    .kv .v{font-weight:800}
+
+    .warn{display:none;border:1px solid #fecaca;background:#fff1f2;color:#7f1d1d;border-radius:12px;padding:.65rem .75rem;font-weight:700}
+    .warn.show{display:block}
+
+    /* Preuve / formules */
+    .proof{margin-top:.85rem;border:1px dashed #cbd5e1;border-radius:12px;background:#fbfdff;padding:1rem}
+    .proof .line{opacity:0;transform:translateY(6px);transition:opacity .35s ease, transform .35s ease}
+    .proof.shown .line{opacity:1;transform:translateY(0)}
+    .proof .line:nth-child(1){transition-delay:0s}
+    .proof .line:nth-child(2){transition-delay:.35s}
+    .proof .line:nth-child(3){transition-delay:.7s}
+    .formula{font-size:1.25rem;font-weight:900;margin:.15rem 0}
+    .math{font-family: ui-serif, Georgia, 'Times New Roman', serif}
+
+    .cCos{color:#ef4444}
+    .cSin{color:#16a34a}
+    .cTan{color:#7c3aed}
+    .cRad{color:#2563eb}
+
+    details.accordion .code-like{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace}
+  </style>
+
+  <title>07. La tangente</title>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">07. La tangente : visualisation sur le cercle trigonométrique</h1>
+    <p class="lead">
+      Une autre fonction très utilisée en trigonométrie est la <strong>tangente</strong>. Elle correspond au rapport
+      <span class="pill"><span class="cTan">tan</span>(θ) = <span class="cSin">sin</span>(θ) / <span class="cCos">cos</span>(θ)</span>.
+      Par un argument géométrique (que l’on ne démontre pas ici), on peut la lire comme une <strong>longueur</strong> sur la droite tangente au cercle unité.
+    </p>
+
+    <div class="stage">
+      <div class="board-wrap">
+        <div id="tan-box"></div>
+      </div>
+
+      <aside class="panel">
+        <h3>Contrôles</h3>
+        <div class="controls">
+          <div class="row">
+            <label><input id="toggleTriangle" type="checkbox" checked> Afficher le triangle (cos / sin)</label>
+          </div>
+          <div class="row">
+            <label><input id="toggleTangent" type="checkbox" checked> Afficher la tangente (segment violet)</label>
+          </div>
+          <div class="row">
+            <label><input id="toggleMagnet" type="checkbox" checked> Aimantation sur angles remarquables</label>
+          </div>
+
+          <div class="row">
+            <button id="btnFormula" class="btn primary" type="button">Afficher la formule</button>
+            <button id="btnReset" class="btn" type="button">Réinitialiser</button>
+          </div>
+
+          <p class="hint">
+            Déplace le point <strong>P</strong> sur le cercle.
+            On lit : <span class="pill"><span class="cCos">x</span> = cos(θ)</span> et <span class="pill"><span class="cSin">y</span> = sin(θ)</span>.
+            La droite verticale <span class="pill">x = 1</span> est la <strong>tangente</strong> au cercle en (1,0) : le segment violet y représente <span class="cTan">tan</span>(θ).
+          </p>
+
+          <div id="warn" class="warn" role="status" aria-live="polite"></div>
+
+          <div class="kv" aria-label="lecture des valeurs">
+            <div class="k">θ (radians)</div><div class="v" id="outTheta">—</div>
+            <div class="k"><span class="cCos">cos</span>(θ)</div><div class="v" id="outCos">—</div>
+            <div class="k"><span class="cSin">sin</span>(θ)</div><div class="v" id="outSin">—</div>
+            <div class="k"><span class="cTan">tan</span>(θ)</div><div class="v" id="outTan">—</div>
+          </div>
+
+          <div id="proofBox" class="proof" aria-live="polite">
+            <div class="line"><div class="formula math"><span class="cTan">tan</span>(θ) = <span class="cSin">sin</span>(θ) / <span class="cCos">cos</span>(θ)</div></div>
+            <div class="line"><div class="math">Si <span class="cCos">cos</span>(θ) = 0, alors la tangente est <strong>indéfinie</strong> (division par 0).</div></div>
+            <div class="line"><div class="math">Visuellement, quand θ → π/2, le segment violet devient <strong>de plus en plus grand</strong>.</div></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section id="script">
+      <h2>Texte pour l’animation</h2>
+      <details class="accordion" open>
+        <summary>Voix off proposée</summary>
+        <div class="accordion-body">
+          <p>
+            Une autre fonction utilisée en trigonométrie est la fonction <strong>tangente</strong>.
+            Il s’agit du rapport entre le <span class="cSin">sinus</span> et le <span class="cCos">cosinus</span> :
+            <span class="pill"><span class="cTan">tan</span>(θ) = <span class="cSin">sin</span>(θ) / <span class="cCos">cos</span>(θ)</span>.
+          </p>
+          <p>
+            Par des arguments géométriques que l’on ne démontrera pas ici, on peut visualiser la tangente d’un angle sur le cercle trigonométrique :
+            c’est la <strong>longueur du segment</strong> tracé sur la droite tangente au cercle en (1,0).
+          </p>
+          <p>
+            On constate que la tangente augmente lorsque l’on fait varier θ de 0 à π/2.
+            Mais à π/2, on obtient une valeur interdite : comme <span class="cCos">cos</span>(π/2) = 0, on ne peut pas calculer la tangente.
+            Visuellement, la longueur du segment devient « infiniment grande ».
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section id="points-cles">
+      <h2>Points-clés</h2>
+      <ul>
+        <li><span class="cTan"><strong>tan</strong></span>(θ) est le <strong>rapport</strong> <span class="cSin">sin</span>(θ) / <span class="cCos">cos</span>(θ).</li>
+        <li>La tangente est <strong>indéfinie</strong> quand <span class="cCos">cos</span>(θ) = 0, c’est-à-dire pour θ = π/2 + kπ.</li>
+        <li>Sur le cercle unité, on la lit comme une <strong>longueur</strong> sur la droite <strong>tangente</strong> au point (1,0) (droite x = 1).</li>
+      </ul>
+    </section>
+
+    <section id="exercices">
+      <h2>Exercices rapides</h2>
+      <ol>
+        <li>Place P sur θ = 0, π/6, π/4, π/3 et note les valeurs de <span class="cTan">tan</span>(θ).</li>
+        <li>Que se passe-t-il quand θ s’approche de π/2 ? Explique avec la formule.</li>
+        <li>Vérifie que <span class="cTan">tan</span>(θ) = <span class="cSin">sin</span>(θ) / <span class="cCos">cos</span>(θ) pour un angle du 2e quadrant.</li>
+      </ol>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-06-relation-fondamentale.html">← Précédent</a>
+
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#script">Texte pour l’animation</a></li>
+      <li><a href="#points-cles">Points-clés</a></li>
+      <li><a href="#exercices">Exercices</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2025 Enseignant de Mathématiques à Genève</div></footer>
+
+<script src="script.js"></script>
+<script>
+(() => {
+  // --- Helpers -------------------------------------------------------------
+  const TAU = Math.PI * 2;
+  const EPS = 1e-3;         // seuil cos ≈ 0
+  const MAGNET_EPS = 0.055; // ~3.1°
+  const MAX_TAN_DRAW = 4.0; // au-delà, on masque le segment (trop grand pour la fenêtre)
+
+  const angleTargets = [
+    0,
+    Math.PI/6, Math.PI/4, Math.PI/3, Math.PI/2,
+    2*Math.PI/3, 3*Math.PI/4, 5*Math.PI/6,
+    Math.PI,
+    7*Math.PI/6, 5*Math.PI/4, 4*Math.PI/3, 3*Math.PI/2,
+    5*Math.PI/3, 7*Math.PI/4, 11*Math.PI/6,
+    TAU
+  ];
+
+  function normAngle(a){
+    let t = a % TAU;
+    if(t < 0) t += TAU;
+    // évite 2π affiché comme 6.283.. quand on est proche de 0
+    if(Math.abs(t - TAU) < 1e-9) t = 0;
+    return t;
+  }
+
+  function thetaFromXY(x,y){
+    return normAngle(Math.atan2(y,x));
+  }
+
+  function fmtNum(v){
+    if(!Number.isFinite(v)) return '—';
+    const av = Math.abs(v);
+    if(av < 1e-12) return '0';
+    return (Math.round(v*1000)/1000).toString();
+  }
+
+  function near(a,b,eps){ return Math.abs(a-b) <= eps; }
+
+  function fmtAngleRad(theta){
+    const t = normAngle(theta);
+    const reps = [
+      {v:0, s:'0'},
+      {v:Math.PI/6, s:'π/6'},
+      {v:Math.PI/4, s:'π/4'},
+      {v:Math.PI/3, s:'π/3'},
+      {v:Math.PI/2, s:'π/2'},
+      {v:2*Math.PI/3, s:'2π/3'},
+      {v:3*Math.PI/4, s:'3π/4'},
+      {v:5*Math.PI/6, s:'5π/6'},
+      {v:Math.PI, s:'π'},
+      {v:7*Math.PI/6, s:'7π/6'},
+      {v:5*Math.PI/4, s:'5π/4'},
+      {v:4*Math.PI/3, s:'4π/3'},
+      {v:3*Math.PI/2, s:'3π/2'},
+      {v:5*Math.PI/3, s:'5π/3'},
+      {v:7*Math.PI/4, s:'7π/4'},
+      {v:11*Math.PI/6, s:'11π/6'},
+      {v:TAU, s:'2π'},
+    ];
+    for(const r of reps){
+      if(near(t, r.v, 0.015) || (r.v===0 && near(t, TAU, 0.015))) return r.s;
+    }
+    return fmtNum(t);
+  }
+
+  // --- Board ---------------------------------------------------------------
+  const board = JXG.JSXGraph.initBoard('tan-box', {
+    boundingbox: [-1.75, 2.25, 2.25, -2.25],
+    axis: true,
+    grid: true,
+    keepaspectratio: true,
+    showNavigation: false,
+    showCopyright: false
+  });
+
+  // Points de base
+  const O = board.create('point', [0,0], {name:'', fixed:true, size:2, strokeColor:'#111', fillColor:'#111'});
+  const C = board.create('circle', [O, 1], {strokeWidth:3, strokeColor:'#111', strokeOpacity:0.9});
+
+  // Axe + repère pour l'angle
+  const Xref = board.create('point', [1,0], {name:'', fixed:true, visible:false});
+
+  // Point P sur le cercle
+  const P = board.create('glider', [1,0, C], {name:'P', size:3.6, strokeColor:'#ef4444', fillColor:'#ef4444'});
+
+  // Projections (triangle cos/sin)
+  const A = board.create('point', [() => P.X(), () => 0], {name:'', size:2, fixed:true, strokeColor:'#111', fillColor:'#111', withLabel:false});
+
+  const OA = board.create('segment', [O, A], {strokeWidth:4, strokeColor:'#ef4444'});         // cos
+  const AP = board.create('segment', [A, P], {strokeWidth:4, strokeColor:'#16a34a'});         // sin
+  const OP = board.create('segment', [O, P], {strokeWidth:3, strokeColor:'#2563eb', strokeOpacity:0.95}); // rayon
+
+  // Pointillés pour mieux lire
+  const projX = board.create('segment', [P, A], {strokeWidth:2, dash:2, strokeColor:'#6b7280', strokeOpacity:0.9});
+
+  // Marqueur d'angle droit en A (2 segments)
+  const sgnX = () => (P.X() >= 0 ? 1 : -1);
+  const sgnY = () => (P.Y() >= 0 ? 1 : -1);
+  const r1 = board.create('point', [() => A.X() + 0.12*sgnX(), 0], {visible:false, fixed:true});
+  const r2 = board.create('point', [() => A.X(), () => 0.12*sgnY()], {visible:false, fixed:true});
+  const r3 = board.create('point', [() => A.X() + 0.12*sgnX(), () => 0.12*sgnY()], {visible:false, fixed:true});
+  const rightSeg1 = board.create('segment', [r1, r3], {strokeWidth:2, strokeColor:'#111', strokeOpacity:0.8});
+  const rightSeg2 = board.create('segment', [r3, r2], {strokeWidth:2, strokeColor:'#111', strokeOpacity:0.8});
+
+  // Angle theta en O
+  const ang = board.create('angle', [Xref, O, P], {
+    name: 'θ',
+    radius: 0.35,
+    strokeColor:'#111',
+    fillColor:'#111',
+    fillOpacity:0.08,
+    label: {offset:[6,6]}
+  });
+
+  // Tangente : droite x = 1
+  const t1 = board.create('point', [1, -10], {visible:false, fixed:true});
+  const t2 = board.create('point', [1,  10], {visible:false, fixed:true});
+  const tangentLine = board.create('line', [t1, t2], {strokeColor:'#111', strokeWidth:2, dash:2, strokeOpacity:0.6});
+
+  // Point base (1,0) sur la tangente
+  const U = board.create('point', [1,0], {name:'', fixed:true, size:2, strokeColor:'#111', fillColor:'#111', withLabel:false});
+
+  // Point T sur la tangente : (1, tan(theta))
+  function tanVal(){
+    const x = P.X(), y = P.Y();
+    if(Math.abs(x) < EPS) return Infinity * (y>=0?1:-1);
+    return y/x;
+  }
+
+  const T = board.create('point', [
+    () => 1,
+    () => {
+      const t = tanVal();
+      if(!Number.isFinite(t)) return 0; // placeholder (invisible quand indéfini)
+      // on ne clamp pas (pour rester honnête), mais on masque le segment au-delà du cadre
+      return t;
+    }
+  ], {name:'', size:2.8, strokeColor:'#7c3aed', fillColor:'#7c3aed', withLabel:false});
+
+  const tanSeg = board.create('segment', [U, T], {strokeWidth:4, strokeColor:'#7c3aed'});
+
+  // Droite de construction (pointillée) : relie P au point T sur la tangente (x=1)
+  // pour visualiser comment on obtient tan(θ) (prolongement de la droite OP).
+  const tanGuide = board.create('segment', [P, T], {
+    strokeWidth: 3,
+    dash: 2,
+    strokeColor: '#8b5a2b',
+    strokeOpacity: 0.95,
+  });
+
+  // Label tan(θ)
+  const tanLabel = board.create('text', [
+    () => 1.05,
+    () => {
+      const t = tanVal();
+      if(!Number.isFinite(t)) return 0;
+      return t/2;
+    },
+    () => 'tan(θ)'
+  ], {fontSize:14, strokeColor:'#7c3aed', fixed:true});
+
+  // --- UI refs -------------------------------------------------------------
+  const outTheta = document.getElementById('outTheta');
+  const outCos   = document.getElementById('outCos');
+  const outSin   = document.getElementById('outSin');
+  const outTan   = document.getElementById('outTan');
+  const warnEl   = document.getElementById('warn');
+
+  const toggleTriangle = document.getElementById('toggleTriangle');
+  const toggleTangent  = document.getElementById('toggleTangent');
+  const toggleMagnet   = document.getElementById('toggleMagnet');
+  const proofBox       = document.getElementById('proofBox');
+
+  function setTriangleVisible(v){
+    [A, OA, AP, OP, projX, rightSeg1, rightSeg2, ang].forEach(el => el.setAttribute({visible:v}));
+    board.update();
+  }
+
+  function setTangentVisible(v){
+    tangentLine.setAttribute({visible:v});
+    U.setAttribute({visible:v});
+    // T / tanSeg / tanGuide / tanLabel sont gérés dynamiquement dans update()
+    update();
+  }
+
+  function maybeMagnet(){
+    if(!toggleMagnet.checked) return;
+    const theta = thetaFromXY(P.X(), P.Y());
+    let best = null;
+    let bestD = 1e9;
+    for(const a of angleTargets){
+      const t = normAngle(a);
+      let d = Math.abs(theta - t);
+      d = Math.min(d, TAU - d);
+      if(d < bestD){ bestD = d; best = t; }
+    }
+    if(best !== null && bestD <= MAGNET_EPS){
+      const nx = Math.cos(best);
+      const ny = Math.sin(best);
+      P.moveTo([nx, ny]);
+    }
+  }
+
+  function update(){
+    maybeMagnet();
+
+    const x = P.X();
+    const y = P.Y();
+    const theta = thetaFromXY(x,y);
+    const t = tanVal();
+
+    outTheta.textContent = fmtAngleRad(theta);
+    outCos.textContent = fmtNum(x);
+    outSin.textContent = fmtNum(y);
+
+    // Gestion tangente
+    const cosZero = Math.abs(x) < EPS;
+    const tooBig = Number.isFinite(t) && Math.abs(t) > MAX_TAN_DRAW;
+
+    if(cosZero){
+      outTan.textContent = 'indéfinie';
+      warnEl.textContent = 'tan(θ) est indéfinie ici, car cos(θ) = 0 (division par 0).';
+      warnEl.classList.add('show');
+    } else if(tooBig){
+      outTan.textContent = fmtNum(t);
+      warnEl.textContent = 'La tangente devient très grande : le segment violet dépasse le cadre (θ est proche de π/2).';
+      warnEl.classList.add('show');
+    } else {
+      outTan.textContent = fmtNum(t);
+      warnEl.classList.remove('show');
+    }
+
+    // Visibilité du segment tangente
+    const showTan = toggleTangent.checked && !cosZero && !tooBig;
+    T.setAttribute({visible: showTan});
+    tanSeg.setAttribute({visible: showTan});
+    tanGuide.setAttribute({visible: showTan});
+    tanLabel.setAttribute({visible: showTan});
+
+    board.update();
+  }
+
+  // Init
+  setTriangleVisible(true);
+  setTangentVisible(true);
+  proofBox.classList.remove('shown');
+  update();
+
+  // Events
+  P.on('drag', update);
+  P.on('up', update);
+
+  toggleTriangle.addEventListener('change', () => setTriangleVisible(toggleTriangle.checked));
+  toggleTangent.addEventListener('change', () => setTangentVisible(toggleTangent.checked));
+  toggleMagnet.addEventListener('change', update);
+
+  document.getElementById('btnFormula').addEventListener('click', () => {
+    proofBox.classList.remove('shown');
+    void proofBox.offsetWidth;
+    proofBox.classList.add('shown');
+  });
+
+  document.getElementById('btnReset').addEventListener('click', () => {
+    P.moveTo([1,0]);
+    proofBox.classList.remove('shown');
+    toggleTriangle.checked = true;
+    toggleTangent.checked = true;
+    toggleMagnet.checked = true;
+    setTriangleVisible(true);
+    setTangentVisible(true);
+    update();
+  });
+
+  // Resize square
+  const boxEl = document.getElementById('tan-box');
+  function resizeSquare(){
+    const w = boxEl.clientWidth;
+    board.resizeContainer(w, w);
+    board.setBoundingBox([-1.75, 2.25, 2.25, -2.25], true);
+  }
+  resizeSquare();
+  window.addEventListener('resize', resizeSquare);
+})();
+</script>
+
+</body>
+</html>

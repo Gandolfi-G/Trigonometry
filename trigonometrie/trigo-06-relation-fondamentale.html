@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+
+  <style>
+    /* Layout : cercle + panneau de contrôle */
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width: 980px){.stage{grid-template-columns:1fr}.panel{max-width:720px}}
+    .board-wrap{max-width:720px;margin:0}
+    #relfond-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+
+    .panel{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+    .panel h3{margin:.2rem 0 .6rem 0}
+    .controls{display:flex;flex-direction:column;gap:.6rem}
+    .controls .row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.55rem .75rem;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .btn:active{transform:translateY(1px)}
+    .hint{font-size:.92rem;opacity:.9;line-height:1.35}
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.25rem .6rem;font-weight:700}
+    .kv{display:grid;grid-template-columns:1fr auto;gap:.35rem .75rem;margin-top:.5rem}
+    .kv div{padding:.15rem 0}
+    .kv .k{opacity:.75}
+    .kv .v{font-weight:700}
+
+    /* Preuve / formules */
+    .proof{margin-top:1rem;border:1px dashed #cbd5e1;border-radius:12px;background:#fbfdff;padding:1rem}
+    .proof .line{opacity:0;transform:translateY(6px);transition:opacity .35s ease, transform .35s ease}
+    .proof.shown .line{opacity:1;transform:translateY(0)}
+    .proof .line:nth-child(1){transition-delay:0s}
+    .proof .line:nth-child(2){transition-delay:.35s}
+    .proof .line:nth-child(3){transition-delay:.7s}
+    .formula{font-size:1.25rem;font-weight:800;margin:.15rem 0}
+    .math{font-family: ui-serif, Georgia, 'Times New Roman', serif}
+    .cCos{color:#ef4444}
+    .cSin{color:#16a34a}
+    .cRad{color:#2563eb}
+    .footnote{margin-top:.35rem;opacity:.9}
+  </style>
+
+  <title>06. Relation fondamentale</title>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">06. Relation fondamentale : cos²(θ) + sin²(θ) = 1</h1>
+    <p class="lead">
+      En affichant le triangle rectangle formé par les longueurs <span class="cCos">cosinus</span> et <span class="cSin">sinus</span> sur le cercle unité,
+      on peut appliquer le théorème de Pythagore et obtenir une identité vraie pour <em>tout</em> angle.
+    </p>
+
+    <div class="stage">
+      <div class="board-wrap">
+        <div id="relfond-box"></div>
+      </div>
+
+      <aside class="panel">
+        <h3>Contrôles</h3>
+        <div class="controls">
+          <div class="row">
+            <label><input id="toggleTriangle" type="checkbox" checked> Afficher le triangle rectangle</label>
+          </div>
+          <div class="row">
+            <button id="btnProof" class="btn primary" type="button">Démontrer avec Pythagore</button>
+            <button id="btnReset" class="btn" type="button">Réinitialiser</button>
+          </div>
+          <p class="hint">
+            Déplace le point <strong>P</strong> sur le cercle. On lit alors :
+            <span class="pill"><span class="cCos">x</span> = cos(θ)</span> et <span class="pill"><span class="cSin">y</span> = sin(θ)</span>.
+            L’hypoténuse <span class="pill cRad">OP</span> vaut toujours <strong>1</strong> (rayon du cercle unité).
+          </p>
+
+          <div class="kv" aria-label="lecture des valeurs">
+            <div class="k">θ (radians)</div><div class="v" id="outTheta">—</div>
+            <div class="k"><span class="cCos">cos(θ)</span></div><div class="v" id="outCos">—</div>
+            <div class="k"><span class="cSin">sin(θ)</span></div><div class="v" id="outSin">—</div>
+            <div class="k"><span class="cCos">cos²</span> + <span class="cSin">sin²</span></div><div class="v" id="outSum">—</div>
+          </div>
+
+          <div id="proofBox" class="proof" aria-live="polite">
+            <div class="line math"><strong>Pythagore</strong> : OA<sup>2</sup> + AP<sup>2</sup> = OP<sup>2</sup></div>
+            <div class="line math">Donc : <span class="cCos">cos</span><sup>2</sup>(θ) + <span class="cSin">sin</span><sup>2</sup>(θ) = 1<sup>2</sup></div>
+            <div class="line formula math"><span class="cCos">cos</span><sup>2</sup>(θ) + <span class="cSin">sin</span><sup>2</sup>(θ) = 1</div>
+            <div class="footnote">Conséquence : si tu connais <span class="cCos">cos(θ)</span>, tu peux retrouver <span class="cSin">sin(θ)</span> (et inversement), au signe près.</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section id="storyboard">
+      <h2>Storyboard de l'animation</h2>
+
+      <details class="accordion" open>
+        <summary>1) Construire le triangle rectangle à partir de P</summary>
+        <div class="accordion-body">
+          <p>
+            Le point <strong>P</strong> est sur le cercle unité : <strong>OP = 1</strong>. En projetant P sur l’axe des abscisses,
+            on obtient le point <strong>A</strong> et le triangle <strong>OAP</strong> est rectangle en A.
+          </p>
+          <ul>
+            <li><span class="cCos"><strong>OA</strong></span> correspond à <strong>cos(θ)</strong></li>
+            <li><span class="cSin"><strong>AP</strong></span> correspond à <strong>sin(θ)</strong></li>
+            <li><span class="cRad"><strong>OP</strong></span> correspond au <strong>rayon</strong> du cercle unité : 1</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="accordion">
+        <summary>2) Appliquer le théorème de Pythagore</summary>
+        <div class="accordion-body">
+          <p>
+            Dans un triangle rectangle, la somme des carrés des deux côtés de l’angle droit est égale au carré de l’hypoténuse :
+            <span class="math">OA<sup>2</sup> + AP<sup>2</sup> = OP<sup>2</sup></span>.
+          </p>
+        </div>
+      </details>
+
+      <details class="accordion">
+        <summary>3) Obtenir la relation fondamentale</summary>
+        <div class="accordion-body">
+          <p>
+            En remplaçant <span class="cCos">OA</span> par <span class="cCos">cos(θ)</span>,
+            <span class="cSin">AP</span> par <span class="cSin">sin(θ)</span> et <span class="cRad">OP</span> par <span class="cRad">1</span>,
+            on obtient la relation fondamentale :
+          </p>
+          <p class="formula math"><span class="cCos">cos</span><sup>2</sup>(θ) + <span class="cSin">sin</span><sup>2</sup>(θ) = 1</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="points-cles">
+      <h2>Points-clés</h2>
+      <ul>
+        <li>Sur le cercle unité : <strong>P = (cos(θ), sin(θ))</strong>.</li>
+        <li>Le triangle <strong>OAP</strong> est rectangle en A.</li>
+        <li>La relation <strong>cos²(θ) + sin²(θ) = 1</strong> est vraie pour tout θ.</li>
+        <li>Conséquence : <span class="math">cos(θ) = ±√(1 − sin²(θ))</span> et <span class="math">sin(θ) = ±√(1 − cos²(θ))</span>.</li>
+      </ul>
+    </section>
+
+    <section id="quiz">
+      <h2>Mini-quiz</h2>
+      <div class="quiz">
+        <div class="q" data-qid="q1" data-answer="B">
+          <div class="question">Sur le cercle trigonométrique, la longueur OP vaut :</div>
+          <div class="answers">
+            <label><input type="radio" name="q1" value="A"> cos(θ)</label>
+            <label><input type="radio" name="q1" value="B"> 1</label>
+            <label><input type="radio" name="q1" value="C"> sin(θ)</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="q" data-qid="q2" data-answer="C">
+          <div class="question">La relation fondamentale s’écrit :</div>
+          <div class="answers">
+            <label><input type="radio" name="q2" value="A"> cos(θ) + sin(θ) = 1</label>
+            <label><input type="radio" name="q2" value="B"> cos²(θ) − sin²(θ) = 1</label>
+            <label><input type="radio" name="q2" value="C"> cos²(θ) + sin²(θ) = 1</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="q" data-qid="q3" data-answer="A">
+          <div class="question">Si sin(θ)=0,6 (et θ dans le 1er quadrant), alors cos(θ) vaut :</div>
+          <div class="answers">
+            <label><input type="radio" name="q3" value="A"> 0,8</label>
+            <label><input type="radio" name="q3" value="B"> 0,36</label>
+            <label><input type="radio" name="q3" value="C"> 1,4</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <button class="check btn primary" type="button">Vérifier</button>
+        <div class="score" style="margin-top:.5rem;font-weight:800"></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+(function(){
+  // Helpers
+  const TWO_PI = Math.PI * 2;
+  function normAngle(a){
+    let x = a;
+    while(x < 0) x += TWO_PI;
+    while(x >= TWO_PI) x -= TWO_PI;
+    return x;
+  }
+  function fmt(x){
+    // Affichage court avec virgule
+    const v = Math.round(x * 1000) / 1000;
+    const s = (Math.abs(v) < 1e-12 ? 0 : v).toFixed(3).replace(/\.000$/,'').replace(/0+$/,'').replace(/\.$/,'');
+    return s.replace('.', ',');
+  }
+  function fmtAngleRad(a){
+    const v = Math.round(a * 1000) / 1000;
+    return v.toFixed(3).replace(/\.000$/,'').replace(/0+$/,'').replace(/\.$/,'');
+  }
+
+  // Board
+  const board = JXG.JSXGraph.initBoard('relfond-box', {
+    boundingbox: [-1.7, 1.7, 1.7, -1.7],
+    axis: true,
+    grid: true,
+    keepaspectratio: true,
+    showNavigation: false,
+    showCopyright: false
+  });
+
+  // Cercle unité
+  const O = board.create('point', [0,0], {name:'O', size:2, fixed:true, withLabel:true, strokeColor:'#111827', fillColor:'#111827'});
+  const C = board.create('circle', [O, 1], {strokeWidth:3, strokeColor:'#eab308'}); // jaune doux
+
+  // Point P (rouge) sur le cercle
+  const P = board.create('glider', [1, 0, C], {
+    name: 'P',
+    size: 3.5,
+    strokeColor: '#ef4444',
+    fillColor: '#ef4444',
+    withLabel: true,
+    label: {offset: [8, -10]}
+  });
+
+  // Projection A sur l'axe des abscisses (x,0)
+  const A = board.create('point', [
+      () => P.X(),
+      () => 0
+    ],
+    {name:'A', size:2.5, withLabel:true, strokeColor:'#111827', fillColor:'#111827', label:{offset:[8, 10]}}
+  );
+
+  // Segments : OA (cos), AP (sin), OP (rayon)
+  const segOA = board.create('segment', [O, A], {strokeWidth:4, strokeColor:'#ef4444', name:'cos(θ)', withLabel:false});
+  const segAP = board.create('segment', [A, P], {strokeWidth:4, strokeColor:'#16a34a', name:'sin(θ)', withLabel:false});
+  const segOP = board.create('segment', [O, P], {strokeWidth:4, strokeColor:'#2563eb', name:'1', withLabel:false});
+
+  // Triangle (remplissage léger)
+  const tri = board.create('polygon', [O, A, P], {
+    hasInnerPoints: true,
+    borders: {strokeWidth:0},
+    fillOpacity: 0.08,
+    fillColor: '#2563eb'
+  });
+
+  // Marqueur angle droit en A (petit carré, orienté à l'intérieur du triangle)
+  const d = 0.14;
+  const R1 = board.create('point', [() => A.X() + (A.X()>=0 ? -d : d), () => A.Y()], {visible:false});
+  const R2 = board.create('point', [() => A.X(), () => A.Y() + (P.Y()>=0 ? d : -d)], {visible:false});
+  const R3 = board.create('point', [() => A.X() + (A.X()>=0 ? -d : d), () => A.Y() + (P.Y()>=0 ? d : -d)], {visible:false});
+  // JSXGraph ne possède pas d'élément "polyline" : on dessine le petit carré via 2 segments.
+  const rightSeg1 = board.create('segment', [R1, R3], {strokeWidth:2.5, strokeColor:'#111827'});
+  const rightSeg2 = board.create('segment', [R3, R2], {strokeWidth:2.5, strokeColor:'#111827'});
+
+  // Étiquettes des longueurs (petites)
+  const tCos = board.create('text', [
+    () => (O.X() + A.X())/2,
+    () => -0.18,
+    () => 'cos(θ)'
+  ], {fixed:true, anchorX:'middle', anchorY:'middle', fontSize:14});
+
+  const tSin = board.create('text', [
+    () => A.X() + 0.12*(A.X()>=0 ? 1 : -1),
+    () => (A.Y() + P.Y())/2,
+    () => 'sin(θ)'
+  ], {fixed:true, anchorX:'left', anchorY:'middle', fontSize:14});
+
+  const tRad = board.create('text', [
+    () => (O.X() + P.X())/2,
+    () => (O.Y() + P.Y())/2,
+    () => '1'
+  ], {fixed:true, anchorX:'middle', anchorY:'middle', fontSize:14});
+
+  // Toggle triangle
+  const toggleTriangle = document.getElementById('toggleTriangle');
+  function setTriangleVisible(v){
+    tri.setAttribute({visible: v});
+    segOA.setAttribute({visible: v});
+    segAP.setAttribute({visible: v});
+    segOP.setAttribute({visible: v});
+    rightSeg1.setAttribute({visible: v});
+    rightSeg2.setAttribute({visible: v});
+    tCos.setAttribute({visible: v});
+    tSin.setAttribute({visible: v});
+    tRad.setAttribute({visible: v});
+    A.setAttribute({visible: v});
+  }
+  toggleTriangle.addEventListener('change', () => setTriangleVisible(toggleTriangle.checked));
+
+  // Output
+  const outTheta = document.getElementById('outTheta');
+  const outCos = document.getElementById('outCos');
+  const outSin = document.getElementById('outSin');
+  const outSum = document.getElementById('outSum');
+
+  function updateReadout(){
+    const x = P.X(), y = P.Y();
+    const theta = normAngle(Math.atan2(y, x));
+    const sum = x*x + y*y;
+
+    // θ en radian, affichage numérique + quelques repères si très proche
+    outTheta.textContent = fmtAngleRad(theta);
+    outCos.textContent = fmt(x);
+    outSin.textContent = fmt(y);
+    outSum.textContent = fmt(sum);
+  }
+  P.on('drag', updateReadout);
+  updateReadout();
+
+  // Preuve: cachée au départ, révélée par bouton
+  const proofBox = document.getElementById('proofBox');
+  function hideProof(){
+    proofBox.classList.remove('shown');
+  }
+  function showProof(){
+    // relance l'animation de transition
+    proofBox.classList.remove('shown');
+    void proofBox.offsetWidth;
+    proofBox.classList.add('shown');
+  }
+  hideProof();
+
+  document.getElementById('btnProof').addEventListener('click', showProof);
+  document.getElementById('btnReset').addEventListener('click', () => {
+    P.moveTo([1,0]);
+    board.update();
+    updateReadout();
+    hideProof();
+    toggleTriangle.checked = true;
+    setTriangleVisible(true);
+  });
+
+  // Démarre avec triangle visible
+  setTriangleVisible(true);
+})();
+</script>
+</body>
+</html>

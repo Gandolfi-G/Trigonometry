@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+  <style>
+    /* Conteneur responsive et carré */
+    .board-wrap{max-width:720px;margin:1rem 0}
+    #coordonnee-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:10px}
+    .readout{max-width:720px}
+    .readout .row{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.25rem}
+    .readout .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.25rem .6rem;font-weight:600}
+    .readout small{opacity:.8}
+    code.k{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:.1rem .35rem}
+  </style>
+  <title>04. Coordonnées du point P</title>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">04. Coordonnées du point P</h1>
+    <p class="lead">
+      Sur le cercle unité, on lit les coordonnées d’un point <strong>P</strong> en le <strong>projetant</strong> sur les axes :
+      l’abscisse <code class="k">x</code> vient de l’axe des abscisses, l’ordonnée <code class="k">y</code> vient de l’axe des ordonnées.
+    </p>
+
+    <div class="board-wrap">
+      <div id="coordonnee-box"></div>
+    </div>
+
+    <div class="quiz readout" aria-live="polite">
+      <div><strong>Lecture directe</strong> (valeurs arrondies) :</div>
+      <div class="row">
+        <span class="pill" id="pillP">P = (… , …)</span>
+        <span class="pill" id="pillA">A = (… , 0)</span>
+        <span class="pill" id="pillB">B = (0 , …)</span>
+      </div>
+      <small>
+        <strong>A</strong> est la projection de <strong>P</strong> sur l’axe des abscisses, <strong>B</strong> la projection sur l’axe des ordonnées.
+        Les pointillés montrent les projections.
+      </small>
+    </div>
+
+    <section id="storyboard">
+      <h2>Storyboard</h2>
+
+      <details class="accordion" id="plan1" open>
+        <summary>Plan 1 — Déplacer le point P</summary>
+        <div class="accordion-body">
+          Fais glisser le point <strong>P</strong> (rouge) sur le cercle unité. Il reste toujours à distance 1 de l’origine <strong>O</strong>.
+        </div>
+      </details>
+
+      <details class="accordion" id="plan2">
+        <summary>Plan 2 — Projeter sur l’axe des abscisses</summary>
+        <div class="accordion-body">
+          Trace la verticale depuis <strong>P</strong> jusqu’à l’axe horizontal (abscisses) : on obtient le point <strong>A</strong>.
+          Sa coordonnée est <strong>A(x,0)</strong> : on lit directement <code class="k">x</code>.
+        </div>
+      </details>
+
+      <details class="accordion" id="plan3">
+        <summary>Plan 3 — Projeter sur l’axe des ordonnées</summary>
+        <div class="accordion-body">
+          Trace l’horizontale depuis <strong>P</strong> jusqu’à l’axe vertical (ordonnées) : on obtient le point <strong>B</strong>.
+          Sa coordonnée est <strong>B(0,y)</strong> : on lit directement <code class="k">y</code>.
+        </div>
+      </details>
+
+      <details class="accordion" id="plan4">
+        <summary>Plan 4 — Lire les coordonnées de P</summary>
+        <div class="accordion-body">
+          Les deux projections donnent exactement la même paire :
+          <strong>P(x,y)</strong>.
+          Autrement dit, l’abscisse de <strong>P</strong> est la valeur du point projeté sur l’axe <code class="k">x</code>,
+          et l’ordonnée est la valeur du point projeté sur l’axe <code class="k">y</code>.
+        </div>
+      </details>
+
+      <details class="accordion" id="plan5">
+        <summary>Plan 5 — Lien avec cos et sin</summary>
+        <div class="accordion-body">
+          Si <strong>θ</strong> est l’angle (en radians) entre l’axe des abscisses et le rayon <strong>OP</strong>, alors sur le cercle unité :
+          <strong>x = cos(θ)</strong> et <strong>y = sin(θ)</strong>.
+        </div>
+      </details>
+    </section>
+
+    <section id="points-cles">
+      <h2>Points-clés</h2>
+      <ul>
+        <li><strong>A</strong> (projection sur l’axe des abscisses) : <strong>A(x,0)</strong>.</li>
+        <li><strong>B</strong> (projection sur l’axe des ordonnées) : <strong>B(0,y)</strong>.</li>
+        <li>Le point rouge <strong>P</strong> a donc pour coordonnées <strong>P(x,y)</strong>.</li>
+        <li>Sur le cercle unité : <strong>x = cos(θ)</strong> et <strong>y = sin(θ)</strong>.</li>
+      </ul>
+    </section>
+
+    <section id="methode">
+      <h2>Méthode en 10 secondes</h2>
+      <ol>
+        <li>Projeter <strong>P</strong> verticalement sur l’axe des abscisses → lire <code class="k">x</code>.</li>
+        <li>Projeter <strong>P</strong> horizontalement sur l’axe des ordonnées → lire <code class="k">y</code>.</li>
+        <li>Conclure : <strong>P(x,y)</strong>.</li>
+      </ol>
+    </section>
+
+    <section id="exercices">
+      <h2>Exercices rapides</h2>
+      <ol>
+        <li>Place <strong>P</strong> sur l’axe des abscisses positif. Quelles sont ses coordonnées ?</li>
+        <li>Place <strong>P</strong> sur l’axe des ordonnées négatif. Quelles sont ses coordonnées ?</li>
+        <li>Place <strong>P</strong> dans le 2e quadrant et lis le signe de <code class="k">x</code> et de <code class="k">y</code>.</li>
+      </ol>
+    </section>
+
+    <section id="quiz">
+      <h2>Quiz</h2>
+      <div class="quiz">
+        <div class="q" data-qid="q1" data-answer="B">
+          <div class="question">Si P a pour coordonnées (x, y), la projection A de P sur l’axe des abscisses est :</div>
+          <div class="answers">
+            <label><input type="radio" name="q1" value="A"> A(0, x)</label>
+            <label><input type="radio" name="q1" value="B"> A(x, 0)</label>
+            <label><input type="radio" name="q1" value="C"> A(y, 0)</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+        <div class="q" data-qid="q2" data-answer="C">
+          <div class="question">Sur le cercle unité, l’abscisse x du point P est :</div>
+          <div class="answers">
+            <label><input type="radio" name="q2" value="A"> sin(θ)</label>
+            <label><input type="radio" name="q2" value="B"> tan(θ)</label>
+            <label><input type="radio" name="q2" value="C"> cos(θ)</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+        <div class="q" data-qid="q3" data-answer="A">
+          <div class="question">Si y = 0, le point P est :</div>
+          <div class="answers">
+            <label><input type="radio" name="q3" value="A"> Sur l’axe des abscisses</label>
+            <label><input type="radio" name="q3" value="B"> Sur l’axe des ordonnées</label>
+            <label><input type="radio" name="q3" value="C"> Forcément dans le 2e quadrant</label>
+          </div>
+          <div class="feedback"></div>
+        </div>
+        <button class="check">Vérifier</button>
+        <div class="score" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-03-radian.html">← Précédent</a>
+    <a class="button" href="trigo-05-sinus-cosinus.html">Suivant →</a>
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#storyboard">Storyboard</a>
+        <ul>
+          <li><a href="#plan1">Plan 1</a></li>
+          <li><a href="#plan2">Plan 2</a></li>
+          <li><a href="#plan3">Plan 3</a></li>
+          <li><a href="#plan4">Plan 4</a></li>
+          <li><a href="#plan5">Plan 5</a></li>
+        </ul>
+      </li>
+      <li><a href="#points-cles">Points-clés</a></li>
+      <li><a href="#methode">Méthode</a></li>
+      <li><a href="#exercices">Exercices</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2025 Enseignant de Mathématiques à Genève</div></footer>
+
+<script src="script.js"></script>
+<script>
+(() => {
+  // --- Helpers ---
+  const almost = (a,b,eps=1e-10) => Math.abs(a-b) < eps;
+  function fmt(x){
+    if (almost(x, 0)) return '0';
+    if (almost(x, 1)) return '1';
+    if (almost(x, -1)) return '-1';
+    // évite -0.00
+    const v = Math.round(x * 100) / 100;
+    if (almost(v, 0)) return '0';
+    return v.toFixed(2).replace(/\.00$/, '');
+  }
+
+  // Init du board
+  const board = JXG.JSXGraph.initBoard('coordonnee-box', {
+    boundingbox: [-1.7, 1.7, 1.7, -1.7],
+    axis: true,
+    grid: true,
+    keepaspectratio: true,
+    showNavigation: false,
+    showCopyright: false
+  });
+
+  // Centre O (sans label)
+  const O = board.create('point', [0, 0], {
+    name: '',
+    fixed: true,
+    size: 2,
+    strokeColor: '#111',
+    fillColor: '#111'
+  });
+
+  // Cercle unité (rayon = 1)
+  const C = board.create('circle', [O, 1], {
+    strokeWidth: 3,
+    strokeColor: '#eab308' /* jaune doux */
+  });
+
+  // Point P qui glisse sur le cercle (rouge)
+  const P = board.create('glider', [1, 0, C], {
+    name: 'P',
+    size: 3.5,
+    strokeColor: '#ef4444',
+    fillColor: '#ef4444',
+    withLabel: true,
+    label: {offset: [8, -10]}
+  });
+
+  // Projections A et B (noires)
+  const A = board.create('point', [() => P.X(), 0], {
+    name: 'A',
+    size: 2.5,
+    strokeColor: '#111',
+    fillColor: '#111',
+    fixed: true,
+    withLabel: true,
+    label: {offset: [8, 10]}
+  });
+
+  const B = board.create('point', [0, () => P.Y()], {
+    name: 'B',
+    size: 2.5,
+    strokeColor: '#111',
+    fillColor: '#111',
+    fixed: true,
+    withLabel: true,
+    label: {offset: [10, -8]}
+  });
+
+  // Segments de projection (pointillés)
+  board.create('segment', [P, A], {
+    strokeColor: '#ef4444',
+    strokeOpacity: 0.75,
+    strokeWidth: 2,
+    dash: 2
+  });
+  board.create('segment', [P, B], {
+    strokeColor: '#ef4444',
+    strokeOpacity: 0.75,
+    strokeWidth: 2,
+    dash: 2
+  });
+
+  // Lecture visuelle : x (sur l'axe des abscisses) et y (sur l'axe des ordonnées)
+  board.create('segment', [O, A], {
+    strokeColor: '#2563eb', strokeOpacity: 0.75, strokeWidth: 3
+  });
+  board.create('segment', [O, B], {
+    strokeColor: '#16a34a', strokeOpacity: 0.75, strokeWidth: 3
+  });
+
+  // Petits repères d'angle droit (optionnel, discret)
+  const xRef = board.create('point', [() => A.X() + 1, 0], {visible:false});
+  const yRef = board.create('point', [0, () => B.Y() + 1], {visible:false});
+  board.create('angle', [P, A, xRef], {radius: 0.18, strokeColor:'#111', strokeWidth:1, fillColor:'#111', fillOpacity:0.06});
+  board.create('angle', [P, B, yRef], {radius: 0.18, strokeColor:'#111', strokeWidth:1, fillColor:'#111', fillOpacity:0.06});
+
+  // Textes dynamiques sur le board
+  board.create('text', [1.05, 1.55, () => `P = (${fmt(P.X())}, ${fmt(P.Y())})`], {
+    fontSize: 14, fixed: true
+  });
+  board.create('text', [() => A.X() + 0.05, 0.12, () => `x = ${fmt(P.X())}`], {
+    fontSize: 13
+  });
+  board.create('text', [0.12, () => B.Y() + 0.05, () => `y = ${fmt(P.Y())}`], {
+    fontSize: 13
+  });
+
+  // Readout DOM
+  const pillP = document.getElementById('pillP');
+  const pillA = document.getElementById('pillA');
+  const pillB = document.getElementById('pillB');
+  function sync(){
+    const x = fmt(P.X());
+    const y = fmt(P.Y());
+    pillP.textContent = `P = (${x} , ${y})`;
+    pillA.textContent = `A = (${x} , 0)`;
+    pillB.textContent = `B = (0 , ${y})`;
+  }
+  sync();
+  board.on('update', sync);
+
+  // Maintenir le canvas carré au resize
+  const boxEl = document.getElementById('coordonnee-box');
+  function resizeSquare(){
+    const w = boxEl.clientWidth;
+    board.resizeContainer(w, w);
+    board.setBoundingBox([-1.7, 1.7, 1.7, -1.7], true);
+  }
+  resizeSquare();
+  window.addEventListener('resize', resizeSquare);
+})();
+</script>
+
+</body>
+</html>

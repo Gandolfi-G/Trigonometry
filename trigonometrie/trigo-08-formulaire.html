@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Page : formules / tableau */
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width: 980px){.stage{grid-template-columns:1fr}.panel{max-width:720px}}
+
+    .panel{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+    .panel h3{margin:.2rem 0 .6rem 0}
+
+    .card{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.25rem .6rem;font-weight:700}
+
+    .math{font-family: ui-serif, Georgia, 'Times New Roman', serif}
+    .formula-block{border:1px dashed #cbd5e1;border-radius:12px;background:#fbfdff;padding:1rem;margin:.75rem 0}
+    .formula-block .title{font-weight:900;margin:0 0 .35rem 0}
+
+    .cCos{color:#ef4444}
+    .cSin{color:#16a34a}
+    .cTan{color:#7c3aed}
+    .cRad{color:#2563eb}
+
+    table.values{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid #e8e8e8;border-radius:12px}
+    table.values th, table.values td{padding:.65rem .75rem;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle}
+    table.values thead th{background:#fbfdff;font-weight:900}
+    table.values tbody tr:last-child td{border-bottom:none}
+    table.values td:first-child, table.values th:first-child{text-align:left}
+
+    .note{font-size:.95rem;opacity:.9;line-height:1.45}
+
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.55rem .75rem;font-weight:800;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .btn:active{transform:translateY(1px)}
+
+    .controls{display:flex;flex-direction:column;gap:.65rem}
+    .controls .row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+
+    .warn{display:none;border:1px solid #fecaca;background:#fff1f2;color:#7f1d1d;border-radius:12px;padding:.65rem .75rem;font-weight:700}
+    .warn.show{display:block}
+
+    details.accordion .code-like{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace}
+  </style>
+
+  <title>08. Formules et valeurs remarquables</title>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">08. Formules de base et valeurs remarquables (0 à $\pi/2$)</h1>
+
+    <p class="lead">
+      Pour tout angle $\theta$, on associe une valeur de <span class="cCos"><strong>cos</strong></span>($\theta$),
+      de <span class="cSin"><strong>sin</strong></span>($\theta$) et de <span class="cTan"><strong>tan</strong></span>($\theta$).
+      Il n’est pas nécessaire de connaître toutes les valeurs par cœur, mais certaines valeurs entre $0$ et $\pi/2$ sont
+      <strong>à retenir</strong>.
+    </p>
+
+    <div class="stage">
+      <section class="card" aria-label="formules et tableau">
+        <h2 id="formules">Formules de base</h2>
+
+        <div class="formula-block">
+          <div class="title">Définition sur le cercle trigonométrique (cercle unité)</div>
+          <div class="math">Le point du cercle associé à l’angle $\theta$ a pour coordonnées :</div>
+          <div class="math" style="font-weight:900;font-size:1.15rem;margin:.35rem 0;">
+            $$P(\cos(\theta),\,\sin(\theta))$$
+          </div>
+          <div class="note">Ainsi, sur le cercle unité, <span class="pill"><span class="cCos">x</span> = cos(θ)</span> et <span class="pill"><span class="cSin">y</span> = sin(θ)</span>.</div>
+        </div>
+
+        <div class="formula-block">
+          <div class="title">Relation fondamentale</div>
+          <div class="math" style="font-weight:900;font-size:1.15rem;margin:.35rem 0;">
+            $$\cos^2(\theta) + \sin^2(\theta) = 1$$
+          </div>
+          <div class="note">Elle permet de retrouver un cosinus à partir d’un sinus (et inversement), en tenant compte du signe selon le quadrant.</div>
+        </div>
+
+        <div class="formula-block">
+          <div class="title">Tangente</div>
+          <div class="math" style="font-weight:900;font-size:1.15rem;margin:.35rem 0;">
+            $$\tan(\theta) = \frac{\sin(\theta)}{\cos(\theta)}$$
+          </div>
+          <div class="note">Attention : $\tan(\theta)$ est <strong>indéfinie</strong> quand $\cos(\theta)=0$ (division par zéro), notamment pour $\theta=\pi/2$.</div>
+        </div>
+
+        <h2 id="tableau">Tableau des valeurs remarquables</h2>
+        <p class="note">Angles classiques entre $0$ et $\pi/2$ : $0$, $\pi/6$, $\pi/4$, $\pi/3$, $\pi/2$.</p>
+
+        <div class="table-wrap" style="overflow:auto;">
+          <table class="values" aria-label="Valeurs remarquables sinus cosinus tangente">
+            <thead>
+              <tr>
+                <th>Angle $\theta$</th>
+                <th><span class="cCos">cos</span>($\theta$)</th>
+                <th><span class="cSin">sin</span>($\theta$)</th>
+                <th><span class="cTan">tan</span>($\theta$)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$0$</td>
+                <td>$1$</td>
+                <td>$0$</td>
+                <td>$0$</td>
+              </tr>
+              <tr>
+                <td>$\pi/6$</td>
+                <td>$\sqrt{3}/2$</td>
+                <td>$1/2$</td>
+                <td>$\sqrt{3}/3$</td>
+              </tr>
+              <tr>
+                <td>$\pi/4$</td>
+                <td>$\sqrt{2}/2$</td>
+                <td>$\sqrt{2}/2$</td>
+                <td>$1$</td>
+              </tr>
+              <tr>
+                <td>$\pi/3$</td>
+                <td>$1/2$</td>
+                <td>$\sqrt{3}/2$</td>
+                <td>$\sqrt{3}$</td>
+              </tr>
+              <tr>
+                <td>$\pi/2$</td>
+                <td>$0$</td>
+                <td>$1$</td>
+                <td>indéfinie</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="astuce">Astuce de mémorisation (très efficace)</h2>
+        <div class="formula-block">
+          <div class="title">La “ligne” des racines</div>
+          <div class="note">
+            Pour les angles $0$, $\pi/6$, $\pi/4$, $\pi/3$, $\pi/2$ :
+            <ul>
+              <li>$\sin(\theta)$ suit : $\sqrt{0}/2$, $\sqrt{1}/2$, $\sqrt{2}/2$, $\sqrt{3}/2$, $\sqrt{4}/2$</li>
+              <li>$\cos(\theta)$ suit la même liste… mais à l’envers.</li>
+              <li>Ensuite, $\tan(\theta)=\sin(\theta)/\cos(\theta)$.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="voix off">
+        <h3>Texte pour l’animation</h3>
+        <div class="controls">
+          <div class="row">
+            <button id="btnSpeak" class="btn primary" type="button">Lire la voix off</button>
+            <button id="btnStop" class="btn" type="button">Stop</button>
+          </div>
+          <div id="voiceWarn" class="warn" role="status" aria-live="polite"></div>
+
+          <details class="accordion" open>
+            <summary>Voix off proposée</summary>
+            <div class="accordion-body" id="voiceText">
+              <p>
+                Pour tout angle $\theta$, nous avons une valeur de <span class="cCos">cosinus</span>,
+                de <span class="cSin">sinus</span> et de <span class="cTan">tangente</span> associée.
+                Il n’est pas utile de connaître toutes les valeurs, mais certaines valeurs entre $0$ et $\pi/2$ sont à remarquer.
+              </p>
+              <p>
+                Pour $\theta = 0$, on observe que $\cos(0)=1$ et $\sin(0)=0$.
+              </p>
+              <p>
+                Pour $\theta = \pi/6$, on remarque que $\sin(\pi/6)=1/2$.
+                Pour trouver $\cos(\pi/6)$, on utilise la relation $\sin^2(\theta) + \cos^2(\theta)=1$.
+                On obtient $\cos(\pi/6)=\sqrt{3}/2$ (positif dans le premier quadrant).
+              </p>
+              <p>
+                Pour $\theta = \pi/4$, on est sur une symétrie : le cosinus et le sinus ont la même valeur.
+                On déduit alors $\sin(\pi/4)=\cos(\pi/4)=\sqrt{2}/2$.
+              </p>
+              <p>
+                Pour $\theta = \pi/3$, par symétrie avec $\pi/6$, on a $\cos(\pi/3)=1/2$ et $\sin(\pi/3)=\sqrt{3}/2$.
+              </p>
+              <p>
+                Enfin, pour $\theta = \pi/2$, on a $\sin(\pi/2)=1$ et $\cos(\pi/2)=0$.
+                La tangente est alors indéfinie, car on ne peut pas diviser par zéro.
+              </p>
+            </div>
+          </details>
+
+          <p class="note">
+            Remarque : selon le navigateur, la lecture vocale peut nécessiter une interaction utilisateur (clic) et une voix française disponible.
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <section id="exercices">
+      <h2>Exercices rapides</h2>
+      <ol>
+        <li>Calcule $\tan(\pi/6)$ et simplifie le résultat (forme $\sqrt{3}/3$).</li>
+        <li>Retrouve $\cos(\pi/4)$ en utilisant $\sin^2(\theta)+\cos^2(\theta)=1$ et la symétrie.</li>
+        <li>Explique pourquoi $\tan(\pi/2)$ est indéfinie (avec une phrase mathématique).</li>
+      </ol>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-07-tangente.html">← Précédent</a>
+
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#formules">Formules</a></li>
+      <li><a href="#tableau">Tableau</a></li>
+      <li><a href="#astuce">Astuce</a></li>
+      <li><a href="#exercices">Exercices</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2025 Enseignant de Mathématiques à Genève</div></footer>
+
+<script>
+(() => {
+  const btnSpeak = document.getElementById('btnSpeak');
+  const btnStop = document.getElementById('btnStop');
+  const voiceWarn = document.getElementById('voiceWarn');
+  const voiceTextEl = document.getElementById('voiceText');
+
+  function showWarn(msg){
+    voiceWarn.textContent = msg;
+    voiceWarn.classList.add('show');
+  }
+  function clearWarn(){
+    voiceWarn.classList.remove('show');
+    voiceWarn.textContent = '';
+  }
+
+  function getCleanText(){
+    // On lit le texte visible, sans LaTeX.
+    const raw = voiceTextEl.innerText || '';
+    return raw
+      .replace(/\$\$[\s\S]*?\$\$/g, ' ')
+      .replace(/\$[^$]*\$/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function speak(){
+    clearWarn();
+
+    if(!('speechSynthesis' in window)){
+      showWarn("La synthèse vocale n’est pas disponible sur ce navigateur.");
+      return;
+    }
+
+    const text = getCleanText();
+    if(!text){
+      showWarn("Aucun texte à lire.");
+      return;
+    }
+
+    // Stoppe toute lecture en cours
+    window.speechSynthesis.cancel();
+
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'fr-FR';
+    u.rate = 1.0;
+    u.pitch = 1.0;
+
+    u.onerror = () => showWarn("Impossible de lancer la lecture vocale (paramétrage navigateur/OS).");
+    u.onend = () => {};
+
+    window.speechSynthesis.speak(u);
+  }
+
+  function stop(){
+    clearWarn();
+    if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  }
+
+  btnSpeak.addEventListener('click', speak);
+  btnStop.addEventListener('click', stop);
+})();
+</script>
+
+</body>
+</html>

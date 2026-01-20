@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02. Périmètre — Demi-cercle → π</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+
+  <style>
+    .board-wrap{max-width:720px;margin:1rem 0}
+    /* carré pour rester cohérent avec la page 01 */
+    #perimetre-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:10px}
+    .legend { color: var(--muted, #6b7280); font-size: .95rem; margin-top: .5rem }
+    .controls{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-top:.6rem}
+    .btn{background:#1c2233;color:#e5e7eb;border:1px solid #2a344b;border-radius:10px;padding:8px 12px;font-weight:600;cursor:pointer}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .slider{appearance:none;width:240px;height:6px;border-radius:6px;background:#1f2937;outline:none}
+    .slider::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:#f59e0b;cursor:pointer;border:1px solid #2a344b}
+    .slider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#f59e0b;cursor:pointer;border:1px solid #2a344b}
+    .hint{font-size:.85rem;color:var(--muted,#6b7280)}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">02. Périmètre du cercle unité</h1>
+    <p class="lead">On “déroule” le demi-cercle (longueur d’arc = π) pour le poser sur une règle : on lit π, donc le périmètre vaut 2π.</p>
+
+    <!-- Animation en tête de page -->
+    <div class="board-wrap">
+      <div id="perimetre-box" aria-label="Animation du demi-cercle qui se déroule en segment π"></div>
+
+      <div class="controls">
+        <button id="btnPlay"  class="btn">▶︎ Play</button>
+        <button id="btnPause" class="btn" disabled>⏸ Pause</button>
+        <button id="btnReset" class="btn" disabled>↺ Reset</button>
+        <input id="slider" class="slider" type="range" min="0" max="1" step="0.005" value="0" />
+        <span class="hint">Arc → Segment</span>
+      </div>
+
+      <div class="legend" id="legend">Le demi-cercle (longueur π) est déroulé sur la règle…</div>
+    </div>
+
+    <!-- Sections (à compléter quand tu veux) -->
+    <section id="storyboard">
+      <h2>Storyboard</h2>
+      <details id="plan1"><summary>Plan 1 — Sélection du demi-cercle</summary>
+        <p>On isole la partie supérieure du cercle unité.</p>
+      </details>
+      <details id="plan2"><summary>Plan 2 — Déroulage</summary>
+        <p>Le demi-cercle se pose sur une règle horizontale graduée de 0 à π.</p>
+      </details>
+      <details id="plan3"><summary>Plan 3 — Lecture</summary>
+        <p>On lit la longueur π, donc le périmètre du cercle unité est 2π.</p>
+      </details>
+    </section>
+
+    <section id="points-cles">
+      <h2>Points-clés</h2>
+      <ul>
+        <li>Cercle unité : rayon 1.</li>
+        <li>Demi-périmètre = π.</li>
+        <li>Périmètre total = 2π.</li>
+      </ul>
+    </section>
+
+    <section id="exercices">
+      <h2>Exercices rapides</h2>
+      <ol>
+        <li>Donner la longueur d’un arc correspondant à un angle de 120° sur le cercle unité.</li>
+        <li>Que vaut la longueur d’arc entre 0 et 3π/2 ?</li>
+      </ol>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-03-radian.html">Suivant →</a>
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#storyboard">Storyboard</a></li>
+      <li><a href="#points-cles">Points-clés</a></li>
+      <li><a href="#exercices">Exercices</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2025 Enseignant de Mathématiques à Genève</div></footer>
+
+<script src="script.js"></script>
+<script>
+(() => {
+  // --- Board JSXGraph ---
+  // Pour que tout rentre DANS UN CARRÉ, on "dézoome" un peu : on laisse plus d'espace à droite.
+  // On utilise une bounding box large (plus large que haute) et JSXGraph "letterbox" dans le carré,
+  // ce qui évite de couper le cercle.
+  const BB = [-2.2, 3, 2.6, -2.2]; // carré centré vers la gauche, on voit le cercle + la règle
+  const board = JXG.JSXGraph.initBoard('perimetre-box', {
+    boundingbox: BB,
+    axis: true,
+    grid: true,
+    keepaspectratio: true,
+    showNavigation: false,
+    showCopyright: false
+  });
+
+  // --- Scène : cercle + arc demi-cercle + règle + morphing ---
+  const O = board.create('point', [0, 0], { name: '', visible: false });
+  const circle = board.create('circle', [O, 1], { strokeColor: '#eab308', strokeWidth: 4 });
+
+  // Points de l'arc (0→π) et de la ligne cible (0→π) posée à droite
+  const steps = 240;
+  const arcPts = [];
+  const linePts = [];
+  const x0 = -1, y0 = 1.5;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const th = t * Math.PI;
+    arcPts.push([Math.cos(th), Math.sin(th)]);
+    linePts.push([x0 + (Math.PI - th), y0]);
+  }
+
+  // Courbe "fil rouge" (arc → segment)
+  let curr = arcPts.map(p => p.slice());
+  let curve = board.create('curve', [curr.map(p => p[0]), curr.map(p => p[1])],
+                           { strokeColor: '#ef4444', strokeWidth: 4 });
+
+  // Règle 0→π à droite
+  board.create('segment', [[x0, y0], [x0 + Math.PI, y0]], { strokeColor: '#93a3b8', strokeWidth: 2 });
+  for (let k = 0; k <= 4; k++) {
+    const xk = x0 + k * (Math.PI / 4);
+    board.create('segment', [[xk, y0 - 0.08], [xk, y0 + 0.08]], { strokeColor: '#93a3b8', strokeWidth: 2 });
+  }
+  board.create('segment', [[x0 + Math.PI, y0 - 0.13], [x0 + Math.PI, y0 + 0.13]], { strokeColor: '#ffffff', strokeWidth: 3 });
+  const piLabel  = board.create('text', [x0 + Math.PI, y0 + 0.22, '&pi;'],    { anchorX: 'middle', anchorY: 'bottom', fontSize: 14, strokeColor: '#ffffff' });
+  const piApprox = board.create('text', [x0 + Math.PI, y0 - 0.28, '&asymp; 3,14'], { anchorX: 'middle', anchorY: 'top', fontSize: 12, strokeColor: '#94a3b8' });
+
+  // --- Contrôles ---
+  const slider = document.getElementById('slider');
+  const btnPlay  = document.getElementById('btnPlay');
+  const btnPause = document.getElementById('btnPause');
+  const btnReset = document.getElementById('btnReset');
+  const legend   = document.getElementById('legend');
+
+  let playing = false;
+  let rafId = null;
+  let tAnim = 0;  // 0..1
+
+  function setT(t){
+    t = Math.max(0, Math.min(1, t));
+    tAnim = t;
+    slider.value = t.toFixed(3);
+
+    // interpolation arcPts -> linePts
+    curr = arcPts.map((p, i) => [
+      (1 - t) * p[0] + t * linePts[i][0],
+      (1 - t) * p[1] + t * linePts[i][1],
+    ]);
+    // recrée la courbe avec nouveaux points
+    board.removeObject(curve);
+    curve = board.create('curve', [curr.map(p => p[0]), curr.map(p => p[1])],
+                         { strokeColor: '#ef4444', strokeWidth: 4 });
+    board.update();
+
+    if (legend){
+      if (t < 1) legend.textContent = 'Le demi-cercle (longueur π) est déroulé sur la règle…';
+      else       legend.innerHTML   = '<strong>Demi-périmètre = π</strong>  →  périmètre du cercle unité = <strong>2π</strong>';
+    }
+  }
+
+  function tick(){
+    if (!playing) return;
+    // vitesse : ~3 secondes pour aller de 0 à 1
+    const v = 1 / (3 * 60); // 60 fps approx
+    const next = tAnim + v;
+    setT(next >= 1 ? 1 : next);
+    if (tAnim >= 1){
+      playing = false;
+      btnPlay.disabled = false;
+      btnPause.disabled = true;
+      btnReset.disabled = false;
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // Slider interaction
+  slider.addEventListener('input', (e) => {
+    if (playing){ playing = false; cancelAnimationFrame(rafId); }
+    setT(parseFloat(e.target.value));
+    btnPlay.disabled  = (tAnim >= 1);
+    btnPause.disabled = true;
+    btnReset.disabled = (tAnim === 0);
+  });
+
+  // Boutons
+  btnPlay.addEventListener('click', () => {
+    if (tAnim >= 1) setT(0);
+    playing = true;
+    btnPlay.disabled  = true;
+    btnPause.disabled = false;
+    btnReset.disabled = true;
+    rafId = requestAnimationFrame(tick);
+  });
+
+  btnPause.addEventListener('click', () => {
+    if (!playing) return;
+    playing = false;
+    btnPlay.disabled  = false;
+    btnPause.disabled = true;
+    btnReset.disabled = (tAnim === 0);
+    if (rafId) cancelAnimationFrame(rafId);
+  });
+
+  btnReset.addEventListener('click', () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    playing = false;
+    setT(0);
+    btnPlay.disabled  = false;
+    btnPause.disabled = true;
+    btnReset.disabled = true;
+  });
+
+  // Lancer automatiquement au chargement
+  setT(0);
+  btnPlay.click();
+
+  // Responsive : garder le cadrage large (dézoom) dans un conteneur carré
+  const boxEl = document.getElementById('perimetre-box');
+  function resizeSquare(){
+    const w = boxEl.clientWidth;
+    board.resizeContainer(w, w);  // carré
+    board.setBoundingBox(BB, true);
+  }
+  resizeSquare();
+  window.addEventListener('resize', resizeSquare);
+})();
+</script>
+</body>
+</html>

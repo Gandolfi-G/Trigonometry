@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cercle trigonométrique – JSXGraph</title>
+
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+
+  <style>
+    /* Conteneur responsive : carré, full-width sur mobile */
+    .board-wrap {
+      max-width: 640px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+    #box {
+      width: 100%;
+      aspect-ratio: 1 / 1;          /* carré, s’adapte à la largeur */
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    /* Petit confort visuel mobile */
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.4;
+    }
+    h1 {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      text-align: center;
+      margin: 1rem 0 0.25rem;
+    }
+    p.helper {
+      text-align: center;
+      color: #555;
+      margin: 0 1rem 0.5rem;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cercle trigonométrique (JSXGraph)</h1>
+  <p class="helper">Fais glisser le point sur le cercle. Les coordonnées affichées donnent <em>(cos&nbsp;θ, sin&nbsp;θ)</em>.</p>
+
+  <div class="board-wrap">
+    <div id="box"></div>
+  </div>
+
+  <script>
+    // --- Initialisation du "board" JSXGraph ---
+    // Bounding box : [xMin, yMax, xMax, yMin]
+    const board = JXG.JSXGraph.initBoard('box', {
+      boundingbox: [-1.7, 1.7, 1.7, -1.7],
+      axis: true,         // axes x et y
+      grid: true,         // grille
+      keepaspectratio: true,
+      showNavigation: false,
+      showCopyright: false
+    });
+
+    // --- Cercle unité (cercle trigonométrique) ---
+    const O = board.create('point', [0, 0], { name: 'O', fixed: true, size: 2, withLabel: true, visible: true });
+    const C = board.create('circle', [O, 1], {
+      strokeWidth: 2,
+      strokeColor: '#2b6cb0' // bleu discret
+    });
+
+    // --- Point glisseur sur le cercle ---
+    // Glider: point contraint à rester sur l'objet 'C'
+    const P = board.create('glider', [1, 0, C], {
+      name: 'P',
+      size: 3,
+      strokeColor: '#d53f8c',
+      fillColor: '#d53f8c',
+      withLabel: true
+    });
+
+    // --- Projections sur les axes pour visualiser cos(θ) et sin(θ) ---
+    // Lignes guides (optionnelles) : verticales/horizontales passant par P
+    const vLine = board.create('line', [() => [P.X(), 0], () => [P.X(), 1]], {
+      straightFirst: false, straightLast: false, strokeColor: '#aaa', dash: 2
+    });
+    const hLine = board.create('line', [() => [0, P.Y()], () => [1, P.Y()]], {
+      straightFirst: false, straightLast: false, strokeColor: '#aaa', dash: 2
+    });
+
+    // Segments jusqu'aux axes (pour bien marquer cos et sin)
+    const projX = board.create('segment', [O, () => [P.X(), 0]], { strokeWidth: 3, strokeColor: '#38a169' }); // cos θ
+    const projY = board.create('segment', [O, () => [0, P.Y()]], { strokeWidth: 3, strokeColor: '#e53e3e' }); // sin θ
+
+    // --- Affichage dynamique des valeurs ---
+    const info = board.create('text', [
+      () => board.getBoundingBox()[0] + 0.1,                    // coin gauche
+      () => board.getBoundingBox()[1] - 0.2,                    // en haut
+      () => {
+        const x = P.X(), y = P.Y();
+        // angle θ en radians et degrés (optionnel)
+        const theta = Math.atan2(y, x);
+        const deg = (theta * 180 / Math.PI + 360) % 360;
+
+        return `
+<b>cos&nbsp;θ</b> = ${x.toFixed(4)} &nbsp;&nbsp; <b>sin&nbsp;θ</b> = ${y.toFixed(4)}
+<br><span style="opacity:.75">θ ≈ ${theta.toFixed(4)} rad (${deg.toFixed(2)}°)</span>`;
+      }
+    ], {
+      parse: true,
+      anchorX: 'left',
+      anchorY: 'top',
+      fontSize: 14
+    });
+
+    // --- Maintenir le board bien carré lors des redimensionnements ---
+    // (utile si tu changes le style CSS ou l'insères dans une mise en page fluide)
+    const boxEl = document.getElementById('box');
+    function resizeBoardSquare() {
+      const w = boxEl.clientWidth;
+      board.resizeContainer(w, w); // carré
+      board.setBoundingBox([-1.7, 1.7, 1.7, -1.7], true);
+    }
+    // Appel initial + écouteur
+    resizeBoardSquare();
+    window.addEventListener('resize', resizeBoardSquare);
+
+  </script>
+</body>
+</html>

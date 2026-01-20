@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+  <title>03. Le radian</title>
+  <style>
+    .board-wrap{max-width:820px;margin:1rem 0}
+    #radian-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:10px}
+    .controls{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+    .controls input[type=range]{width:280px}
+    .badge{display:inline-block;padding:.2rem .5rem;border-radius:.5rem;background:#f3f4f6;font-variant-numeric:tabular-nums}
+    .legend{font-size:.95rem;color:#374151;margin:.5rem 0}
+    .hint{font-size:.9rem;color:#6b7280}
+    .pill{display:inline-flex;gap:.4rem;align-items:center;padding:.18rem .6rem;border-radius:999px;border:1px solid #e5e7eb}
+    .buttons{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    button.button{padding:.45rem .8rem;border-radius:.6rem;border:1px solid #e5e7eb;background:white;cursor:pointer}
+    button.button:hover{background:#f9fafb}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">03. Le radian</h1>
+    <p class="lead">Un <strong>radian</strong> est l’angle qui intercepte un <em>arc</em> de longueur égale au <strong>rayon</strong> du cercle. Ici, le rayon vaut 1 : l’arc rouge de longueur 1 définit <span class="badge">1 rad</span>.</p>
+
+    <div id="radianBox"></div>
+    <div id="radianControls"></div>
+    
+
+    <p class="legend"><span style="border-bottom:3px solid #ef4444">arc rouge</span> : longueur d’arc <em>s</em> depuis le point (1,0).<br>
+    <span style="border-bottom:3px solid #3b82f6">arc bleu fin</span> : repère du cercle unité. <span class="hint">Déplace le curseur ou lance l’animation.</span></p>
+
+    <section>
+      <h2 id="idee">Idée clé</h2>
+      <p>On « prend » un rayon du cercle (ici de longueur 1) et on le <strong>pose sur le bord du cercle</strong> : l’arc obtenu a la même longueur que le rayon. L’angle associé vaut alors <strong>1 radian</strong>. Plus généralement, si l’angle vaut θ radians et que r = 1, la longueur d’arc vaut s = θ.</p>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-04-coordonnees-point.html">Suivant →</a>
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Le radian</a></li>
+      <li><a href="#idee">Idée clé</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2025 Enseignant de Mathématiques à Genève</div></footer>
+
+
+<script>
+  const demo = createRadianThreePhase('radianBox', { speed: 1.0, radLen: 1.0 });
+  attachRadianUI(demo, 'radianControls');
+// === Démo 3 phases ===
+// 01: rayon [(1,0) -> O]  |  02: arc de 1 rad depuis (1,0)  |  03: segment vertical à x=1 de hauteur 1 rad
+function createRadianThreePhase(containerId, opts = {}) {
+  const cfg = {
+    bbox: [-1.8, 1.8, 1.8, -1.8],
+    showAxis: true,
+    showGrid: true,
+    radLen: 1.0,   // 1 rad
+    speed: 0.9,    // vitesse auto
+    ...opts
+  };
+
+  const board = JXG.JSXGraph.initBoard(containerId, {
+    boundingbox: cfg.bbox,
+    keepaspectratio: true,
+    axis: cfg.showAxis,
+    grid: cfg.showGrid,
+    showNavigation: false,
+    showCopyright: false
+  });
+
+  // Cercle unité
+  const O = board.create('point', [0,0], {name:'', fixed:true, size:2, strokeColor:'#111', fillColor:'#111'});
+  board.create('circle', [O, 1], {strokeWidth:2, strokeColor:'#3b82f6'});
+
+  // (1,0) FIXE
+  const S = board.create('point', [1,0], {name:'', fixed:true, size:3, strokeColor:'#ef4444', fillColor:'#ef4444'});
+  // point cible à angle 1 rad (repère)
+  const P = board.create('point', [() => Math.cos(cfg.radLen), () => Math.sin(cfg.radLen)],
+    {name:'', fixed:true, size:3, strokeColor:'#ef4444', fillColor:'#ef4444', withLabel:false});
+
+  // Repères gris
+  board.create('segment', [O, S], {strokeColor:'#9ca3af', strokeOpacity:0.7, strokeWidth:2});
+  board.create('segment', [O, P], {strokeColor:'#9ca3af', strokeOpacity:0.25, strokeWidth:2});
+
+  // FIL ROUGE selon phase
+  const filPhase1 = board.create('curve', [s => 1 - s, s => 0, 0, 1], {strokeColor:'#ef4444', strokeWidth:4, visible:true});
+  let k = 0; // portion d'arc visible pour phase 2
+  const filPhase2 = board.create('curve',
+    [t => Math.cos(t), t => Math.sin(t), 0, () => Math.max(k*cfg.radLen, 0.001)],
+    {strokeColor:'#ef4444', strokeWidth:4, visible:false});
+  const filPhase3 = board.create('curve',
+    [s => 1, s => s * cfg.radLen, 0, 1],
+    {strokeColor:'#ef4444', strokeWidth:4, visible:false});
+
+  // Pastilles: A fixe en (1,0), B varie selon phase
+  const A = board.create('point', [1,0], {name:'', size:3, strokeColor:'#ef4444', fillColor:'#ef4444', fixed:true});
+  const B = board.create('point', [0,0], {name:'', size:3, strokeColor:'#ef4444', fillColor:'#ef4444', fixed:true});
+
+  // progress p ∈ [0,3]  → phases: [0,1)=01, [1,2)=02, [2,3]=03
+  let p = 0;
+
+  function update() {
+    const phase = (p < 1) ? 1 : (p < 2) ? 2 : 3;
+    filPhase1.setAttribute({visible: phase === 1});
+    filPhase2.setAttribute({visible: phase === 2});
+    filPhase3.setAttribute({visible: phase === 3});
+
+    if (phase === 1) {
+      B.setPosition(JXG.COORDS_BY_USER, [0,0]);     // extrémité du rayon à O
+    } else if (phase === 2) {
+      k = Math.min(1, Math.max(0, p - 1));          // on dévoile l'arc
+      B.setPosition(JXG.COORDS_BY_USER, [Math.cos(cfg.radLen), Math.sin(cfg.radLen)]);
+    } else {
+      B.setPosition(JXG.COORDS_BY_USER, [1, cfg.radLen]); // segment vertical à x=1
+    }
+    board.update();
+  }
+
+  // Animation auto
+  let playing = false, raf = null, last = null;
+  function step(ts) {
+    if (!playing) { last=null; return; }
+    if (last==null) last = ts;
+    const dt = Math.min(0.04, (ts-last)/1000); last = ts;
+    p += cfg.speed * dt; if (p > 3) p -= 3;
+    update(); raf = requestAnimationFrame(step);
+  }
+  function play(){ if(playing) return; playing = true; raf = requestAnimationFrame(step); }
+  function pause(){ playing = false; if(raf) cancelAnimationFrame(raf); raf=null; }
+  function setProgress(v){ p = Math.max(0, Math.min(3, v)); update(); }
+
+  // maintien carré
+  const el = document.getElementById(containerId);
+  function resizeSquare(){ const w = el.clientWidth; board.resizeContainer(w, w); board.setBoundingBox(cfg.bbox, true); }
+  resizeSquare(); window.addEventListener('resize', resizeSquare);
+
+  update();
+  return { board, play, pause, setProgress, get progress(){ return p; } };
+}
+
+// === UI minimale (slider + boutons) ===
+function attachRadianUI(demo, controlsId) {
+  const root = document.getElementById(controlsId);
+  root.style.display = 'flex';
+  root.style.flexWrap = 'wrap';
+  root.style.gap = '8px';
+  root.style.alignItems = 'center';
+
+  const label = document.createElement('span');
+  label.textContent = 'Phase:';
+  const slider = document.createElement('input');
+  slider.type = 'range'; slider.min = '0'; slider.max = '3'; slider.step = '0.001'; slider.value = '0';
+  slider.style.width = '280px';
+
+  const phaseChip = document.createElement('span');
+  phaseChip.style.padding = '2px 8px';
+  phaseChip.style.border = '1px solid #e5e7eb';
+  phaseChip.style.borderRadius = '999px';
+  phaseChip.style.fontVariantNumeric = 'tabular-nums';
+  const playBtn = document.createElement('button');
+  playBtn.textContent = '▶︎ Lecture';
+  playBtn.style.padding = '6px 10px'; playBtn.style.borderRadius='8px'; playBtn.style.border='1px solid #e5e7eb'; playBtn.style.background='white'; playBtn.style.cursor='pointer';
+
+  const b1 = document.createElement('button'); b1.textContent = '01 Rayon';
+  const b2 = document.createElement('button'); b2.textContent = '02 Arc (1 rad)';
+  const b3 = document.createElement('button'); b3.textContent = '03 Verticale';
+  [b1,b2,b3].forEach(b => { b.style.padding='6px 10px'; b.style.borderRadius='8px'; b.style.border='1px solid #e5e7eb'; b.style.background='white'; b.style.cursor='pointer'; });
+
+  function phaseName(p){
+    if (p < 1) return '01 — Rayon';
+    if (p < 2) return '02 — Arc (1 rad)';
+    return '03 — Segment vertical';
+    }
+
+  function syncFromDemo(){
+    const p = demo.progress;
+    slider.value = p.toFixed(3);
+    phaseChip.textContent = phaseName(p);
+  }
+  function syncFromSlider(){
+    demo.pause?.();         // stop auto quand on manipule
+    demo.setProgress(parseFloat(slider.value));
+    phaseChip.textContent = phaseName(demo.progress);
+  }
+
+  slider.addEventListener('input', syncFromSlider);
+  playBtn.addEventListener('click', () => {
+    if (playBtn.textContent.startsWith('▶︎')) { playBtn.textContent = '⏸ Pause'; demo.play(); }
+    else { playBtn.textContent = '▶︎ Lecture'; demo.pause(); }
+  });
+  b1.addEventListener('click', () => { demo.pause(); demo.setProgress(0); syncFromDemo(); });
+  b2.addEventListener('click', () => { demo.pause(); demo.setProgress(1.6); syncFromDemo(); }); // milieu de la phase 2
+  b3.addEventListener('click', () => { demo.pause(); demo.setProgress(2.6); syncFromDemo(); });
+
+  root.append(label, slider, phaseChip, playBtn, b1, b2, b3);
+  syncFromDemo();
+}
+
+
+</script>
+
+
+</body>
+</html>
