@@ -39,8 +39,8 @@
     <div id="radianControls"></div>
     
 
-    <p class="legend"><span style="border-bottom:3px solid #ef4444">arc rouge</span> : longueur d’arc <em>s</em> depuis le point (1,0).<br>
-    <span style="border-bottom:3px solid #3b82f6">arc bleu fin</span> : repère du cercle unité. <span class="hint">Déplace le curseur ou lance l’animation.</span></p>
+    <p class="legend"><span style="border-bottom:3px solid #ef4444">rouge</span> : segment de longueur 1 posé en (1,0), rotation autour de (1,0), puis enroulement sur le cercle pour former un arc de longueur 1 (1 rad).<br>
+    <span style="border-bottom:3px solid #3b82f6">bleu</span> : repère du cercle unité. <span class="hint">Déplace le curseur ou lance l’animation.</span></p>
 
     <section>
       <h2 id="idee">Idée clé</h2>
@@ -67,8 +67,10 @@
 <script>
   const demo = createRadianThreePhase('radianBox', { speed: 1.0, radLen: 1.0 });
   attachRadianUI(demo, 'radianControls');
-// === Démo 3 phases ===
-// 01: rayon [(1,0) -> O]  |  02: arc de 1 rad depuis (1,0)  |  03: segment vertical à x=1 de hauteur 1 rad
+// === Démo 3 phases (segment -> rotation -> enroulement) ===
+// 01: segment [(0,0) -> (1,0)] (point fixe : (1,0))
+// 02: rotation autour de (1,0) jusqu'à [(1,0) -> (1,1)] (longueur conservée)
+// 03: segment « mou » qui se colle au cercle et devient l'arc de longueur 1 (1 rad)
 function createRadianThreePhase(containerId, opts = {}) {
   const cfg = {
     bbox: [-1.8, 1.8, 1.8, -1.8],
@@ -85,54 +87,120 @@ function createRadianThreePhase(containerId, opts = {}) {
     axis: cfg.showAxis,
     grid: cfg.showGrid,
     showNavigation: false,
-    showCopyright: false
+    showCopyright: false,
+    // on fige la vue (pas de zoom / pas de déplacement)
+    pan:  { enabled: false },
+    zoom: { enabled: false, wheel: false, pinch: false }
   });
 
   // Cercle unité
   const O = board.create('point', [0,0], {name:'', fixed:true, size:2, strokeColor:'#111', fillColor:'#111'});
   board.create('circle', [O, 1], {strokeWidth:2, strokeColor:'#3b82f6'});
 
-  // (1,0) FIXE
-  const S = board.create('point', [1,0], {name:'', fixed:true, size:3, strokeColor:'#ef4444', fillColor:'#ef4444'});
-  // point cible à angle 1 rad (repère)
-  const P = board.create('point', [() => Math.cos(cfg.radLen), () => Math.sin(cfg.radLen)],
-    {name:'', fixed:true, size:3, strokeColor:'#ef4444', fillColor:'#ef4444', withLabel:false});
+  // Point fixe (1,0) : pivot (ne bouge jamais)
+  const A = board.create('point', [1,0], {
+    name:'', fixed:true, size:3,
+    strokeColor:'#ef4444', fillColor:'#ef4444',
+    highlight:false, showInfobox:false
+  });
+
+  // Point cible à angle 1 rad (repère)
+  const P = board.create('point', [() => Math.cos(cfg.radLen), () => Math.sin(cfg.radLen)], {
+    name:'', fixed:true, size:3,
+    strokeColor:'#ef4444', fillColor:'#ef4444',
+    withLabel:false, highlight:false, showInfobox:false
+  });
 
   // Repères gris
-  board.create('segment', [O, S], {strokeColor:'#9ca3af', strokeOpacity:0.7, strokeWidth:2});
-  board.create('segment', [O, P], {strokeColor:'#9ca3af', strokeOpacity:0.25, strokeWidth:2});
+  board.create('segment', [O, A], {strokeColor:'#9ca3af', strokeOpacity:0.7, strokeWidth:2, fixed:true, highlight:false});
+  board.create('segment', [O, P], {strokeColor:'#9ca3af', strokeOpacity:0.25, strokeWidth:2, fixed:true, highlight:false});
 
-  // FIL ROUGE selon phase
-  const filPhase1 = board.create('curve', [s => 1 - s, s => 0, 0, 1], {strokeColor:'#ef4444', strokeWidth:4, visible:true});
-  let k = 0; // portion d'arc visible pour phase 2
-  const filPhase2 = board.create('curve',
-    [t => Math.cos(t), t => Math.sin(t), 0, () => Math.max(k*cfg.radLen, 0.001)],
-    {strokeColor:'#ef4444', strokeWidth:4, visible:false});
-  const filPhase3 = board.create('curve',
-    [s => 1, s => s * cfg.radLen, 0, 1],
-    {strokeColor:'#ef4444', strokeWidth:4, visible:false});
+  // Marqueur d'angle + label "1 rad" (affichés uniquement quand l'enroulement est terminé)
+  const angle1rad = board.create('angle', [A, O, P], {
+    radius: 0.35,
+    withLabel: false,
+    strokeWidth: 3,
+    strokeColor: '#ff6a00',
+    fillColor: '#ff6a00',
+    fillOpacity: 0.12,
+    fixed: true,
+    visible: false,
+    highlight: false
+  });
 
-  // Pastilles: A fixe en (1,0), B varie selon phase
-  const A = board.create('point', [1,0], {name:'', size:3, strokeColor:'#ef4444', fillColor:'#ef4444', fixed:true});
-  const B = board.create('point', [0,0], {name:'', size:3, strokeColor:'#ef4444', fillColor:'#ef4444', fixed:true});
+  const label1rad = board.create('text', [
+    () => 0.45 * Math.cos(cfg.radLen / 2),
+    () => 0.45 * Math.sin(cfg.radLen / 2),
+    '1 rad'
+  ], {
+    fontSize: 26,
+    strokeColor: '#ff6a00',
+    fixed: true,
+    visible: false,
+    anchorX: 'middle',
+    anchorY: 'middle',
+    highlight: false
+  });
+
+  // Autre extrémité (pilotée par l'animation)
+  const B = board.create('point', [0,0], {
+    name:'', fixed:true, size:3,
+    strokeColor:'#ef4444', fillColor:'#ef4444',
+    highlight:false, showInfobox:false
+  });
+
+  // Segment rigide (phases 1 & 2)
+  const rigidSeg = board.create('segment', [A, B], {
+    strokeColor:'#ef4444', strokeWidth:5,
+    highlight:false, fixed:true
+  });
+
+  // Phase 3 : segment "mou" qui s'enroule sur le cercle (arc de longueur cfg.radLen)
+  // bend ∈ [0,1] : 0 = segment vertical, 1 = arc sur le cercle.
+  let bend = 0;
+  const soft = board.create('curve',
+    [
+      t => (1 - bend) * 1 + bend * Math.cos(t),
+      t => (1 - bend) * t + bend * Math.sin(t),
+      0,
+      () => cfg.radLen
+    ],
+    {strokeColor:'#ef4444', strokeWidth:5, visible:false, highlight:false}
+  );
 
   // progress p ∈ [0,3]  → phases: [0,1)=01, [1,2)=02, [2,3]=03
   let p = 0;
 
   function update() {
     const phase = (p < 1) ? 1 : (p < 2) ? 2 : 3;
-    filPhase1.setAttribute({visible: phase === 1});
-    filPhase2.setAttribute({visible: phase === 2});
-    filPhase3.setAttribute({visible: phase === 3});
+    rigidSeg.setAttribute({ visible: phase !== 3 });
+    soft.setAttribute({ visible: phase === 3 });
 
     if (phase === 1) {
-      B.setPosition(JXG.COORDS_BY_USER, [0,0]);     // extrémité du rayon à O
+      // Segment initial : (0,0) -> (1,0) (A=(1,0) reste fixe)
+      B.setPosition(JXG.COORDS_BY_USER, [0, 0]);
+      bend = 0;
     } else if (phase === 2) {
-      k = Math.min(1, Math.max(0, p - 1));          // on dévoile l'arc
-      B.setPosition(JXG.COORDS_BY_USER, [Math.cos(cfg.radLen), Math.sin(cfg.radLen)]);
+      // Rotation autour de A=(1,0) jusqu'à (1,1) (longueur conservée)
+      const r = Math.min(1, Math.max(0, p - 1));
+      const ang = r * (Math.PI / 2); // 0 -> -90° (sens horaire)
+      const x = 1 - Math.cos(ang);
+      const y = Math.sin(ang);
+      B.setPosition(JXG.COORDS_BY_USER, [x, y]);
+      bend = 0;
     } else {
-      B.setPosition(JXG.COORDS_BY_USER, [1, cfg.radLen]); // segment vertical à x=1
+      // Enroulement : le point A=(1,0) reste fixe, l'autre extrémité se colle au cercle.
+      bend = Math.min(1, Math.max(0, p - 2));
+      const xEnd = (1 - bend) * 1 + bend * Math.cos(cfg.radLen);
+      const yEnd = (1 - bend) * cfg.radLen + bend * Math.sin(cfg.radLen);
+      B.setPosition(JXG.COORDS_BY_USER, [xEnd, yEnd]);
     }
+
+    // Affichage final : uniquement quand l'enroulement est complet
+    const showFinal = (phase === 3) && (bend >= 0.999);
+    angle1rad.setAttribute({ visible: showFinal });
+    label1rad.setAttribute({ visible: showFinal });
+
     board.update();
   }
 
@@ -181,15 +249,15 @@ function attachRadianUI(demo, controlsId) {
   playBtn.textContent = '▶︎ Lecture';
   playBtn.style.padding = '6px 10px'; playBtn.style.borderRadius='8px'; playBtn.style.border='1px solid #e5e7eb'; playBtn.style.background='white'; playBtn.style.cursor='pointer';
 
-  const b1 = document.createElement('button'); b1.textContent = '01 Rayon';
-  const b2 = document.createElement('button'); b2.textContent = '02 Arc (1 rad)';
-  const b3 = document.createElement('button'); b3.textContent = '03 Verticale';
+  const b1 = document.createElement('button'); b1.textContent = '01 Segment';
+  const b2 = document.createElement('button'); b2.textContent = '02 Rotation';
+  const b3 = document.createElement('button'); b3.textContent = '03 Enroulement';
   [b1,b2,b3].forEach(b => { b.style.padding='6px 10px'; b.style.borderRadius='8px'; b.style.border='1px solid #e5e7eb'; b.style.background='white'; b.style.cursor='pointer'; });
 
   function phaseName(p){
-    if (p < 1) return '01 — Rayon';
-    if (p < 2) return '02 — Arc (1 rad)';
-    return '03 — Segment vertical';
+    if (p < 1) return '01 — Segment';
+    if (p < 2) return '02 — Rotation';
+    return '03 — Enroulement';
     }
 
   function syncFromDemo(){
