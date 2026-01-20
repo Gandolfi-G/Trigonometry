@@ -35,7 +35,7 @@
 <main class="container page-with-toc">
   <div>
     <h1 id="top">02. Périmètre du cercle unité</h1>
-    <p class="lead">On “déroule” le demi-cercle (longueur d’arc = π) pour le poser sur une règle : on lit π, donc le périmètre vaut 2π.</p>
+    <p class="lead">On “déroule” le demi-cercle du cercle unité sur une règle : on lit environ <strong>3,14</strong>. Cette longueur est notée <strong>&pi;</strong> ; donc le périmètre complet vaut <strong>2&pi;</strong>.</p>
 
     <!-- Animation en tête de page -->
     <div class="board-wrap">
@@ -52,26 +52,40 @@
       <div class="legend" id="legend">Le demi-cercle (longueur π) est déroulé sur la règle…</div>
     </div>
 
-    <!-- Sections (à compléter quand tu veux) -->
-    <section id="storyboard">
-      <h2>Storyboard</h2>
-      <details id="plan1"><summary>Plan 1 — Sélection du demi-cercle</summary>
-        <p>On isole la partie supérieure du cercle unité.</p>
-      </details>
-      <details id="plan2"><summary>Plan 2 — Déroulage</summary>
-        <p>Le demi-cercle se pose sur une règle horizontale graduée de 0 à π.</p>
-      </details>
-      <details id="plan3"><summary>Plan 3 — Lecture</summary>
-        <p>On lit la longueur π, donc le périmètre du cercle unité est 2π.</p>
-      </details>
+    <section id="pi">
+      <h2>&pi; : la longueur du demi-périmètre</h2>
+      <p>
+        Sur le <strong>cercle unité</strong>, le rayon vaut <strong>1</strong>. Si l’on prend le <strong>demi-cercle supérieur</strong>
+        et qu’on le « déroule » sur une règle (comme dans l’animation), on obtient une longueur qui n’est pas un nombre simple.
+        Cette longueur est notée <strong>&pi;</strong>.
+      </p>
+      <p>
+        Sur une règle, on peut seulement en donner une <strong>approximation</strong> :
+        <strong>&pi; &asymp; 3,14</strong>.
+        Autrement dit, <strong>3,14</strong> est une valeur <em>approchée</em>, tandis que <strong>&pi;</strong> désigne la valeur exacte.
+      </p>
+    </section>
+
+    <section id="formule">
+      <h2>Formule du périmètre d’un cercle</h2>
+      <p>
+        Pour un cercle de rayon <strong>r</strong>, le périmètre (la circonférence) est :
+        <strong>P = 2&pi;r</strong>.
+        (Équivalent : <strong>P = &pi;d</strong> avec <strong>d</strong> le diamètre.)
+      </p>
+      <p>
+        Dans le cas du <strong>cercle unité</strong> (rayon <strong>r = 1</strong>), on obtient :
+        <strong>P = 2&pi;</strong>. Donc le <strong>demi-périmètre</strong> vaut <strong>&pi;</strong>.
+      </p>
     </section>
 
     <section id="points-cles">
       <h2>Points-clés</h2>
       <ul>
         <li>Cercle unité : rayon 1.</li>
-        <li>Demi-périmètre = π.</li>
-        <li>Périmètre total = 2π.</li>
+        <li>Demi-périmètre = &pi; &asymp; 3,14.</li>
+        <li>Formule générale : <strong>P = 2&pi;r</strong>.</li>
+        <li>Pour le cercle unité : <strong>P = 2&pi;</strong>.</li>
       </ul>
     </section>
 
@@ -79,7 +93,7 @@
       <h2>Exercices rapides</h2>
       <ol>
         <li>Donner la longueur d’un arc correspondant à un angle de 120° sur le cercle unité.</li>
-        <li>Que vaut la longueur d’arc entre 0 et 3π/2 ?</li>
+        <li>Que vaut la longueur d’arc entre 0 et <span style="white-space:nowrap">3&pi;/2</span> ?</li>
       </ol>
     </section>
 
@@ -92,7 +106,8 @@
     <h3>Sur cette page</h3>
     <ul>
       <li><a href="#top">Titre</a></li>
-      <li><a href="#storyboard">Storyboard</a></li>
+      <li><a href="#pi">&pi; (demi-périmètre)</a></li>
+      <li><a href="#formule">Formule du périmètre</a></li>
       <li><a href="#points-cles">Points-clés</a></li>
       <li><a href="#exercices">Exercices</a></li>
     </ul>
@@ -115,39 +130,118 @@
     grid: true,
     keepaspectratio: true,
     showNavigation: false,
-    showCopyright: false
+    showCopyright: false,
+    // On fige l'interaction : pas de pan / zoom (on évite de "casser" la mise en page règle + cercle)
+    pan:  { enabled: false },
+    zoom: { enabled: false, wheel: false, pinch: false }
   });
 
+  // --- Mise en page : zone blanche "au-dessus" pour la règle ---
+  // La grille et les axes restent actifs sur le board, mais on les masque sur une bande supérieure.
+  const ySplit = 1.9; // séparation visuelle (au-dessus = règle, en dessous = cercle + grille)
+  const m1 = board.create('point', [BB[0], BB[1]], { visible: false, fixed: true, highlight: false });
+  const m2 = board.create('point', [BB[2], BB[1]], { visible: false, fixed: true, highlight: false });
+  const m3 = board.create('point', [BB[2], ySplit], { visible: false, fixed: true, highlight: false });
+  const m4 = board.create('point', [BB[0], ySplit], { visible: false, fixed: true, highlight: false });
+  const topMask = board.create('polygon', [m1, m2, m3, m4], {
+    fillColor: '#ffffff',
+    fillOpacity: 1,
+    borders: { strokeWidth: 0 },
+    fixed: true,
+    highlight: false,
+    layer: 2
+  });
+  // Ceinture + bretelles : on fige les sommets de la zone masque.
+  topMask.vertices.forEach(v => v.setAttribute({ visible: false, fixed: true, highlight: false }));
+
   // --- Scène : cercle + arc demi-cercle + règle + morphing ---
-  const O = board.create('point', [0, 0], { name: '', visible: false });
-  const circle = board.create('circle', [O, 1], { strokeColor: '#eab308', strokeWidth: 4 });
+  const O = board.create('point', [0, 0], { name: '', visible: false, fixed: true, highlight: false });
+  const circle = board.create('circle', [O, 1], { strokeColor: '#eab308', strokeWidth: 4, fixed: true, highlight: false });
 
   // Points de l'arc (0→π) et de la ligne cible (0→π) posée à droite
   const steps = 240;
   const arcPts = [];
   const linePts = [];
-  const x0 = -1, y0 = 1.5;
+  const x0 = -1.15, y0 = 2.45; // règle dans la bande blanche du haut
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
     const th = t * Math.PI;
     arcPts.push([Math.cos(th), Math.sin(th)]);
+    // Sur la règle : on déroule l'arc de 0 à π de gauche à droite
     linePts.push([x0 + (Math.PI - th), y0]);
   }
 
   // Courbe "fil rouge" (arc → segment)
   let curr = arcPts.map(p => p.slice());
   let curve = board.create('curve', [curr.map(p => p[0]), curr.map(p => p[1])],
-                           { strokeColor: '#ef4444', strokeWidth: 4 });
+                           { strokeColor: '#ef4444', strokeWidth: 4, fixed: true, highlight: false, layer: 6 });
 
-  // Règle 0→π à droite
-  board.create('segment', [[x0, y0], [x0 + Math.PI, y0]], { strokeColor: '#93a3b8', strokeWidth: 2 });
-  for (let k = 0; k <= 4; k++) {
+  // --- Règle (style "règle") dans la bande blanche ---
+  // Corps de la règle
+  const rPadX = 0.20;
+  const rPadY = 0.26;
+  const r1 = board.create('point', [x0 - rPadX, y0 + rPadY], { visible: false, fixed: true, highlight: false });
+  const r2 = board.create('point', [x0 + Math.PI + rPadX, y0 + rPadY], { visible: false, fixed: true, highlight: false });
+  const r3 = board.create('point', [x0 + Math.PI + rPadX, y0 - rPadY], { visible: false, fixed: true, highlight: false });
+  const r4 = board.create('point', [x0 - rPadX, y0 - rPadY], { visible: false, fixed: true, highlight: false });
+  const rulerBody = board.create('polygon', [r1, r2, r3, r4], {
+    fillColor: '#f8fafc',
+    fillOpacity: 1,
+    borders: { strokeColor: '#cbd5e1', strokeWidth: 2 },
+    fixed: true,
+    highlight: false,
+    layer: 4
+  });
+  rulerBody.vertices.forEach(v => v.setAttribute({ visible: false, fixed: true, highlight: false }));
+
+  // Trait principal de la règle (graduations)
+  board.create('segment', [[x0, y0], [x0 + Math.PI, y0]], {
+    strokeColor: '#64748b',
+    strokeWidth: 3,
+    fixed: true,
+    highlight: false,
+    layer: 5
+  });
+
+  // Graduations + labels
+  const marks = [
+    {k: 0,   label: '0',        major: true},
+    {k: 1,   label: '&pi;/4',   major: false},
+    {k: 2,   label: '&pi;/2',   major: true},
+    {k: 3,   label: '3&pi;/4',  major: false},
+    {k: 4,   label: '&pi;',     major: true},
+  ];
+  marks.forEach(({k, label, major}) => {
     const xk = x0 + k * (Math.PI / 4);
-    board.create('segment', [[xk, y0 - 0.08], [xk, y0 + 0.08]], { strokeColor: '#93a3b8', strokeWidth: 2 });
-  }
-  board.create('segment', [[x0 + Math.PI, y0 - 0.13], [x0 + Math.PI, y0 + 0.13]], { strokeColor: '#ffffff', strokeWidth: 3 });
-  const piLabel  = board.create('text', [x0 + Math.PI, y0 + 0.22, '&pi;'],    { anchorX: 'middle', anchorY: 'bottom', fontSize: 14, strokeColor: '#ffffff' });
-  const piApprox = board.create('text', [x0 + Math.PI, y0 - 0.28, '&asymp; 3,14'], { anchorX: 'middle', anchorY: 'top', fontSize: 12, strokeColor: '#94a3b8' });
+    const h  = major ? 0.16 : 0.11;
+    board.create('segment', [[xk, y0 - h], [xk, y0 + h]], {
+      strokeColor: '#64748b',
+      strokeWidth: major ? 3 : 2,
+      fixed: true,
+      highlight: false,
+      layer: 5
+    });
+    board.create('text', [xk, y0 - (rPadY + 0.08), label], {
+      anchorX: 'middle',
+      anchorY: 'top',
+      fontSize: 12,
+      strokeColor: '#0f172a',
+      fixed: true,
+      highlight: false,
+      layer: 6
+    });
+  });
+
+  // Indication "≈ 3,14" au niveau de π
+  board.create('text', [x0 + Math.PI, y0 + (rPadY + 0.10), '&asymp; 3,14'], {
+    anchorX: 'middle',
+    anchorY: 'bottom',
+    fontSize: 12,
+    strokeColor: '#64748b',
+    fixed: true,
+    highlight: false,
+    layer: 6
+  });
 
   // --- Contrôles ---
   const slider = document.getElementById('slider');
@@ -173,7 +267,7 @@
     // recrée la courbe avec nouveaux points
     board.removeObject(curve);
     curve = board.create('curve', [curr.map(p => p[0]), curr.map(p => p[1])],
-                         { strokeColor: '#ef4444', strokeWidth: 4 });
+                         { strokeColor: '#ef4444', strokeWidth: 4, fixed: true, highlight: false, layer: 6 });
     board.update();
 
     if (legend){
