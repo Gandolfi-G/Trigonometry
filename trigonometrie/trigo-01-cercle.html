@@ -4,14 +4,40 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
   <!-- JSXGraph (CDN) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
   <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+
   <style>
     /* Conteneur responsive et carré */
     .board-wrap{max-width:720px;margin:1rem 0}
     #cercle-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:10px}
+
+    /* Panneau de contrôle */
+    .mini-panel{max-width:720px;border:1px solid #e5e7eb;border-radius:12px;padding:0.9rem 1rem;background:#fff}
+    .mini-panel h3{margin:0 0 0.25rem 0;font-size:1.05rem}
+    .mini-panel p{margin:0.25rem 0 0.6rem 0;color:#374151;line-height:1.45}
+    .controls-row{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin:0.5rem 0}
+    .controls-row .field{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap}
+    .controls-row input[type="range"]{width:320px;max-width:100%}
+
+    /* Boutons: on ne dépend pas forcément du CSS global */
+    button.button{
+      appearance:none;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+      padding:0.55rem 0.9rem;border-radius:10px;background:#111827;color:#fff;font-weight:600
+    }
+    button.button.secondary{background:#374151}
+    button.button.outline{background:transparent;color:#111827;border:1px solid #d1d5db}
+    button.button.active{outline:3px solid rgba(59,130,246,0.35)}
+
+    .readout{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:0.95rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:0.65rem 0.8rem;line-height:1.45}
+    .note{color:#6b7280;font-size:0.95rem;margin-top:0.25rem;line-height:1.45}
+
+    .pill{display:inline-block;border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:.15rem .55rem;font-weight:600}
   </style>
+
   <title>01. Le cercle trigonométrique</title>
 </head>
 <body>
@@ -25,38 +51,116 @@
 <main class="container page-with-toc">
   <div>
     <h1 id="top">01. Le cercle trigonométrique</h1>
-    <p class="lead">Repère orthonormé, sens trigonométrique, rayon 1, points cardinaux et angles repères.</p>
-    <div class="board-wrap">
-      <div id="cercle-box"></div>
-    </div>
-    <section id="storyboard">
-     
+    <p class="lead">
+      Le <strong>cercle trigonométrique</strong> est le <strong>cercle unité</strong> : un cercle de <strong>rayon 1</strong>,
+      centré en <strong>O</strong>, placé dans un repère orthonormé.
+      Il sert à associer à un angle orienté <span class="pill">θ</span> un point <span class="pill">M</span> sur le cercle,
+      et donc des valeurs de <strong>cos(θ)</strong> et <strong>sin(θ)</strong>.
+    </p>
+
+    <section id="definition">
+      <h2>Définition et vocabulaire</h2>
+      <ul>
+        <li><strong>Point de départ</strong> : <span class="pill">A(1,0)</span> correspond à l’angle <span class="pill">0</span>.</li>
+        <li><strong>Sens trigonométrique</strong> : rotation <strong>anti‑horaire</strong> → angles <strong>positifs</strong>.</li>
+        <li><strong>Sens horaire</strong> : rotation <strong>horaire</strong> → angles <strong>négatifs</strong>.</li>
+        <li><strong>Un tour complet</strong> : <span class="pill">2π</span> radians = <span class="pill">360°</span>.</li>
+        <li>Si <span class="pill">M</span> correspond à l’angle θ, alors <strong>M(cos(θ), sin(θ))</strong>.</li>
+      </ul>
+      <p class="note">
+        Sur cette page, vous pouvez faire varier l’angle, déplacer le point rouge, et surtout visualiser
+        la différence entre <strong>anti‑horaire</strong> (θ &gt; 0) et <strong>horaire</strong> (θ &lt; 0).
+      </p>
     </section>
 
-    <section id="points-cles">
-      <h2>Points-clés</h2>
+    <div class="board-wrap" aria-label="Cercle trigonométrique interactif">
+      <div id="cercle-box"></div>
+    </div>
+
+    <section id="animation-sens" class="mini-panel" aria-label="Animation du sens horaire et anti-horaire">
+      <h3>Animation : sens anti‑horaire (positif) vs sens horaire (négatif)</h3>
+      <p>
+        Choisissez un sens, puis faites varier l’angle. La <strong>courbe fléchée</strong> autour du cercle montre
+        l’angle orienté mesuré depuis <span class="pill">A(1,0)</span> :
+        <strong>en anti‑horaire</strong> l’angle est positif, <strong>en horaire</strong> il est négatif.
+      </p>
+
+      <div class="controls-row">
+        <button id="btn-ccw" class="button active" type="button">Anti‑horaire (θ positif)</button>
+        <button id="btn-cw" class="button outline" type="button">Horaire (θ négatif)</button>
+        <button id="btn-play" class="button secondary" type="button">Lecture</button>
+        <button id="btn-stop" class="button outline" type="button">Stop</button>
+      </div>
+
+      <div class="controls-row">
+        <div class="field">
+          <label for="angleRange"><strong>Angle θ</strong> (degrés, signé)</label>
+          <input id="angleRange" type="range" min="0" max="360" value="0" step="1" aria-label="Angle en degrés">
+          <span id="angleDeg" aria-live="polite">0°</span>
+        </div>
+      </div>
+
+      <div id="angleReadout" class="readout"></div>
+      <div class="note">
+        Astuce : vous pouvez aussi <strong>glisser‑déposer</strong> le point rouge sur le cercle.
+        En mode horaire, l’angle affiché est négatif (rotation dans le sens des aiguilles).
+      </div>
+    </section>
+
+    <section id="angle-oriente">
+      <h2>Angle orienté et périodicité</h2>
+      <p>
+        Deux angles qui diffèrent d’un multiple de <strong>2π</strong> (ou de <strong>360°</strong>) correspondent au même point du cercle.
+        Par exemple : <span class="pill">30°</span>, <span class="pill">390°</span> et <span class="pill">−330°</span> donnent le même point.
+      </p>
+      <p class="note">
+        C’est une idée importante : un point sur le cercle peut être décrit par un angle <em>positif</em> (anti‑horaire)
+        ou par un angle <em>négatif</em> (horaire).
+      </p>
+    </section>
+
+    <section id="cos-sin">
+      <h2>Lire cos(θ) et sin(θ) sur le cercle</h2>
+      <p>
+        Si <span class="pill">M</span> est le point du cercle associé à θ, alors :
+        <strong>cos(θ)</strong> est l’<strong>abscisse</strong> de M (projection sur l’axe horizontal) et
+        <strong>sin(θ)</strong> est l’<strong>ordonnée</strong> de M (projection sur l’axe vertical).
+        Les pointillés rouges/verts sur la figure montrent ces projections.
+      </p>
       <ul>
-        <li>Cercle de centre O, <strong>rayon 1</strong> : on parle de « cercle unité ».</li>
-        <li>Orientation <strong>sens trigonométrique</strong> (anti-horaire).</li>
-        <li>Angles repères : 0, π/2, π, 3π/2, 2π.</li>
-        <li>Points sur le cercle : (1,0), (0,1), (-1,0), (0,-1).</li>
+        <li>Quadrant I : cos &gt; 0, sin &gt; 0</li>
+        <li>Quadrant II : cos &lt; 0, sin &gt; 0</li>
+        <li>Quadrant III : cos &lt; 0, sin &lt; 0</li>
+        <li>Quadrant IV : cos &gt; 0, sin &lt; 0</li>
       </ul>
     </section>
 
-    <section id="exemples">
-      <h2>Exemples visuels</h2>
+    <section id="angles-reperes">
+      <h2>Angles repères (points cardinaux)</h2>
+      <p>
+        Les angles <span class="pill">0</span>, <span class="pill">π/2</span>, <span class="pill">π</span>, <span class="pill">3π/2</span> et <span class="pill">2π</span>
+        permettent de retrouver rapidement les points :
+        <span class="pill">(1,0)</span>, <span class="pill">(0,1)</span>, <span class="pill">(−1,0)</span>, <span class="pill">(0,−1)</span>, <span class="pill">(1,0)</span>.
+      </p>
+    </section>
+
+    <section id="points-cles">
+      <h2>Points clés</h2>
       <ul>
-        <li>Placer le point M à 45° (π/4) : il est dans le 1er quadrant.</li>
-        <li>Placer le point N à 210° (7π/6) : il est dans le 3e quadrant.</li>
+        <li>Cercle unité : centre O, <strong>rayon 1</strong>.</li>
+        <li>Point de départ A(1,0) : angle 0.</li>
+        <li>Anti‑horaire : angles positifs. Horaire : angles négatifs.</li>
+        <li>Coordonnées : <strong>M(cos(θ), sin(θ))</strong>.</li>
+        <li>Périodicité : θ et θ + 2kπ donnent le même point (k entier).</li>
       </ul>
     </section>
 
     <section id="exercices">
       <h2>Exercices rapides</h2>
       <ol>
-        <li>Donner les coordonnées exactes des points A, B, C, D du cercle unité.</li>
-        <li>Dire dans quel quadrant se trouve un angle : 30°, 120°, 225°, 330°.</li>
-        <li>Convertir : 360° → ? rad ; π → ? degrés.</li>
+        <li>Donner les coordonnées exactes des points pour 0, π/2, π, 3π/2.</li>
+        <li>Dire dans quel quadrant se trouve : 30°, 120°, 225°, 330°.</li>
+        <li>Convertir : 360° → ? rad ; π → ?°.</li>
       </ol>
     </section>
 
@@ -82,15 +186,15 @@
           <div class="feedback"></div>
         </div>
         <div class="q" data-qid="q3" data-answer="B">
-          <div class="question">L’angle 3π/2 correspond au point :</div>
+          <div class="question">L'angle 3π/2 correspond au point :</div>
           <div class="answers">
             <label><input type="radio" name="q3" value="A"> (1, 0)</label>
-            <label><input type="radio" name="q3" value="B"> (0, -1)</label>
-            <label><input type="radio" name="q3" value="C"> (-1, 0)</label>
+            <label><input type="radio" name="q3" value="B"> (0, −1)</label>
+            <label><input type="radio" name="q3" value="C"> (−1, 0)</label>
           </div>
           <div class="feedback"></div>
         </div>
-        <button class="check">Vérifier</button>
+        <button class="check" type="button">Vérifier</button>
         <div class="score" aria-live="polite"></div>
       </div>
     </section>
@@ -103,18 +207,12 @@
   <aside class="local-toc">
     <h3>Sur cette page</h3>
     <ul>
-      <li><a href="#top">Titre</a></li>
-      <li><a href="#storyboard">Storyboard</a>
-        <ul>
-          <li><a href="#plan1">Plan 1</a></li>
-          <li><a href="#plan2">Plan 2</a></li>
-          <li><a href="#plan3">Plan 3</a></li>
-          <li><a href="#plan4">Plan 4</a></li>
-          <li><a href="#plan5">Plan 5</a></li>
-        </ul>
-      </li>
-      <li><a href="#points-cles">Points-clés</a></li>
-      <li><a href="#exemples">Exemples visuels</a></li>
+      <li><a href="#definition">Définition</a></li>
+      <li><a href="#animation-sens">Animation (sens)</a></li>
+      <li><a href="#angle-oriente">Angle orienté</a></li>
+      <li><a href="#cos-sin">Lire cos / sin</a></li>
+      <li><a href="#angles-reperes">Angles repères</a></li>
+      <li><a href="#points-cles">Points clés</a></li>
       <li><a href="#exercices">Exercices</a></li>
       <li><a href="#quiz">Quiz</a></li>
     </ul>
@@ -135,6 +233,14 @@
     showCopyright: false
   });
 
+  const TWO_PI = 2 * Math.PI;
+
+  function normAngle(a){
+    a = a % TWO_PI;
+    if (a < 0) a += TWO_PI;
+    return a;
+  }
+
   // Centre O (sans label)
   const O = board.create('point', [0, 0], {
     name: '',
@@ -147,21 +253,254 @@
   // Cercle unité (rayon = 1)
   const C = board.create('circle', [O, 1], {
     strokeWidth: 3,
-    strokeColor: '#eab308' /* jaune doux */
+    strokeColor: '#111827'
+  });
+
+  // Rayon de référence OA
+  const OA = board.create('segment', [O, [1, 0]], {
+    strokeColor: '#111827',
+    strokeOpacity: 0.35,
+    strokeWidth: 2,
+    dash: 1
   });
 
   // Point P qui glisse sur le cercle (label masqué)
   const P = board.create('glider', [1, 0, C], {
     name: '',
-    size: 3.5,
+    size: 4,
     strokeColor: '#ef4444',
     fillColor: '#ef4444',
     withLabel: false
   });
 
-  // Option : petit rayon OP (léger) purement visuel
+  // Segment OP
   const OP = board.create('segment', [O, () => [P.X(), P.Y()]], {
-    strokeColor: '#9ca3af', strokeOpacity: 0.5, strokeWidth: 2
+    strokeColor: '#9ca3af', strokeOpacity: 0.65, strokeWidth: 2
+  });
+
+  // Projections cos/sin (pointillés)
+  const H = board.create('point', [() => P.X(), 0], {visible:false, fixed:true});
+  const V = board.create('point', [0, () => P.Y()], {visible:false, fixed:true});
+
+  board.create('segment', [H, P], {
+    dash: 2,
+    strokeWidth: 2,
+    strokeColor: '#ef4444',
+    strokeOpacity: 0.9
+  });
+
+  board.create('segment', [V, P], {
+    dash: 2,
+    strokeWidth: 2,
+    strokeColor: '#16a34a',
+    strokeOpacity: 0.9
+  });
+
+  // Labels cos/sin (placés à peu près au milieu des projections)
+  board.create('text', [() => P.X()/2, -0.12, () => 'cos(θ)'], {
+    fixed: true,
+    anchorX: 'middle',
+    anchorY: 'top',
+    fontSize: 14
+  });
+
+  board.create('text', [-0.22, () => P.Y()/2, () => 'sin(θ)'], {
+    fixed: true,
+    anchorX: 'right',
+    anchorY: 'middle',
+    fontSize: 14
+  });
+
+  // Étiquette A(1,0)
+  board.create('text', [1.05, -0.18, 'A(1,0)'], {
+    fixed: true,
+    anchorX: 'left',
+    anchorY: 'middle'
+  });
+
+  // Arcs "légende" (faibles) pour rappeler les deux sens
+  function makeArc(radius, startAngle, endAngle, color){
+    return board.create('curve', [
+      (u) => radius * Math.cos(startAngle + (endAngle - startAngle) * u),
+      (u) => radius * Math.sin(startAngle + (endAngle - startAngle) * u),
+      0, 1
+    ], {
+      strokeWidth: 3,
+      strokeColor: color,
+      strokeOpacity: 0.25,
+      lastArrow: true
+    });
+  }
+
+  const ccwArc = makeArc(1.30, Math.PI/6, 5*Math.PI/6, '#2563eb'); // anti-horaire
+  const cwArc  = makeArc(1.40, 5*Math.PI/6, Math.PI/6, '#f97316'); // horaire
+
+  // UI
+  const btnCCW = document.getElementById('btn-ccw');
+  const btnCW = document.getElementById('btn-cw');
+  const btnPlay = document.getElementById('btn-play');
+  const btnStop = document.getElementById('btn-stop');
+  const angleRange = document.getElementById('angleRange');
+  const angleDegEl = document.getElementById('angleDeg');
+  const readoutEl = document.getElementById('angleReadout');
+
+  let theta = 0; // mesure trigonométrique positive (en rad) dans [0, 2π)
+  let dir = +1;  // +1 = anti-horaire, -1 = horaire
+  let rafId = null;
+
+  function thetaSigned(){
+    // Angle orienté affiché : positif si anti-horaire, négatif si horaire.
+    if (dir === +1) return theta;
+    const mag = normAngle(TWO_PI - theta); // valeur dans [0, 2π)
+    return (mag === 0) ? 0 : -mag;
+  }
+
+  // Arc dynamique (montre l’angle orienté mesuré)
+  const arcRadius = 1.18;
+  const measureArc = board.create('curve', [
+    (u) => arcRadius * Math.cos(u * thetaSigned()),
+    (u) => arcRadius * Math.sin(u * thetaSigned()),
+    0, 1
+  ], {
+    strokeWidth: 4,
+    strokeColor: '#2563eb',
+    strokeOpacity: 0.95,
+    lastArrow: true
+  });
+
+  const angleLabel = board.create('text', [
+    () => (arcRadius + 0.13) * Math.cos(thetaSigned()/2),
+    () => (arcRadius + 0.13) * Math.sin(thetaSigned()/2),
+    () => (dir === +1 ? 'θ' : '−θ')
+  ], {
+    fixed: true,
+    fontSize: 16,
+    anchorX: 'middle',
+    anchorY: 'middle'
+  });
+
+  function stop(){
+    if (rafId !== null){
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+
+  function syncSliderBounds(){
+    if (dir === +1){
+      angleRange.min = '0';
+      angleRange.max = '360';
+    } else {
+      angleRange.min = '-360';
+      angleRange.max = '0';
+    }
+  }
+
+  function syncSliderValue(){
+    const deg = Math.round(thetaSigned() * 180 / Math.PI);
+    angleRange.value = String(deg);
+    angleDegEl.textContent = `${deg}°`;
+  }
+
+  function setTheta(newTheta, syncSlider){
+    theta = normAngle(newTheta);
+
+    const x = Math.cos(theta);
+    const y = Math.sin(theta);
+    P.moveTo([x, y], 0);
+
+    if (syncSlider){
+      syncSliderValue();
+    }
+
+    updateReadout();
+    board.update();
+  }
+
+  function updateReadout(){
+    const ts = thetaSigned();
+
+    const degSigned = ts * 180 / Math.PI;
+    const degPos = theta * 180 / Math.PI;
+
+    const x = Math.cos(theta);
+    const y = Math.sin(theta);
+
+    // tan : éviter l'infini (cos proche de 0)
+    let tanStr = 'indéfinie';
+    if (Math.abs(x) > 1e-6){
+      tanStr = (y / x).toFixed(4);
+    }
+
+    // visibilite du label d’angle (éviter le "tas" au voisinage de 0)
+    angleLabel.setAttribute({ visible: Math.abs(ts) > 0.15 });
+
+    // Couleur de l’arc dynamique
+    measureArc.setAttribute({ strokeColor: (dir === +1 ? '#2563eb' : '#f97316') });
+
+    // Mettre en valeur l’arc de légende sélectionné
+    ccwArc.setAttribute({strokeOpacity: dir === +1 ? 0.55 : 0.15});
+    cwArc.setAttribute({strokeOpacity: dir === -1 ? 0.55 : 0.15});
+
+    const sens = (dir === +1) ? 'anti‑horaire (θ positif)' : 'horaire (θ négatif)';
+
+    // Affichage angle en degrés
+    angleDegEl.textContent = `${Math.round(degSigned)}°`;
+
+    readoutEl.innerHTML =
+      `Sens sélectionné : <strong>${sens}</strong><br>` +
+      `Angle affiché : θ = <strong>${ts.toFixed(4)}</strong> rad (${degSigned.toFixed(1)}°)<br>` +
+      `Angle équivalent dans [0, 2π[ : <strong>${theta.toFixed(4)}</strong> rad (${degPos.toFixed(1)}°)<br>` +
+      `Point M(cos(θ), sin(θ)) = (<strong>${x.toFixed(4)}</strong>, <strong>${y.toFixed(4)}</strong>)<br>` +
+      `tan(θ) = ${tanStr}`;
+  }
+
+  function setDir(newDir){
+    dir = newDir;
+
+    btnCCW.classList.toggle('active', dir === +1);
+    btnCW.classList.toggle('active', dir === -1);
+    btnCCW.classList.toggle('outline', dir !== +1);
+    btnCW.classList.toggle('outline', dir !== -1);
+
+    syncSliderBounds();
+    syncSliderValue();
+    updateReadout();
+    board.update();
+  }
+
+  function play(){
+    stop();
+    let last = null;
+    const speed = 0.75; // rad/s
+
+    function step(ts){
+      if (last === null) last = ts;
+      const dt = (ts - last) / 1000;
+      last = ts;
+      setTheta(theta + dir * speed * dt, true);
+      rafId = requestAnimationFrame(step);
+    }
+
+    rafId = requestAnimationFrame(step);
+  }
+
+  // Interactions
+  btnCCW.addEventListener('click', () => { stop(); setDir(+1); });
+  btnCW.addEventListener('click', () => { stop(); setDir(-1); });
+  btnPlay.addEventListener('click', () => { play(); });
+  btnStop.addEventListener('click', () => { stop(); });
+
+  angleRange.addEventListener('input', (e) => {
+    stop();
+    const deg = Number(e.target.value); // signé
+    setTheta(deg * Math.PI / 180, false);
+  });
+
+  // Drag du point P
+  P.on('drag', () => {
+    stop();
+    setTheta(Math.atan2(P.Y(), P.X()), true);
   });
 
   // Maintenir le canvas carré au resize
@@ -173,6 +512,10 @@
   }
   resizeSquare();
   window.addEventListener('resize', resizeSquare);
+
+  // État initial
+  setDir(+1);
+  setTheta(0, true);
 })();
 </script>
 
