@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Outil. Paramétrage des rotations</title>
+  <style>
+    .cfg-page{max-width:1040px;margin:1.5rem auto;padding:0 1rem 2rem}
+    .cfg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+    @media (max-width: 900px){.cfg-grid{grid-template-columns:1fr}}
+
+    .card{border:1px solid #e5e7eb;border-radius:12px;background:#fff;padding:1rem;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+    .card h2,.card h3{margin:.1rem 0 .7rem 0}
+    .stack{display:flex;flex-direction:column;gap:.6rem}
+    .row{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center}
+    .list{display:flex;flex-wrap:wrap;gap:.6rem 1rem}
+
+    label{font-weight:600}
+    input[type="text"], select, textarea{font:inherit;padding:.5rem .6rem;border:1px solid #d1d5db;border-radius:8px;width:100%;box-sizing:border-box}
+    textarea{min-height:84px;resize:vertical}
+
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.55rem .8rem;font-weight:800;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .hint{margin:0;font-size:.92rem;opacity:.82}
+    .ok{color:#047857;font-weight:700;min-height:1.2em}
+  </style>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="trigo-complement-09c-rotations-projections.html">Animation</a></nav>
+  </div>
+</header>
+
+<main class="cfg-page">
+  <div class="card" style="margin-bottom:1rem">
+    <h2>Outil. Paramétrage des rotations et projections</h2>
+    <p class="hint">Cette page construit une URL pour <code>trigo-complement-09c-rotations-projections.html</code> à partir de paramètres.</p>
+  </div>
+
+  <div class="cfg-grid">
+    <section class="card stack">
+      <h3>Configuration</h3>
+
+      <div>
+        <label>Fonction</label>
+        <div class="list">
+          <label><input type="radio" name="fn" value="sin"> sin</label>
+          <label><input type="radio" name="fn" value="cos" checked> cos</label>
+          <label><input type="radio" name="fn" value="tan"> tan</label>
+        </div>
+      </div>
+
+      <div>
+        <label>Angles (CSV)</label>
+        <div class="list">
+          <label><input type="checkbox" data-angle="neg" checked> neg</label>
+          <label><input type="checkbox" data-angle="piPlus" checked> piPlus</label>
+          <label><input type="checkbox" data-angle="piMinus"> piMinus</label>
+          <label><input type="checkbox" data-angle="halfPiPlus" checked> halfPiPlus</label>
+          <label><input type="checkbox" data-angle="halfPiMinus"> halfPiMinus</label>
+          <label><input type="checkbox" data-angle="twoPiMinus"> twoPiMinus</label>
+        </div>
+      </div>
+
+      <div>
+        <label>Parts (CSV)</label>
+        <div class="list">
+          <label><input type="checkbox" data-part="board" checked> board</label>
+          <label><input type="checkbox" data-part="readout" checked> readout</label>
+          <label><input type="checkbox" data-part="formulas" checked> formulas</label>
+          <label><input type="checkbox" data-part="controls" checked> controls</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="readoutMode" style="min-width:140px">readoutMode</label>
+        <select id="readoutMode">
+          <option value="all" selected>all</option>
+          <option value="angle">angle</option>
+          <option value="values">values</option>
+          <option value="none">none</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label for="proj" style="min-width:140px">projections (proj)</label>
+        <select id="proj">
+          <option value="auto" selected>auto</option>
+          <option value="1">1 (forcer)</option>
+          <option value="0">0 (masquer)</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label for="interactive" style="min-width:140px">interactive</label>
+        <select id="interactive">
+          <option value="1" selected>1</option>
+          <option value="0">0</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label for="chrome" style="min-width:140px">chrome</label>
+        <select id="chrome">
+          <option value="1" selected>1</option>
+          <option value="0">0</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label for="sync" style="min-width:140px">sync</label>
+        <select id="sync">
+          <option value="1" selected>1 (défaut)</option>
+          <option value="0">0</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="x">Angle initial en radians (x)</label>
+        <input id="x" type="text" placeholder="Ex: 1.0472">
+      </div>
+
+      <div>
+        <label for="xpi">Angle initial en fraction de pi (xpi)</label>
+        <input id="xpi" type="text" placeholder="Ex: 1/3 (prioritaire sur x)">
+      </div>
+    </section>
+
+    <section class="card stack">
+      <h3>Résultat</h3>
+
+      <div>
+        <label for="urlOutput">URL générée</label>
+        <textarea id="urlOutput" readonly></textarea>
+      </div>
+
+      <div class="row">
+        <button type="button" id="btnCopy" class="btn primary">Copier l'URL</button>
+        <button type="button" id="btnOpen" class="btn">Ouvrir</button>
+      </div>
+      <div id="copyStatus" class="ok"></div>
+
+      <div>
+        <label for="iframeOutput">Code iframe (bonus)</label>
+        <textarea id="iframeOutput" readonly></textarea>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer><div class="container">© 2026 Enseignant de Mathématiques à Genève</div></footer>
+
+<script>
+(function(){
+  const TARGET_PAGE = 'trigo-complement-09c-rotations-projections.html';
+  const angleEls = Array.from(document.querySelectorAll('[data-angle]'));
+  const partEls = Array.from(document.querySelectorAll('[data-part]'));
+
+  function getCheckedCsv(elements, attr){
+    return elements
+      .filter(el => el.checked)
+      .map(el => el.getAttribute(attr))
+      .join(',');
+  }
+
+  function currentUrl(){
+    const target = new URL(TARGET_PAGE, window.location.href);
+    const params = target.searchParams;
+
+    const fn = document.querySelector('input[name="fn"]:checked')?.value || 'cos';
+    params.set('fn', fn);
+    params.set('angles', getCheckedCsv(angleEls, 'data-angle'));
+    params.set('parts', getCheckedCsv(partEls, 'data-part'));
+    params.set('readoutMode', document.getElementById('readoutMode').value);
+    params.set('proj', document.getElementById('proj').value);
+    params.set('interactive', document.getElementById('interactive').value);
+    params.set('chrome', document.getElementById('chrome').value);
+    params.set('sync', document.getElementById('sync').value);
+
+    const xpi = document.getElementById('xpi').value.trim();
+    const x = document.getElementById('x').value.trim();
+    if(xpi){
+      params.set('xpi', xpi);
+      params.delete('x');
+    } else if(x){
+      params.set('x', x);
+      params.delete('xpi');
+    } else {
+      params.delete('x');
+      params.delete('xpi');
+    }
+
+    return target.toString();
+  }
+
+  function refresh(){
+    const url = currentUrl();
+    document.getElementById('urlOutput').value = url;
+    document.getElementById('iframeOutput').value =
+      `<iframe src="${url}" width="100%" height="900" style="border:1px solid #d1d5db;border-radius:12px" loading="lazy"></iframe>`;
+  }
+
+  async function copyUrl(){
+    const url = document.getElementById('urlOutput').value;
+    const status = document.getElementById('copyStatus');
+    try{
+      await navigator.clipboard.writeText(url);
+      status.textContent = 'URL copiée.';
+    } catch(_e){
+      const area = document.getElementById('urlOutput');
+      area.focus();
+      area.select();
+      document.execCommand('copy');
+      status.textContent = 'URL copiée (fallback).';
+    }
+    window.setTimeout(() => { status.textContent = ''; }, 1200);
+  }
+
+  function openUrl(){
+    window.open(document.getElementById('urlOutput').value, '_blank', 'noopener');
+  }
+
+  document.querySelectorAll('input,select').forEach(el => {
+    el.addEventListener('change', refresh);
+    el.addEventListener('input', refresh);
+  });
+  document.getElementById('btnCopy').addEventListener('click', copyUrl);
+  document.getElementById('btnOpen').addEventListener('click', openUrl);
+
+  refresh();
+})();
+</script>
+</body>
+</html>

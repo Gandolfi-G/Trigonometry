@@ -1,0 +1,165 @@
+{
+  "generated_site": "output/site",
+  "source_pages_count": 20,
+  "generated_pages_count": 3,
+  "all_pages_count": 23,
+  "source_pages": [
+    {
+      "label": "01. Cercle trigonométrique",
+      "section": "Cours principal",
+      "description": "Repères, orientation, unité et angles sur le cercle.",
+      "source": "html_js_sources/trigo-01-cercle.html",
+      "output": "trigo-01-cercle.html"
+    },
+    {
+      "label": "02. Périmètre du cercle unité",
+      "section": "Cours principal",
+      "description": "Lien entre longueur d'arc, demi-périmètre et π.",
+      "source": "html_js_sources/trigo-02-perimetre.html",
+      "output": "trigo-02-perimetre.html"
+    },
+    {
+      "label": "03. Le radian",
+      "section": "Cours principal",
+      "description": "Définition géométrique du radian et conversion avec les degrés.",
+      "source": "html_js_sources/trigo-03-radian.html",
+      "output": "trigo-03-radian.html"
+    },
+    {
+      "label": "04. Coordonnées du point sur le cercle",
+      "section": "Cours principal",
+      "description": "Lecture de M(theta) = (cos theta, sin theta) sur le cercle unité.",
+      "source": "html_js_sources/trigo-04-coordonnee.html",
+      "output": "trigo-04-coordonnee.html"
+    },
+    {
+      "label": "05. Cosinus et sinus",
+      "section": "Cours principal",
+      "description": "Valeurs, signes et interprétation graphique de sin et cos.",
+      "source": "html_js_sources/trigo-05-cos-sin.html",
+      "output": "trigo-05-cos-sin.html"
+    },
+    {
+      "label": "06. Relation fondamentale",
+      "section": "Cours principal",
+      "description": "cos²(theta) + sin²(theta) = 1 et ses usages.",
+      "source": "html_js_sources/trigo-06-relation-fondamentale.html",
+      "output": "trigo-06-relation-fondamentale.html"
+    },
+    {
+      "label": "07. Tangente",
+      "section": "Cours principal",
+      "description": "Définition, asymptotes et lecture sur le cercle trigonométrique.",
+      "source": "html_js_sources/trigo-07-tangente.html",
+      "output": "trigo-07-tangente.html"
+    },
+    {
+      "label": "Complément 08A. Formules de base",
+      "section": "Compléments et variantes",
+      "description": "Rappels synthétiques et tableau des valeurs remarquables sur [0; pi/2].",
+      "source": "html_js_sources/trigo-08-formulaire.html",
+      "output": "trigo-complement-08a-formules-base.html"
+    },
+    {
+      "label": "Complément 08B. Formulaire complet du cercle",
+      "section": "Compléments et variantes",
+      "description": "Version étendue avec tableau, cercle trigonométrique et symétries.",
+      "source": "html_js_sources/trigo-08-formulaires.html",
+      "output": "trigo-complement-08b-formulaire-complet.html"
+    },
+    {
+      "label": "Complément 09A. Formulaire sinus/cosinus",
+      "section": "Compléments et variantes",
+      "description": "Valeurs remarquables et symétries pour sinus et cosinus sur le cercle.",
+      "source": "html_js_sources/trigo-09-formulaire.html",
+      "output": "trigo-complement-09a-formulaire-cercle.html"
+    },
+    {
+      "label": "Complément 09B. Rotations et symétries",
+      "section": "Compléments et variantes",
+      "description": "Lecture des identités de rotation pour sin, cos et tan.",
+      "source": "trigo-9-formulaire-rotation.html",
+      "output": "trigo-complement-09b-rotations-symetries.html"
+    },
+    {
+      "label": "Complément 09C. Rotations et projections",
+      "section": "Compléments et variantes",
+      "description": "Ajout des projections pour lire les formules directement sur la figure.",
+      "source": "html_js_sources/trigo-9-formulaire-rotation-projections.html",
+      "output": "trigo-complement-09c-rotations-projections.html"
+    },
+    {
+      "label": "Complément 09D. Rotations, projections et lecture guidée",
+      "section": "Compléments et variantes",
+      "description": "Version la plus riche pour lire les relations trigonométriques sur le cercle.",
+      "source": "html_js_sources/trigo-9-formulaire-rotation-projections-plus.html",
+      "output": "trigo-complement-09d-rotations-projections-guidees.html"
+    },
+    {
+      "label": "09. Triangles quelconques",
+      "section": "Cours principal",
+      "description": "Formules utiles dans un triangle quelconque et lecture des grandeurs.",
+      "source": "html_js_sources/trigo-09-triangles-quelconques.html",
+      "output": "trigo-09-triangles-quelconques.html"
+    },
+    {
+      "label": "10. Théorème du sinus",
+      "section": "Cours principal",
+      "description": "Relations a/sin(A), b/sin(B), c/sin(C) et cercle circonscrit.",
+      "source": "html_js_sources/trigo-10-theoreme-sinus.html",
+      "output": "trigo-10-theoreme-sinus.html"
+    },
+    {
+      "label": "11. Fonctions trigonométriques",
+      "section": "Cours principal",
+      "description": "Passage du cercle unité aux graphes de sin, cos et tan.",
+      "source": "html_js_sources/trigo-11-fonctions-trigonometriques.html",
+      "output": "trigo-11-fonctions-trigonometriques.html"
+    },
+    {
+      "label": "12. Effet de l'amplitude",
+      "section": "Cours principal",
+      "description": "Étirements et compressions verticales des fonctions trigonométriques.",
+      "source": "html_js_sources/trigo-12-amplitude.html",
+      "output": "trigo-12-amplitude.html"
+    },
+    {
+      "label": "13. Effet de la période",
+      "section": "Cours principal",
+      "description": "Influence du coefficient sur la période et la fréquence des oscillations.",
+      "source": "html_js_sources/trigo-13-periode.html",
+      "output": "trigo-13-periode.html"
+    },
+    {
+      "label": "Outil. Paramétrage des rotations",
+      "section": "Outils et archives",
+      "description": "Page utilitaire pour construire des URLs de démonstration sur les rotations.",
+      "source": "html_js_sources/trigo-9-parametrage.html",
+      "output": "trigo-outil-parametrage-rotations.html"
+    },
+    {
+      "label": "Archive. Sommaire HTML source",
+      "section": "Outils et archives",
+      "description": "Version archivée du sommaire HTML d'origine, conservée telle quelle.",
+      "source": "html_js_sources/trigonometry.html",
+      "output": "trigo-archive-sommaire-source.html"
+    }
+  ],
+  "generated_pages": [
+    {
+      "output": "index.html",
+      "label": "Accueil",
+      "description": "Page d'accueil du site refactoré avec accès rapide à toutes les pages."
+    },
+    {
+      "output": "trigonometry.html",
+      "label": "Toutes les pages",
+      "description": "Sommaire complet du site, organisé par sections."
+    },
+    {
+      "output": "customizer-studio.html",
+      "label": "Studio de personnalisation",
+      "description": "Prévisualisation des pages avec paramètres visuels globaux."
+    }
+  ]
+}

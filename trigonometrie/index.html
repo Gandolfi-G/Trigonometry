@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Accueil du site trigonométrie</title>
+  <style>
+    .shell{max-width:1180px;margin:0 auto;padding:1.4rem 1rem 2.4rem}
+    .hero{display:grid;grid-template-columns:1.4fr .9fr;gap:1rem;align-items:start}
+    .hero-card,.catalog-section,.mini-panel{border:1px solid #e5e7eb;border-radius:18px;background:#fff;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+    .hero-card{padding:1.35rem}
+    .hero h1{margin:.1rem 0 .6rem 0;font-size:clamp(2rem,4vw,3rem);line-height:1.02}
+    .hero p{margin:0;color:#475569;line-height:1.55}
+    .hero-aside{display:grid;gap:1rem}
+    .mini-panel{padding:1rem}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1rem}
+    .stat{padding:.85rem;border-radius:14px;background:linear-gradient(180deg,#f8fafc,#eef2ff);border:1px solid #e2e8f0}
+    .stat strong{display:block;font-size:1.4rem;line-height:1}
+    .stat span{display:block;margin-top:.25rem;color:#475569;font-size:.92rem}
+    .cta-row{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1rem}
+    .cta-row .button{margin:0}
+    .catalog-wrap{display:grid;gap:1rem;margin-top:1.2rem}
+    .catalog-section{padding:1rem}
+    .section-head{display:flex;justify-content:space-between;gap:1rem;align-items:end;margin-bottom:.9rem}
+    .section-head h2{margin:0 0 .2rem 0}
+    .section-head p{margin:0;color:#64748b}
+    .section-count{white-space:nowrap;font-weight:800;color:#334155}
+    .catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.85rem}
+    .catalog-card{display:block;padding:1rem;border:1px solid #e5e7eb;border-radius:16px;background:linear-gradient(180deg,#ffffff,#f8fafc);color:inherit;text-decoration:none;transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease}
+    .catalog-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,23,42,.08);border-color:#cbd5e1}
+    .catalog-card h3{margin:.25rem 0 .45rem 0;font-size:1.08rem;line-height:1.2}
+    .catalog-card p{margin:0 0 .8rem 0;color:#475569;line-height:1.5}
+    .catalog-kicker{font-size:.75rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#475569}
+    .catalog-meta{font-size:.84rem;color:#64748b}
+    .nav-container nav a.active{font-weight:800;text-decoration:underline}
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+      .section-head{align-items:start;flex-direction:column}
+    }
+  </style>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="index.html">Trigonométrie HTML</a></div>
+    <nav><a class="active" href="index.html">Accueil</a><a href="trigonometry.html">Toutes les pages</a><a href="customizer-studio.html">Studio</a></nav>
+  </div>
+</header>
+<main class="shell">
+  <section class="hero">
+    <div class="hero-card">
+      <h1>Site HTML de trigonométrie refactoré</h1>
+      <p>Cette version publie toutes les pages de référence avec des noms cohérents, un sommaire complet et des liens internes corrigés.</p>
+      <div class="cta-row">
+        <a class="button" href="trigonometry.html">Voir toutes les pages</a>
+        <a class="button" href="customizer-studio.html">Ouvrir le studio</a>
+        <a class="button" href="trigo-complement-09d-rotations-projections-guidees.html">Tester la variante la plus complète</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>20</strong><span>pages source publiées</span></div>
+        <div class="stat"><strong>12</strong><span>pages du cours principal</span></div>
+        <div class="stat"><strong>8</strong><span>compléments, outils et archives</span></div>
+      </div>
+    </div>
+    <div class="hero-aside">
+      <aside class="mini-panel">
+        <h2 style="margin:.1rem 0 .5rem 0">Ce qui a été normalisé</h2>
+        <p style="margin:0;color:#475569;line-height:1.55">Les pages en doublon ont maintenant des noms de fichiers uniques et des libellés clairs. Le catalogue expose aussi les variantes de rotation, la page de paramétrage et l'ancien sommaire HTML.</p>
+      </aside>
+      <aside class="mini-panel">
+        <h2 style="margin:.1rem 0 .5rem 0">Navigation</h2>
+        <p style="margin:0;color:#475569;line-height:1.55">Le site propose un point d'entrée unique, un sommaire complet et un studio de prévisualisation. Les liens internes des pages copiées ont été réécrits vers les nouveaux noms.</p>
+      </aside>
+    </div>
+  </section>
+  <div class="catalog-wrap">
+
+  <section class="catalog-section">
+    <div class="section-head">
+      <div>
+        <h2>Entrées recommandées</h2>
+        <p>Quelques pages représentatives pour démarrer rapidement, puis un lien vers le catalogue complet.</p>
+      </div>
+      <span class="section-count">6 pages</span>
+    </div>
+    <div class="catalog-grid">
+
+      <a class="catalog-card" href="trigo-01-cercle.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>01. Cercle trigonométrique</h3>
+        <p>Repères, orientation, unité et angles sur le cercle.</p>
+      </a>
+
+      <a class="catalog-card" href="trigo-02-perimetre.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>02. Périmètre du cercle unité</h3>
+        <p>Lien entre longueur d&#x27;arc, demi-périmètre et π.</p>
+      </a>
+
+      <a class="catalog-card" href="trigo-03-radian.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>03. Le radian</h3>
+        <p>Définition géométrique du radian et conversion avec les degrés.</p>
+      </a>
+
+      <a class="catalog-card" href="trigo-04-coordonnee.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>04. Coordonnées du point sur le cercle</h3>
+        <p>Lecture de M(theta) = (cos theta, sin theta) sur le cercle unité.</p>
+      </a>
+
+      <a class="catalog-card" href="trigo-05-cos-sin.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>05. Cosinus et sinus</h3>
+        <p>Valeurs, signes et interprétation graphique de sin et cos.</p>
+      </a>
+
+      <a class="catalog-card" href="trigo-06-relation-fondamentale.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>06. Relation fondamentale</h3>
+        <p>cos²(theta) + sin²(theta) = 1 et ses usages.</p>
+      </a>
+    </div>
+  </section>
+  <section class="catalog-section">
+    <div class="section-head">
+      <div>
+        <h2>Toutes les pages sont accessibles</h2>
+        <p>Le catalogue principal regroupe le cours, les compléments, l'outil de paramétrage et l'archive du sommaire source.</p>
+      </div>
+      <span class="section-count">20 pages</span>
+    </div>
+    <div class="cta-row" style="margin-top:0">
+      <a class="button" href="trigonometry.html">Ouvrir le catalogue complet</a>
+      <a class="button" href="customizer-studio.html">Prévisualiser dans le studio</a>
+    </div>
+  </section>
+  </div>
+</main>
+<footer><div class="container">© 2026 Site HTML refactoré</div></footer>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>11. Fonctions trigonométriques</title>
+  <style>
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width:980px){.stage{grid-template-columns:1fr}.panel{max-width:760px}}
+    .panel{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+    .panel h3{margin:.2rem 0 .6rem}
+    .board{width:100%;aspect-ratio:21/10;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+    .controls{display:flex;flex-direction:column;gap:.7rem}
+    .row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+    input[type="range"]{width:180px}
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.2rem .55rem;font-weight:700}
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.5rem .75rem;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .kv{display:grid;grid-template-columns:1fr auto;gap:.3rem .6rem;margin-top:.45rem}
+    .kv .k{opacity:.75}
+    .kv .v{font-weight:800}
+    .cSin{color:#16a34a}
+    .cCos{color:#ef4444}
+    .cTan{color:#7c3aed}
+    .small{font-size:.9rem;opacity:.82}
+  </style>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">11. Fonctions trigonométriques : cercle et courbes</h1>
+    <p class="lead">
+      Cette animation relie la lecture sur le cercle unité et les courbes des fonctions
+      <span class="cSin"><strong>sin</strong></span>, <span class="cCos"><strong>cos</strong></span>, <span class="cTan"><strong>tan</strong></span>.
+    </p>
+
+    <div class="stage">
+      <section>
+        <canvas id="fnCanvas" class="board" width="1280" height="620" aria-label="fonctions trigonometriques"></canvas>
+        <p class="small">La droite verticale dans le graphe de droite est alignée avec l’angle \(\theta\) choisi sur le cercle.</p>
+      </section>
+
+      <aside class="panel">
+        <h3>Contrôles</h3>
+        <div class="controls">
+          <div class="row">
+            <label for="thetaRange">θ (degrés)</label>
+            <input id="thetaRange" type="range" min="0" max="360" step="1" value="38">
+            <span id="thetaVal" class="pill">38°</span>
+          </div>
+          <div class="row">
+            <label><input id="showSin" type="checkbox" checked> <span class="cSin">sin</span></label>
+            <label><input id="showCos" type="checkbox" checked> <span class="cCos">cos</span></label>
+            <label><input id="showTan" type="checkbox" checked> <span class="cTan">tan</span></label>
+          </div>
+          <div class="row">
+            <button id="playBtn" class="btn primary" type="button">Lecture auto</button>
+            <button id="resetBtn" class="btn" type="button">Réinitialiser</button>
+          </div>
+
+          <div class="kv">
+            <div class="k">sin(θ)</div><div class="v cSin" id="sinOut">—</div>
+            <div class="k">cos(θ)</div><div class="v cCos" id="cosOut">—</div>
+            <div class="k">tan(θ)</div><div class="v cTan" id="tanOut">—</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section id="points-cles">
+      <h2>Points-clés</h2>
+      <ul>
+        <li>Sur le cercle unité, \(\cos(\theta)\) est l’abscisse et \(\sin(\theta)\) l’ordonnée.</li>
+        <li>La tangente est le rapport \(\sin(\theta)/\cos(\theta)\), donc elle explose quand \(\cos(\theta)=0\).</li>
+        <li>sin et cos sont bornées entre -1 et 1, contrairement à tan.</li>
+      </ul>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-10-theoreme-sinus.html">← Précédent</a>
+    <a class="button" href="trigo-12-amplitude.html">Suivant →</a>
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#points-cles">Points-clés</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2026 Enseignant de Mathématiques à Genève</div></footer>
+
+<script src="script.js"></script>
+<script>
+(() => {
+  const canvas = document.getElementById('fnCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const thetaRange = document.getElementById('thetaRange');
+  const thetaVal = document.getElementById('thetaVal');
+  const showSin = document.getElementById('showSin');
+  const showCos = document.getElementById('showCos');
+  const showTan = document.getElementById('showTan');
+
+  const sinOut = document.getElementById('sinOut');
+  const cosOut = document.getElementById('cosOut');
+  const tanOut = document.getElementById('tanOut');
+
+  const playBtn = document.getElementById('playBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  let playing = false;
+  let angle = Number(thetaRange.value) * Math.PI / 180;
+
+  function fmt(v, d = 3){
+    if(!Number.isFinite(v)) return 'indéfini';
+    return Number(v).toFixed(d).replace(/\.000$/, '').replace(/(\.[0-9])00$/, '$1').replace(/(\.[0-9]{2})0$/, '$1');
+  }
+
+  function drawAxes(x, y, w, h){
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x, y, w, h);
+
+    ctx.strokeStyle = '#94a3b8';
+    ctx.beginPath();
+    ctx.moveTo(x, y + h / 2);
+    ctx.lineTo(x + w, y + h / 2);
+    ctx.stroke();
+
+    for(let k = 0; k <= 4; k++){
+      const tx = x + (k / 4) * w;
+      ctx.beginPath();
+      ctx.moveTo(tx, y + h / 2 - 6);
+      ctx.lineTo(tx, y + h / 2 + 6);
+      ctx.stroke();
+      const label = (k === 0) ? '0' : (k === 1 ? 'π/2' : (k === 2 ? 'π' : (k === 3 ? '3π/2' : '2π')));
+      ctx.fillStyle = '#475569';
+      ctx.font = '600 14px Montserrat';
+      ctx.fillText(label, tx - 14, y + h + 22);
+    }
+  }
+
+  function drawCurve(fn, color, x0, y0, w, h, clampTan = false){
+    const N = 500;
+    let drawing = false;
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.8;
+
+    for(let i = 0; i <= N; i++){
+      const t = (i / N) * 2 * Math.PI;
+      let y = fn(t);
+      if(clampTan){
+        if(!Number.isFinite(y) || Math.abs(y) > 2.2){
+          drawing = false;
+          continue;
+        }
+      }
+      y = Math.max(-2.2, Math.min(2.2, y));
+
+      const px = x0 + (t / (2 * Math.PI)) * w;
+      const py = y0 + h * (0.5 - y / 4.4);
+
+      if(!drawing){
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        drawing = true;
+      } else {
+        ctx.lineTo(px, py);
+      }
+
+      if(i === N || (!clampTan && i % N === 0)){
+        ctx.stroke();
+        drawing = false;
+      }
+      if(clampTan && i > 0 && !Number.isFinite(fn((i + 1) / N * 2 * Math.PI))){
+        ctx.stroke();
+        drawing = false;
+      }
+    }
+    if(drawing) ctx.stroke();
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const cx = 220;
+    const cy = 300;
+    const r = 180;
+
+    ctx.strokeStyle = '#111827';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - r - 22, cy);
+    ctx.lineTo(cx + r + 22, cy);
+    ctx.moveTo(cx, cy + r + 22);
+    ctx.lineTo(cx, cy - r - 22);
+    ctx.stroke();
+
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+
+    const px = cx + r * Math.cos(angle);
+    const py = cy - r * Math.sin(angle);
+
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(px, cy);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#16a34a';
+    ctx.beginPath();
+    ctx.moveTo(px, cy);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    const cosVal = Math.cos(angle);
+    const sinVal = Math.sin(angle);
+    const tanVal = Math.abs(cosVal) < 1e-7 ? Infinity : sinVal / cosVal;
+
+    if(showTan.checked && Number.isFinite(tanVal) && Math.abs(tanVal) < 2.5){
+      ctx.strokeStyle = '#7c3aed';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([8, 6]);
+      ctx.beginPath();
+      ctx.moveTo(cx + r, cy);
+      ctx.lineTo(cx + r, cy - r * tanVal);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    ctx.fillStyle = '#111827';
+    ctx.beginPath();
+    ctx.arc(px, py, 7, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#475569';
+    ctx.font = '700 17px Montserrat';
+    ctx.fillText('Cercle unité', cx - 60, cy - r - 28);
+    ctx.font = '700 15px Montserrat';
+    ctx.fillText('x = cos(θ)', cx + 35, cy + 26);
+    ctx.fillText('y = sin(θ)', px + 12, (py + cy) / 2);
+
+    const gx = 470;
+    const gy = 85;
+    const gw = 760;
+    const gh = 430;
+
+    drawAxes(gx, gy, gw, gh);
+
+    if(showSin.checked) drawCurve(Math.sin, '#16a34a', gx, gy, gw, gh);
+    if(showCos.checked) drawCurve(Math.cos, '#ef4444', gx, gy, gw, gh);
+    if(showTan.checked) drawCurve(Math.tan, '#7c3aed', gx, gy, gw, gh, true);
+
+    const cursorX = gx + (angle / (2 * Math.PI)) * gw;
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 1.6;
+    ctx.setLineDash([7, 5]);
+    ctx.beginPath();
+    ctx.moveTo(cursorX, gy);
+    ctx.lineTo(cursorX, gy + gh);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    function plotDot(v, color){
+      if(!Number.isFinite(v) || Math.abs(v) > 2.2) return;
+      const y = gy + gh * (0.5 - v / 4.4);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(cursorX, y, 5.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    if(showSin.checked) plotDot(sinVal, '#16a34a');
+    if(showCos.checked) plotDot(cosVal, '#ef4444');
+    if(showTan.checked) plotDot(tanVal, '#7c3aed');
+
+    ctx.fillStyle = '#111827';
+    ctx.font = '800 18px Montserrat';
+    ctx.fillText('Graphes sur [0, 2π]', gx + 8, gy - 18);
+
+    thetaVal.textContent = `${Math.round(angle * 180 / Math.PI)}°`;
+    sinOut.textContent = fmt(sinVal);
+    cosOut.textContent = fmt(cosVal);
+    tanOut.textContent = fmt(tanVal);
+  }
+
+  function tick(){
+    if(!playing) return;
+    angle += 0.012;
+    if(angle >= Math.PI * 2) angle -= Math.PI * 2;
+    thetaRange.value = Math.round(angle * 180 / Math.PI);
+    draw();
+    requestAnimationFrame(tick);
+  }
+
+  thetaRange.addEventListener('input', () => {
+    angle = Number(thetaRange.value) * Math.PI / 180;
+    draw();
+  });
+
+  [showSin, showCos, showTan].forEach(el => el.addEventListener('change', draw));
+
+  playBtn.addEventListener('click', () => {
+    playing = !playing;
+    playBtn.textContent = playing ? 'Pause' : 'Lecture auto';
+    if(playing) requestAnimationFrame(tick);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    playing = false;
+    playBtn.textContent = 'Lecture auto';
+    angle = 38 * Math.PI / 180;
+    thetaRange.value = '38';
+    showSin.checked = true;
+    showCos.checked = true;
+    showTan.checked = true;
+    draw();
+  });
+
+  draw();
+})();
+</script>
+</body>
+</html>

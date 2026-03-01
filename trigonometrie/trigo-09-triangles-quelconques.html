@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>09. Triangle quelconque</title>
+  <style>
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width:980px){.stage{grid-template-columns:1fr}.panel{max-width:760px}}
+    .panel{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+    .panel h3{margin:.2rem 0 .6rem}
+    .board{width:100%;aspect-ratio:16/10;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+    .controls{display:flex;flex-direction:column;gap:.7rem}
+    .row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+    label{font-weight:600;font-size:.95rem}
+    input[type="range"]{width:170px}
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.2rem .55rem;font-weight:700}
+    .math{font-family:ui-serif,Georgia,"Times New Roman",serif}
+    .formula{border:1px dashed #cbd5e1;border-radius:12px;background:#fbfdff;padding:.65rem .75rem}
+    .formula + .formula{margin-top:.55rem}
+    .kv{display:grid;grid-template-columns:1fr auto;gap:.3rem .6rem;margin-top:.45rem}
+    .kv .k{opacity:.75}
+    .kv .v{font-weight:800}
+    .muted{opacity:.8;font-size:.92rem}
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.5rem .75rem;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .cA{color:#0ea5e9}
+    .cB{color:#ef4444}
+    .cC{color:#16a34a}
+  </style>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">09. Triangle quelconque : formules principales</h1>
+    <p class="lead">
+      Dans un triangle quelconque, on ne peut pas appliquer directement Pythagore.
+      On utilise surtout le <strong>théorème du cosinus</strong>, l’aire <strong>\(\frac{1}{2}ab\sin(C)\)</strong>
+      et la lecture des angles/sides opposés.
+    </p>
+
+    <div class="stage">
+      <section>
+        <canvas id="triangleCanvas" class="board" width="960" height="600" aria-label="triangle quelconque interactif"></canvas>
+        <p class="muted">
+          Convention utilisée : les côtés <span class="pill">a = BC</span>, <span class="pill">b = CA</span>, <span class="pill">c = AB</span>,
+          et l’angle <span class="pill">C</span> est entre <span class="pill">a</span> et <span class="pill">b</span>.
+        </p>
+      </section>
+
+      <aside class="panel">
+        <h3>Contrôles</h3>
+        <div class="controls">
+          <div class="row">
+            <label for="aRange">a</label>
+            <input id="aRange" type="range" min="2" max="10" step="0.1" value="7.2">
+            <span id="aVal" class="pill">7.2</span>
+          </div>
+          <div class="row">
+            <label for="bRange">b</label>
+            <input id="bRange" type="range" min="2" max="10" step="0.1" value="5.6">
+            <span id="bVal" class="pill">5.6</span>
+          </div>
+          <div class="row">
+            <label for="cAngle">C (degrés)</label>
+            <input id="cAngle" type="range" min="20" max="145" step="1" value="62">
+            <span id="cAngleVal" class="pill">62°</span>
+          </div>
+          <div class="row">
+            <button id="playBtn" class="btn primary" type="button">Animer C</button>
+            <button id="resetBtn" class="btn" type="button">Réinitialiser</button>
+          </div>
+
+          <div class="formula math">
+            <strong>Théorème du cosinus</strong><br>
+            \(c^2 = a^2 + b^2 - 2ab\cos(C)\)
+          </div>
+          <div class="formula math">
+            <strong>Aire</strong><br>
+            \(\mathcal{A} = \frac{1}{2}ab\sin(C)\)
+          </div>
+
+          <div class="kv" aria-live="polite">
+            <div class="k">c calculé</div><div class="v" id="cOut">—</div>
+            <div class="k">A (degrés)</div><div class="v" id="AOut">—</div>
+            <div class="k">B (degrés)</div><div class="v" id="BOut">—</div>
+            <div class="k">Aire</div><div class="v" id="areaOut">—</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section id="points-cles">
+      <h2>Points-clés</h2>
+      <ul>
+        <li>Le théorème du cosinus généralise Pythagore à tous les triangles.</li>
+        <li>Avec deux côtés et l’angle compris, on reconstruit tout le triangle.</li>
+        <li>L’aire se calcule rapidement avec \(\frac{1}{2}ab\sin(C)\).</li>
+      </ul>
+    </section>
+
+    <section id="exercices">
+      <h2>Exercices rapides</h2>
+      <ol>
+        <li>Fixe \(a=6\), \(b=8\), \(C=90^\circ\) puis compare avec Pythagore.</li>
+        <li>Choisis \(C=35^\circ\), puis observe l’évolution de \(c\) quand \(a\) augmente.</li>
+        <li>Trouve une configuration où \(A\) et \(B\) sont presque égaux.</li>
+      </ol>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-complement-09d-rotations-projections-guidees.html">← Précédent</a>
+    <a class="button" href="trigo-10-theoreme-sinus.html">Suivant →</a>
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#points-cles">Points-clés</a></li>
+      <li><a href="#exercices">Exercices</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2026 Enseignant de Mathématiques à Genève</div></footer>
+
+<script src="script.js"></script>
+<script>
+(() => {
+  const canvas = document.getElementById('triangleCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const aRange = document.getElementById('aRange');
+  const bRange = document.getElementById('bRange');
+  const cAngle = document.getElementById('cAngle');
+  const aVal = document.getElementById('aVal');
+  const bVal = document.getElementById('bVal');
+  const cAngleVal = document.getElementById('cAngleVal');
+
+  const cOut = document.getElementById('cOut');
+  const AOut = document.getElementById('AOut');
+  const BOut = document.getElementById('BOut');
+  const areaOut = document.getElementById('areaOut');
+
+  const playBtn = document.getElementById('playBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  let playing = false;
+  let t = 0;
+
+  function fmt(v, d = 2){
+    return Number(v).toFixed(d).replace(/\.00$/, '').replace(/(\.[0-9])0$/, '$1');
+  }
+  function rad(deg){ return deg * Math.PI / 180; }
+  function deg(radVal){ return radVal * 180 / Math.PI; }
+
+  function drawTriangle(data){
+    const {A, B, C} = data;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const margin = 70;
+    const minX = Math.min(A.x, B.x, C.x);
+    const maxX = Math.max(A.x, B.x, C.x);
+    const minY = Math.min(A.y, B.y, C.y);
+    const maxY = Math.max(A.y, B.y, C.y);
+
+    const scaleX = (canvas.width - 2 * margin) / (maxX - minX || 1);
+    const scaleY = (canvas.height - 2 * margin) / (maxY - minY || 1);
+    const s = Math.min(scaleX, scaleY);
+
+    function map(p){
+      return {
+        x: margin + (p.x - minX) * s,
+        y: canvas.height - margin - (p.y - minY) * s
+      };
+    }
+
+    const mA = map(A), mB = map(B), mC = map(C);
+
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#111827';
+    ctx.beginPath();
+    ctx.moveTo(mA.x, mA.y);
+    ctx.lineTo(mB.x, mB.y);
+    ctx.lineTo(mC.x, mC.y);
+    ctx.closePath();
+    ctx.stroke();
+
+    function sideLabel(P, Q, text, color){
+      const mx = (P.x + Q.x) / 2;
+      const my = (P.y + Q.y) / 2;
+      ctx.fillStyle = color;
+      ctx.font = '700 22px Montserrat';
+      ctx.fillText(text, mx + 8, my - 8);
+    }
+
+    sideLabel(mB, mC, 'a', '#0ea5e9');
+    sideLabel(mC, mA, 'b', '#ef4444');
+    sideLabel(mA, mB, 'c', '#16a34a');
+
+    function dot(P, name, color){
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(P.x, P.y, 6.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.font = '800 20px Montserrat';
+      ctx.fillText(name, P.x + 10, P.y - 10);
+    }
+
+    dot(mA, 'A', '#111827');
+    dot(mB, 'B', '#111827');
+    dot(mC, 'C', '#111827');
+
+    const arcR = 42;
+    const a1 = Math.atan2(mA.y - mC.y, mA.x - mC.x);
+    const a2 = Math.atan2(mB.y - mC.y, mB.x - mC.x);
+    ctx.strokeStyle = '#16a34a';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(mC.x, mC.y, arcR, a1, a2, false);
+    ctx.stroke();
+
+    ctx.fillStyle = '#16a34a';
+    ctx.font = '800 20px Montserrat';
+    ctx.fillText('C', mC.x + arcR + 6, mC.y - 6);
+  }
+
+  function computeAndRender(){
+    const a = Number(aRange.value);
+    const b = Number(bRange.value);
+    const Cdeg = Number(cAngle.value);
+    const Crad = rad(Cdeg);
+
+    const c = Math.sqrt(Math.max(0, a * a + b * b - 2 * a * b * Math.cos(Crad)));
+    const area = 0.5 * a * b * Math.sin(Crad);
+
+    const cosA = (b * b + c * c - a * a) / (2 * b * c);
+    const A = Math.acos(Math.min(1, Math.max(-1, cosA)));
+    const B = Math.PI - A - Crad;
+
+    aVal.textContent = fmt(a, 1);
+    bVal.textContent = fmt(b, 1);
+    cAngleVal.textContent = `${Cdeg}°`;
+
+    cOut.textContent = fmt(c, 3);
+    AOut.textContent = `${fmt(deg(A), 2)}°`;
+    BOut.textContent = `${fmt(deg(B), 2)}°`;
+    areaOut.textContent = fmt(area, 3);
+
+    const C = {x: 0, y: 0};
+    const A_pt = {x: b, y: 0};
+    const B_pt = {x: a * Math.cos(Crad), y: a * Math.sin(Crad)};
+
+    drawTriangle({A: A_pt, B: B_pt, C});
+  }
+
+  function loop(){
+    if(playing){
+      t += 0.02;
+      const v = 82 + 40 * Math.sin(t);
+      cAngle.value = Math.max(20, Math.min(145, Math.round(v)));
+      computeAndRender();
+      requestAnimationFrame(loop);
+    }
+  }
+
+  [aRange, bRange, cAngle].forEach(el => el.addEventListener('input', computeAndRender));
+
+  playBtn.addEventListener('click', () => {
+    playing = !playing;
+    playBtn.textContent = playing ? 'Stop animation' : 'Animer C';
+    playBtn.classList.toggle('primary', !playing);
+    if(playing) requestAnimationFrame(loop);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    playing = false;
+    playBtn.textContent = 'Animer C';
+    playBtn.classList.add('primary');
+    aRange.value = '7.2';
+    bRange.value = '5.6';
+    cAngle.value = '62';
+    t = 0;
+    computeAndRender();
+  });
+
+  computeAndRender();
+})();
+</script>
+</body>
+</html>

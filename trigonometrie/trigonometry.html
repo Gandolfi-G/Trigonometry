@@ -1,72 +1,284 @@
-<!DOCTYPE html><html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"><title>Trigonométrie — Chapitre</title></head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Toutes les pages du site trigonométrie</title>
+  <style>
+    .shell{max-width:1180px;margin:0 auto;padding:1.4rem 1rem 2.4rem}
+    .hero{display:grid;grid-template-columns:1.4fr .9fr;gap:1rem;align-items:start}
+    .hero-card,.catalog-section,.mini-panel{border:1px solid #e5e7eb;border-radius:18px;background:#fff;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+    .hero-card{padding:1.35rem}
+    .hero h1{margin:.1rem 0 .6rem 0;font-size:clamp(2rem,4vw,3rem);line-height:1.02}
+    .hero p{margin:0;color:#475569;line-height:1.55}
+    .hero-aside{display:grid;gap:1rem}
+    .mini-panel{padding:1rem}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1rem}
+    .stat{padding:.85rem;border-radius:14px;background:linear-gradient(180deg,#f8fafc,#eef2ff);border:1px solid #e2e8f0}
+    .stat strong{display:block;font-size:1.4rem;line-height:1}
+    .stat span{display:block;margin-top:.25rem;color:#475569;font-size:.92rem}
+    .cta-row{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1rem}
+    .cta-row .button{margin:0}
+    .catalog-wrap{display:grid;gap:1rem;margin-top:1.2rem}
+    .catalog-section{padding:1rem}
+    .section-head{display:flex;justify-content:space-between;gap:1rem;align-items:end;margin-bottom:.9rem}
+    .section-head h2{margin:0 0 .2rem 0}
+    .section-head p{margin:0;color:#64748b}
+    .section-count{white-space:nowrap;font-weight:800;color:#334155}
+    .catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.85rem}
+    .catalog-card{display:block;padding:1rem;border:1px solid #e5e7eb;border-radius:16px;background:linear-gradient(180deg,#ffffff,#f8fafc);color:inherit;text-decoration:none;transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease}
+    .catalog-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,23,42,.08);border-color:#cbd5e1}
+    .catalog-card h3{margin:.25rem 0 .45rem 0;font-size:1.08rem;line-height:1.2}
+    .catalog-card p{margin:0 0 .8rem 0;color:#475569;line-height:1.5}
+    .catalog-kicker{font-size:.75rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#475569}
+    .catalog-meta{font-size:.84rem;color:#64748b}
+    .nav-container nav a.active{font-weight:800;text-decoration:underline}
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+      .section-head{align-items:start;flex-direction:column}
+    }
+  </style>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
 <body>
-<header><div class="nav-container"><div class="brand"><a href="../index.html">Vidéos de Mathématiques</a></div><nav><a href="../index.html">Accueil</a></nav></div></header>
-<main class="container">
-  <h1>Trigonométrie</h1>
-  <p class="lead">Séquence de présentation : cercle trigonométrique → périmètre → angle (radian/degré) → coordonnées → sin/cos → tangente → formulaires.</p>
-  <section class="grid">
-    <a class="card" href="trigo-01-cercle.html">
-      <img src="img/1-cercle.png" alt="Cercle trigonométrique" class="card-img">
-      <div class="card-content">
-        <div class="card-title">01. Le cercle trigonométrique</div>
-        <div class="card-description">Repères, orientation, unité.</div>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="index.html">Trigonométrie HTML</a></div>
+    <nav><a href="index.html">Accueil</a><a class="active" href="trigonometry.html">Toutes les pages</a><a href="customizer-studio.html">Studio</a></nav>
+  </div>
+</header>
+<main class="shell">
+  <section class="hero">
+    <div class="hero-card">
+      <h1>Toutes les pages du site</h1>
+      <p>Catalogue complet du site HTML avec noms de pages uniques, sections explicites et accès à toutes les variantes disponibles.</p>
+      <div class="cta-row">
+        <a class="button" href="trigonometry.html">Voir toutes les pages</a>
+        <a class="button" href="customizer-studio.html">Ouvrir le studio</a>
+        <a class="button" href="trigo-archive-sommaire-source.html">Voir le sommaire source</a>
       </div>
-    </a>
-    <a class="card" href="trigo-02-perimetre.html">
-      <img src="img/2-perimetrepng.png" alt="Perimetre Cercle trigonométrique" class="card-img">
-      <div class="card-content">
-        <div class="card-title">02. Périmètre du cercle</div>
-        <div class="card-description">Longueur du « fil » = 2πr (r=1 → 2π).</div>
+      <div class="stats">
+        <div class="stat"><strong>20</strong><span>pages source publiées</span></div>
+        <div class="stat"><strong>12</strong><span>pages du cours principal</span></div>
+        <div class="stat"><strong>8</strong><span>compléments, outils et archives</span></div>
       </div>
-    </a>
-    <a class="card" href="trigo-03-radian.html">
-      <img src="img/3-radian.png" alt="Perimetre Cercle trigonométrique" class="card-img">
-      <div class="card-content">
-        <div class="card-title">03. Angle dans le cercle, radian et degré</div>
-        <div class="card-description">Définition du radian, conversions.</div>
-      </div>
-    </a>
-   <a class="card" href="trigo-04-coordonnee.html">
-       <img src="img/4-coordonnee.png" alt="Perimetre Cercle trigonométrique" class="card-img"><div class="card-content">
-       <div class="card-title">
-           04. Coordonnées d’un point du cercle
-       </div>
-       <div class="card-description">
-           M(θ) = (cos θ, sin θ).
-       </div>
-        </div>
-   </a>
-    <a class="card" href="trigo-05-cos-sin.html">
-        <img src="img/5-cos.png" alt="cosinus" class="card-img"><div class="card-content">
-        <div class="card-title">05. Sinus et Cosinus</div>
-        <div class="card-description">Signes, valeurs remarquables.
-        </div>
-        </div>
-    </a>
-    <a class="card" href="trigo-06-relation-fondamentale.html">
-        <img src="img/6-relation.png" alt="relation fondamentale" class="card-img">
-        <div class="card-content">
-        <div class="card-content">
-            <div class="card-title">06. Relation fondamentale</div>
-            <div class="card-description">Signes, valeurs remarquables.</div>
-        </div>
-        </div>
-    </a>
-    <a class="card" href="trigo-07-tangente.html">
-        <img src="img/7-tan.png" alt="relation fondamentale" class="card-img">
-        <div class="card-content">
-            <div class="card-title">07. Tangente</div>
-            <div class="card-description">Définition, asymptotes, périodicité.</div>
-        </div>
-    </a>
-    <a class="card" href="trigo-08-formulaires.html"><div class="card-placeholder"></div><div class="card-content"><div class="card-title">08. Formulaires</div><div class="card-description">Identités et rappels utiles.</div></div></a>
-    <a class="card" href="trigo-09-formulaires-rotation.html"><div class="card-placeholder"></div><div class="card-content"><div class="card-title">08a. Formulaires rotation</div><div class="card-description">Identités et rappels utiles.</div></div></a>
-    <a class="card" href="trigo-09-triangles-quelconques.html"><div class="card-placeholder"></div><div class="card-content"><div class="card-title">09. Triangles quelconques</div><div class="card-description">Identités et rappels utiles.</div></div></a>
+    </div>
+    <div class="hero-aside">
+      <aside class="mini-panel">
+        <h2 style="margin:.1rem 0 .5rem 0">Ce qui a été normalisé</h2>
+        <p style="margin:0;color:#475569;line-height:1.55">Les pages en doublon ont maintenant des noms de fichiers uniques et des libellés clairs. Le catalogue expose aussi les variantes de rotation, la page de paramétrage et l'ancien sommaire HTML.</p>
+      </aside>
+      <aside class="mini-panel">
+        <h2 style="margin:.1rem 0 .5rem 0">Navigation</h2>
+        <p style="margin:0;color:#475569;line-height:1.55">Le site propose un point d'entrée unique, un sommaire complet et un studio de prévisualisation. Les liens internes des pages copiées ont été réécrits vers les nouveaux noms.</p>
+      </aside>
+    </div>
   </section>
+  <div class="catalog-wrap">
+
+  <section class="catalog-section">
+    <div class="section-head">
+      <div>
+        <h2>Cours principal</h2>
+        <p>Parcours pédagogique principal, dans l&#x27;ordre du chapitre.</p>
+      </div>
+      <span class="section-count">12 pages</span>
+    </div>
+    <div class="catalog-grid">
+
+      <a class="catalog-card" href="trigo-01-cercle.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>01. Cercle trigonométrique</h3>
+        <p>Repères, orientation, unité et angles sur le cercle.</p>
+        <div class="catalog-meta">Page: <code>trigo-01-cercle.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-01-cercle.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-02-perimetre.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>02. Périmètre du cercle unité</h3>
+        <p>Lien entre longueur d&#x27;arc, demi-périmètre et π.</p>
+        <div class="catalog-meta">Page: <code>trigo-02-perimetre.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-02-perimetre.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-03-radian.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>03. Le radian</h3>
+        <p>Définition géométrique du radian et conversion avec les degrés.</p>
+        <div class="catalog-meta">Page: <code>trigo-03-radian.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-03-radian.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-04-coordonnee.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>04. Coordonnées du point sur le cercle</h3>
+        <p>Lecture de M(theta) = (cos theta, sin theta) sur le cercle unité.</p>
+        <div class="catalog-meta">Page: <code>trigo-04-coordonnee.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-04-coordonnee.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-05-cos-sin.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>05. Cosinus et sinus</h3>
+        <p>Valeurs, signes et interprétation graphique de sin et cos.</p>
+        <div class="catalog-meta">Page: <code>trigo-05-cos-sin.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-05-cos-sin.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-06-relation-fondamentale.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>06. Relation fondamentale</h3>
+        <p>cos²(theta) + sin²(theta) = 1 et ses usages.</p>
+        <div class="catalog-meta">Page: <code>trigo-06-relation-fondamentale.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-06-relation-fondamentale.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-07-tangente.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>07. Tangente</h3>
+        <p>Définition, asymptotes et lecture sur le cercle trigonométrique.</p>
+        <div class="catalog-meta">Page: <code>trigo-07-tangente.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-07-tangente.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-09-triangles-quelconques.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>09. Triangles quelconques</h3>
+        <p>Formules utiles dans un triangle quelconque et lecture des grandeurs.</p>
+        <div class="catalog-meta">Page: <code>trigo-09-triangles-quelconques.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-09-triangles-quelconques.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-10-theoreme-sinus.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>10. Théorème du sinus</h3>
+        <p>Relations a/sin(A), b/sin(B), c/sin(C) et cercle circonscrit.</p>
+        <div class="catalog-meta">Page: <code>trigo-10-theoreme-sinus.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-10-theoreme-sinus.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-11-fonctions-trigonometriques.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>11. Fonctions trigonométriques</h3>
+        <p>Passage du cercle unité aux graphes de sin, cos et tan.</p>
+        <div class="catalog-meta">Page: <code>trigo-11-fonctions-trigonometriques.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-11-fonctions-trigonometriques.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-12-amplitude.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>12. Effet de l&#x27;amplitude</h3>
+        <p>Étirements et compressions verticales des fonctions trigonométriques.</p>
+        <div class="catalog-meta">Page: <code>trigo-12-amplitude.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-12-amplitude.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-13-periode.html">
+        <div class="catalog-kicker">Cours principal</div>
+        <h3>13. Effet de la période</h3>
+        <p>Influence du coefficient sur la période et la fréquence des oscillations.</p>
+        <div class="catalog-meta">Page: <code>trigo-13-periode.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-13-periode.html</code></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="catalog-section">
+    <div class="section-head">
+      <div>
+        <h2>Compléments et variantes</h2>
+        <p>Pages supplémentaires pour les formulaires, rotations et variantes interactives.</p>
+      </div>
+      <span class="section-count">6 pages</span>
+    </div>
+    <div class="catalog-grid">
+
+      <a class="catalog-card" href="trigo-complement-08a-formules-base.html">
+        <div class="catalog-kicker">Compléments et variantes</div>
+        <h3>Complément 08A. Formules de base</h3>
+        <p>Rappels synthétiques et tableau des valeurs remarquables sur [0; pi/2].</p>
+        <div class="catalog-meta">Page: <code>trigo-complement-08a-formules-base.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-08-formulaire.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-complement-08b-formulaire-complet.html">
+        <div class="catalog-kicker">Compléments et variantes</div>
+        <h3>Complément 08B. Formulaire complet du cercle</h3>
+        <p>Version étendue avec tableau, cercle trigonométrique et symétries.</p>
+        <div class="catalog-meta">Page: <code>trigo-complement-08b-formulaire-complet.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-08-formulaires.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-complement-09a-formulaire-cercle.html">
+        <div class="catalog-kicker">Compléments et variantes</div>
+        <h3>Complément 09A. Formulaire sinus/cosinus</h3>
+        <p>Valeurs remarquables et symétries pour sinus et cosinus sur le cercle.</p>
+        <div class="catalog-meta">Page: <code>trigo-complement-09a-formulaire-cercle.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-09-formulaire.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-complement-09b-rotations-symetries.html">
+        <div class="catalog-kicker">Compléments et variantes</div>
+        <h3>Complément 09B. Rotations et symétries</h3>
+        <p>Lecture des identités de rotation pour sin, cos et tan.</p>
+        <div class="catalog-meta">Page: <code>trigo-complement-09b-rotations-symetries.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-9-formulaire-rotation.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-complement-09c-rotations-projections.html">
+        <div class="catalog-kicker">Compléments et variantes</div>
+        <h3>Complément 09C. Rotations et projections</h3>
+        <p>Ajout des projections pour lire les formules directement sur la figure.</p>
+        <div class="catalog-meta">Page: <code>trigo-complement-09c-rotations-projections.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-9-formulaire-rotation-projections.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-complement-09d-rotations-projections-guidees.html">
+        <div class="catalog-kicker">Compléments et variantes</div>
+        <h3>Complément 09D. Rotations, projections et lecture guidée</h3>
+        <p>Version la plus riche pour lire les relations trigonométriques sur le cercle.</p>
+        <div class="catalog-meta">Page: <code>trigo-complement-09d-rotations-projections-guidees.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-9-formulaire-rotation-projections-plus.html</code></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="catalog-section">
+    <div class="section-head">
+      <div>
+        <h2>Outils et archives</h2>
+        <p>Utilitaires techniques et copie du sommaire HTML d&#x27;origine.</p>
+      </div>
+      <span class="section-count">2 pages</span>
+    </div>
+    <div class="catalog-grid">
+
+      <a class="catalog-card" href="trigo-outil-parametrage-rotations.html">
+        <div class="catalog-kicker">Outils et archives</div>
+        <h3>Outil. Paramétrage des rotations</h3>
+        <p>Page utilitaire pour construire des URLs de démonstration sur les rotations.</p>
+        <div class="catalog-meta">Page: <code>trigo-outil-parametrage-rotations.html</code></div>
+        <div class="catalog-meta">Source: <code>trigo-9-parametrage.html</code></div>
+      </a>
+
+      <a class="catalog-card" href="trigo-archive-sommaire-source.html">
+        <div class="catalog-kicker">Outils et archives</div>
+        <h3>Archive. Sommaire HTML source</h3>
+        <p>Version archivée du sommaire HTML d&#x27;origine, conservée telle quelle.</p>
+        <div class="catalog-meta">Page: <code>trigo-archive-sommaire-source.html</code></div>
+        <div class="catalog-meta">Source: <code>trigonometry.html</code></div>
+      </a>
+    </div>
+  </section>
+  </div>
 </main>
-<footer><div class="container">© 2025 Enseignant de Mathématiques à Genève</div></footer>
-<script src="script.js"></script>
-</body></html>
+<footer><div class="container">© 2026 Site HTML refactoré</div></footer>
+</body>
+</html>

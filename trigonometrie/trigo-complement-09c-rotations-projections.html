@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- JSXGraph (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* Layout : cercle + panneau */
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width: 980px){.stage{grid-template-columns:1fr}.panel{max-width:760px}}
+    .board-wrap{max-width:760px;margin:0}
+    #rot-box{width:100%;aspect-ratio:1/1;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+
+    .panel{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+    .panel h3{margin:.2rem 0 .6rem 0}
+    .panel h4{margin:.9rem 0 .45rem 0}
+
+    .controls{display:flex;flex-direction:column;gap:.75rem}
+    .group{border:1px solid #eef2f7;border-radius:12px;padding:.75rem;background:#fbfdff}
+    .row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.55rem .75rem;font-weight:800;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .btn:active{transform:translateY(1px)}
+
+    .hint{font-size:.92rem;opacity:.9;line-height:1.35;margin:0}
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.25rem .6rem;font-weight:800}
+
+    .kv{display:grid;grid-template-columns:1fr auto;gap:.35rem .75rem;margin-top:.4rem}
+    .kv div{padding:.15rem 0}
+    .kv .k{opacity:.75}
+    .kv .v{font-weight:800}
+
+    .formulas{border:1px dashed #cbd5e1;border-radius:12px;background:#fbfdff;padding:.75rem}
+    .formula{padding:.35rem .4rem;border-radius:10px}
+    .formula + .formula{margin-top:.35rem}
+    .tag{display:inline-block;font-size:.82rem;font-weight:900;border-radius:999px;padding:.15rem .45rem;border:1px solid #e5e7eb;background:#fff;margin-right:.35rem}
+
+    .note{font-size:.9rem;opacity:.92;line-height:1.35;margin:.45rem 0 0 0}
+
+    .cCos{color:#ef4444}
+    .cSin{color:#16a34a}
+    .cTan{color:#7c3aed}
+    .cTheta{color:#2563eb}
+    .cGray{color:#334155}
+  </style>
+
+  <title>Complément 09C. Rotations et projections</title>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
+
+<body>
+<header id="siteHeader">
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">Complément 09C. Rotations, symétries et projections</h1>
+    <p class="lead">
+      Tu choisis un angle <span class="cTheta"><strong>x</strong></span> sur le cercle trigonométrique,
+      puis tu affiches (ou non) des angles du type <strong>π + x</strong>, <strong>π − x</strong>, <strong>π/2 + x</strong>, <strong>−x</strong>, etc.
+      Enfin, tu sélectionnes <span class="cSin"><strong>sin</strong></span>, <span class="cCos"><strong>cos</strong></span> ou <span class="cTan"><strong>tan</strong></span>
+      pour obtenir les identités correspondantes.
+    </p>
+
+    <div class="stage">
+      <section class="board-wrap" id="boardPanel" aria-label="cercle trigonométrique interactif">
+        <div id="rot-box"></div>
+
+        <div class="panel" id="readoutPanel" style="margin-top:1rem">
+          <h3>Lecture de l’angle</h3>
+          <p class="hint" style="margin-bottom:.35rem">
+            Clique sur le cercle (ou déplace le point <strong>P</strong>) pour choisir l’angle <span class="cTheta"><strong>x</strong></span>.
+          </p>
+          <div class="kv" id="kvAngle">
+            <div class="k">x (radians)</div><div class="v"><span id="xRad">0</span></div>
+            <div class="k">x (degrés)</div><div class="v"><span id="xDeg">0</span></div>
+            <div class="k">approx. en π</div><div class="v"><span id="xNice">—</span></div>
+          </div>
+          <div class="kv" id="kvValues" style="margin-top:.6rem">
+            <div class="k"><span class="cCos">cos(x)</span></div><div class="v" id="valCos">—</div>
+            <div class="k"><span class="cSin">sin(x)</span></div><div class="v" id="valSin">—</div>
+            <div class="k"><span class="cTan">tan(x)</span></div><div class="v" id="valTan">—</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel" id="controlsPanel" aria-label="contrôles et formules">
+        <h3>Contrôles</h3>
+
+        <div class="controls">
+          <div class="group">
+            <h4>Angles à afficher</h4>
+            <div class="row">
+              <label><input type="checkbox" id="chk_neg" checked> −x</label>
+              <label><input type="checkbox" id="chk_pi_plus" checked> π + x</label>
+              <label><input type="checkbox" id="chk_pi_minus"> π − x</label>
+            </div>
+            <div class="row">
+              <label><input type="checkbox" id="chk_hp_plus" checked> π/2 + x</label>
+              <label><input type="checkbox" id="chk_hp_minus"> π/2 − x</label>
+              <label><input type="checkbox" id="chk_2pi_minus"> 2π − x</label>
+            </div>
+            <div class="row" style="margin-top:.15rem">
+              <button class="btn primary" id="btnAll" type="button">Tout cocher</button>
+              <button class="btn" id="btnNone" type="button">Tout décocher</button>
+            </div>
+            <p class="note">
+              Les points affichés sont des <strong>images</strong> de P par symétrie/rotation (sur le cercle unité).
+              Exemple : π+x correspond au point <span class="cGray">−P</span>.
+            </p>
+          </div>
+
+          <div class="group">
+            <h4>Fonction</h4>
+            <div class="row">
+              <label><input type="radio" name="fn" value="sin"> <span class="cSin"><strong>sin</strong></span></label>
+              <label><input type="radio" name="fn" value="cos" checked> <span class="cCos"><strong>cos</strong></span></label>
+              <label><input type="radio" name="fn" value="tan"> <span class="cTan"><strong>tan</strong></span></label>
+            </div>
+            <p class="note">
+              Pour la tangente, certaines valeurs deviennent <strong>indéfinies</strong> (division par 0).
+            </p>
+          </div>
+
+          <div class="group" id="formulasGroup">
+            <h4>Formules</h4>
+            <div class="formulas" id="formulaList"></div>
+            <p class="note" id="tanWarning" style="display:none"></p>
+          </div>
+
+          <div class="row" style="justify-content:flex-start">
+            <a class="button" href="trigonometry.html">Sommaire</a>
+            <a class="button" href="trigo-complement-09a-formulaire-cercle.html">← Précédent</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer id="siteFooter"><div class="container">© 2026 Enseignant de Mathématiques à Genève</div></footer>
+
+<script>
+(function(){
+  const TWO_PI = Math.PI * 2;
+  const ANGLE_KEY_TO_CHECKBOX = {
+    neg: 'chk_neg',
+    piPlus: 'chk_pi_plus',
+    piMinus: 'chk_pi_minus',
+    halfPiPlus: 'chk_hp_plus',
+    halfPiMinus: 'chk_hp_minus',
+    twoPiMinus: 'chk_2pi_minus',
+  };
+  const ANGLE_KEYS = Object.keys(ANGLE_KEY_TO_CHECKBOX);
+  const VALID_PARTS = ['board', 'readout', 'formulas', 'controls'];
+  const VALID_READOUT_MODES = ['all', 'angle', 'values', 'none'];
+  const VALID_PROJ_MODES = ['auto', '1', '0'];
+  const VALID_FN = ['sin', 'cos', 'tan'];
+
+  function parseCsvSet(raw, allowedValues){
+    if(raw === null) return null;
+    const allowed = new Set(allowedValues);
+    const out = new Set();
+    raw.split(',').map(v => v.trim()).filter(Boolean).forEach((v) => {
+      if(allowed.has(v)) out.add(v);
+    });
+    return out;
+  }
+
+  function parseEnum(raw, allowedValues, fallback){
+    if(raw === null || raw === '') return fallback;
+    return allowedValues.includes(raw) ? raw : fallback;
+  }
+
+  function parseBool(raw, fallback){
+    if(raw === null || raw === '') return fallback;
+    if(raw === '1') return true;
+    if(raw === '0') return false;
+    return fallback;
+  }
+
+  function parsePiFraction(raw){
+    if(raw === null) return null;
+    const clean = raw.trim().replace(/\s+/g, '');
+    if(clean === '') return null;
+    const m = clean.match(/^([+-]?\d+)(?:\/([+-]?\d+))?$/);
+    if(!m) return null;
+    const num = Number(m[1]);
+    const den = m[2] ? Number(m[2]) : 1;
+    if(!Number.isFinite(num) || !Number.isFinite(den) || den === 0) return null;
+    return (num / den) * Math.PI;
+  }
+
+  function parseInitialTheta(params){
+    const fromPi = parsePiFraction(params.get('xpi'));
+    if(fromPi !== null) return fromPi;
+    const rawX = params.get('x');
+    if(rawX === null || rawX.trim() === '') return null;
+    const x = Number(rawX.replace(',', '.'));
+    return Number.isFinite(x) ? x : null;
+  }
+
+  function setBlockVisible(node, on){
+    if(node) node.style.display = on ? '' : 'none';
+  }
+
+  function isRendered(node){
+    return !!node && node.getClientRects().length > 0;
+  }
+
+  const query = new URLSearchParams(window.location.search);
+  const config = {
+    fn: parseEnum(query.get('fn'), VALID_FN, null),
+    angles: parseCsvSet(query.get('angles'), ANGLE_KEYS),
+    parts: parseCsvSet(query.get('parts'), VALID_PARTS) || new Set(VALID_PARTS),
+    readoutMode: parseEnum(query.get('readoutMode'), VALID_READOUT_MODES, 'all'),
+    proj: parseEnum(query.get('proj'), VALID_PROJ_MODES, 'auto'),
+    interactive: parseBool(query.get('interactive'), true),
+    chrome: parseBool(query.get('chrome'), true),
+    sync: parseBool(query.get('sync'), true),
+    initialTheta: parseInitialTheta(query),
+  };
+
+  function normAngle(a){
+    let x = a;
+    while(x < 0) x += TWO_PI;
+    while(x >= TWO_PI) x -= TWO_PI;
+    return x;
+  }
+  function fmt(x){
+    const v = Math.round(x * 1000) / 1000;
+    const s = (Math.abs(v) < 1e-12 ? 0 : v).toFixed(3)
+      .replace(/\.000$/,'').replace(/0+$/,'').replace(/\.$/,'');
+    return s.replace('.', ',');
+  }
+  function fmtDeg(x){
+    const v = Math.round(x * 10) / 10;
+    const s = v.toFixed(1).replace(/\.0$/,'');
+    return s.replace('.', ',') + '°';
+  }
+
+  // approx k*pi/n (pour lecture)
+  function nicePi(theta){
+    const denoms = [1,2,3,4,6,8,12,16];
+    let best = null;
+    for(const n of denoms){
+      const k = Math.round(theta / Math.PI * n);
+      const approx = k * Math.PI / n;
+      const err = Math.abs(theta - approx);
+      if(!best || err < best.err){
+        best = {k,n,approx,err};
+      }
+    }
+    if(!best || best.err > 0.02) return null;
+
+    // simplifie k/n
+    let k = best.k, n = best.n;
+    // ramène 2π -> 0
+    if(k === 2*n) k = 0;
+
+    function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a}
+    const g = gcd(k,n);
+    k = k/g; n = n/g;
+
+    if(k === 0) return '\\(0\\)';
+    if(n === 1){
+      if(k === 1) return '\\(\\pi\\)';
+      if(k === -1) return '\\(-\\pi\\)';
+      return `\\(${k}\\pi\\)`;
+    }
+    if(Math.abs(k) === 1){
+      const sign = (k<0?'-':'');
+      return `\\(${sign}\\frac{\\pi}{${n}}\\)`;
+    }
+    return `\\(\\frac{${k}\\pi}{${n}}\\)`;
+  }
+
+  function applyChromeVisibility(){
+    setBlockVisible(document.getElementById('siteHeader'), config.chrome);
+    setBlockVisible(document.getElementById('siteFooter'), config.chrome);
+  }
+
+  function applyPartsVisibility(){
+    const has = (part) => config.parts.has(part);
+    setBlockVisible(document.getElementById('boardPanel'), has('board'));
+    setBlockVisible(document.getElementById('readoutPanel'), has('readout'));
+    setBlockVisible(document.getElementById('controlsPanel'), has('controls'));
+    setBlockVisible(document.getElementById('formulasGroup'), has('controls') && has('formulas'));
+  }
+
+  function applyReadoutVisibility(){
+    const kvAngle = document.getElementById('kvAngle');
+    const kvValues = document.getElementById('kvValues');
+    switch(config.readoutMode){
+      case 'angle':
+        setBlockVisible(kvAngle, true);
+        setBlockVisible(kvValues, false);
+        break;
+      case 'values':
+        setBlockVisible(kvAngle, false);
+        setBlockVisible(kvValues, true);
+        break;
+      case 'none':
+        setBlockVisible(kvAngle, false);
+        setBlockVisible(kvValues, false);
+        break;
+      case 'all':
+      default:
+        setBlockVisible(kvAngle, true);
+        setBlockVisible(kvValues, true);
+        break;
+    }
+  }
+
+  function applyUiConfigFromUrl(){
+    if(config.fn){
+      const fnInput = document.querySelector(`input[name="fn"][value="${config.fn}"]`);
+      if(fnInput) fnInput.checked = true;
+    }
+
+    if(config.angles !== null){
+      ANGLE_KEYS.forEach((key) => {
+        const el = document.getElementById(ANGLE_KEY_TO_CHECKBOX[key]);
+        if(el) el.checked = config.angles.has(key);
+      });
+    }
+
+    applyChromeVisibility();
+    applyPartsVisibility();
+    applyReadoutVisibility();
+  }
+
+  // ---------- JSXGraph ----------
+  const board = JXG.JSXGraph.initBoard('rot-box', {
+    boundingbox: [-1.7, 1.7, 1.7, -1.7],
+    axis: true,
+    grid: false,
+    keepaspectratio: true,
+    showNavigation: false,
+    showCopyright: false
+  });
+
+  // Points de référence
+  const O = board.create('point', [0,0], {name:'O', size:2.5, fixed:true, withLabel:true, strokeColor:'#111827', fillColor:'#111827', label:{offset:[8,10]}});
+  const C = board.create('circle', [O, 1], {strokeWidth:3, strokeColor:'#111827'});
+
+  // Angle initial
+  let theta0 = (config.initialTheta === null) ? (Math.PI / 6) : config.initialTheta;
+
+  const P = board.create('glider', [Math.cos(theta0), Math.sin(theta0), C], {
+    name:'P',
+    size:4.5,
+    withLabel:true,
+    strokeColor:'#2563eb',
+    fillColor:'#2563eb',
+    label:{offset:[10, -12]}
+  });
+
+  // Rayon principal (x)
+  const rayX = board.create('segment', [O, P], {strokeWidth:4, strokeColor:'#2563eb'});
+
+  // Utils points dérivés (à partir de P=(X,Y))
+  const X = () => P.X();
+  const Y = () => P.Y();
+
+  // Définition des transformations
+  const transforms = [
+    {
+      id:'neg',
+      label:'−x',
+      angleLatex:'-x',
+      angleText:'-x',
+      color:'#0f172a',
+      point: board.create('point', [() => X(), () => -Y()], {name:'', size:3.8, fixed:true, withLabel:false, strokeColor:'#0f172a', fillColor:'#0f172a', visible:true}),
+      ray: null,
+      text: null,
+      enabled: () => document.getElementById('chk_neg').checked
+    },
+    {
+      id:'piPlus',
+      label:'π + x',
+      angleLatex:'\\pi + x',
+      angleText:'π+x',
+      color:'#ef4444',
+      point: board.create('point', [() => -X(), () => -Y()], {name:'', size:3.8, fixed:true, withLabel:false, strokeColor:'#ef4444', fillColor:'#ef4444', visible:true}),
+      ray: null,
+      text: null,
+      enabled: () => document.getElementById('chk_pi_plus').checked
+    },
+    {
+      id:'piMinus',
+      label:'π − x',
+      angleLatex:'\\pi - x',
+      angleText:'π−x',
+      color:'#f59e0b',
+      point: board.create('point', [() => -X(), () => Y()], {name:'', size:3.8, fixed:true, withLabel:false, strokeColor:'#f59e0b', fillColor:'#f59e0b', visible:false}),
+      ray: null,
+      text: null,
+      enabled: () => document.getElementById('chk_pi_minus').checked
+    },
+    {
+      id:'halfPiPlus',
+      label:'π/2 + x',
+      angleLatex:'\\frac{\\pi}{2} + x',
+      angleText:'π/2+x',
+      color:'#16a34a',
+      point: board.create('point', [() => -Y(), () => X()], {name:'', size:3.8, fixed:true, withLabel:false, strokeColor:'#16a34a', fillColor:'#16a34a', visible:true}),
+      ray: null,
+      text: null,
+      enabled: () => document.getElementById('chk_hp_plus').checked
+    },
+    {
+      id:'halfPiMinus',
+      label:'π/2 − x',
+      angleLatex:'\\frac{\\pi}{2} - x',
+      angleText:'π/2−x',
+      color:'#06b6d4',
+      point: board.create('point', [() => Y(), () => X()], {name:'', size:3.8, fixed:true, withLabel:false, strokeColor:'#06b6d4', fillColor:'#06b6d4', visible:false}),
+      ray: null,
+      text: null,
+      enabled: () => document.getElementById('chk_hp_minus').checked
+    },
+    {
+      id:'twoPiMinus',
+      label:'2π − x',
+      angleLatex:'2\\pi - x',
+      angleText:'2π−x',
+      color:'#7c3aed',
+      point: board.create('point', [() => X(), () => -Y()], {name:'', size:3.8, fixed:true, withLabel:false, strokeColor:'#7c3aed', fillColor:'#7c3aed', visible:false}),
+      ray: null,
+      text: null,
+      enabled: () => document.getElementById('chk_2pi_minus').checked
+    },
+  ];
+
+  // Ajout rayons + labels pour transform
+  function labelOffset(u,v, extra){
+    // u,v sont coords du point sur cercle
+    const dx = (u >= 0 ? 0.14 : -0.42) + (extra?.dx || 0);
+    const dy = (v >= 0 ? 0.12 : -0.28) + (extra?.dy || 0);
+    return {dx,dy};
+  }
+
+  transforms.forEach((t) => {
+    t.ray = board.create('segment', [O, t.point], {
+      strokeWidth:3,
+      strokeColor:t.color,
+      dash: 2,
+      visible: t.point.getAttribute('visible')
+    });
+
+    // labels (texte simple)
+    const extra = (t.id === 'twoPiMinus') ? {dx:0.22, dy:0.05} : (t.id === 'neg' ? {dx:0.06, dy:-0.08} : null);
+    t.text = board.create('text', [
+      () => t.point.X() + labelOffset(t.point.X(), t.point.Y(), extra).dx,
+      () => t.point.Y() + labelOffset(t.point.X(), t.point.Y(), extra).dy,
+      () => t.angleText
+    ], {
+      fontSize: 16,
+      fixed:true,
+      strokeColor: t.color,
+      visible: t.point.getAttribute('visible')
+    });
+  });
+
+  // ---------- Projections (lecture visuelle sin/cos) ----------
+  // Idée : quand on regarde cos ou sin, on affiche des projections rouges
+  // pour comparer P(x) et son symétrique -x (même cos, sinus opposé).
+
+  const Pneg = transforms.find(t => t.id === 'neg').point;
+
+  // Points projetés (invisibles)
+  const A = board.create('point', [() => X(), 0], {name:'', size:1, fixed:true, withLabel:false, visible:false});        // (cos x, 0)
+  const B = board.create('point', [0, () => Y()], {name:'', size:1, fixed:true, withLabel:false, visible:false});        // (0, sin x)
+  const Bneg = board.create('point', [0, () => -Y()], {name:'', size:1, fixed:true, withLabel:false, visible:false});    // (0, -sin x)
+
+  // Segments de projection pour cos : "on tombe" sur l'axe des abscisses
+  const projCos_P = board.create('segment', [P, A], {strokeColor:'#ef4444', strokeWidth:5, visible:false});
+  const projCos_N = board.create('segment', [Pneg, A], {strokeColor:'#ef4444', strokeWidth:5, dash: 2, visible:false});
+  const projCos_axis = board.create('segment', [O, A], {strokeColor:'#ef4444', strokeWidth:5, visible:false, straightFirst:false, straightLast:false});
+
+  // Segments de projection pour sin : "on va" vers l'axe des ordonnées
+  const projSin_P = board.create('segment', [P, B], {strokeColor:'#ef4444', strokeWidth:5, visible:false});
+  const projSin_N = board.create('segment', [Pneg, Bneg], {strokeColor:'#ef4444', strokeWidth:5, dash: 2, visible:false});
+  const projSin_axis_pos = board.create('segment', [O, B], {strokeColor:'#ef4444', strokeWidth:5, visible:false, straightFirst:false, straightLast:false});
+  const projSin_axis_neg = board.create('segment', [O, Bneg], {strokeColor:'#ef4444', strokeWidth:5, visible:false, straightFirst:false, straightLast:false, dash: 2});
+
+  // Petits rappels de propriété (affichés sur le graphe)
+  const txtCos = board.create('text', [-1.58, 1.55, () => 'cos(x) = cos(-x)'], {
+    fontSize: 16, fixed:true, strokeColor:'#ef4444', visible:false
+  });
+  const txtSin = board.create('text', [-1.58, 1.35, () => 'sin(-x) = -sin(x)'], {
+    fontSize: 16, fixed:true, strokeColor:'#ef4444', visible:false
+  });
+
+  function setVis(objs, on){
+    objs.forEach(o => o.setAttribute({visible:on}));
+  }
+
+  function updateProjections(){
+    const fn = getFn();
+    const showCompare = (config.proj === '1')
+      ? true
+      : (config.proj === '0' ? false : document.getElementById('chk_neg').checked);
+
+    // Tout cacher par défaut
+    setVis([projCos_P, projCos_N, projCos_axis, txtCos], false);
+    setVis([projSin_P, projSin_N, projSin_axis_pos, projSin_axis_neg, txtSin], false);
+
+    if(!showCompare) { board.update(); return; }
+
+    if(fn === 'cos'){
+      setVis([projCos_P, projCos_N, projCos_axis, txtCos], true);
+    } else if(fn === 'sin'){
+      setVis([projSin_P, projSin_N, projSin_axis_pos, projSin_axis_neg, txtSin], true);
+    }
+    // tan : pas de projection (on pourrait en ajouter plus tard)
+    board.update();
+  }
+
+  // --------- Interaction : clic sur le cercle ----------
+  function setPFromClick(e){
+    const coords = board.getUsrCoordsOfMouse(e);
+    const mx = coords[0], my = coords[1];
+    const r = Math.hypot(mx, my);
+    if(!isFinite(r) || r < 0.05) return;
+    if(Math.abs(r - 1) > 0.18) return; // tolérance : il faut cliquer "près" du cercle
+
+    const nx = mx / r;
+    const ny = my / r;
+    P.moveTo([nx, ny], 0);
+    board.update();
+    updateAll();
+  }
+  if(config.interactive){
+    board.on('down', setPFromClick);
+    P.on('drag', () => { updateAll(); });
+  } else {
+    P.setAttribute({fixed:true, highlight:false});
+  }
+
+  // ---------- UI state ----------
+  function getFn(){
+    const el = document.querySelector('input[name="fn"]:checked');
+    return el ? el.value : 'cos';
+  }
+
+  const FN_LATEX = {sin:'\\sin', cos:'\\cos', tan:'\\tan'};
+  const RHS = {
+    sin: {
+      neg: '-\\sin(x)',
+      piPlus: '-\\sin(x)',
+      piMinus: '\\sin(x)',
+      halfPiPlus: '\\cos(x)',
+      halfPiMinus: '\\cos(x)',
+      twoPiMinus: '-\\sin(x)',
+    },
+    cos: {
+      neg: '\\cos(x)',
+      piPlus: '-\\cos(x)',
+      piMinus: '-\\cos(x)',
+      halfPiPlus: '-\\sin(x)',
+      halfPiMinus: '\\sin(x)',
+      twoPiMinus: '\\cos(x)',
+    },
+    tan: {
+      neg: '-\\tan(x)',
+      piPlus: '\\tan(x)',
+      piMinus: '-\\tan(x)',
+      halfPiPlus: '-\\cot(x) = -\\dfrac{1}{\\tan(x)}',
+      halfPiMinus: '\\cot(x) = \\dfrac{1}{\\tan(x)}',
+      twoPiMinus: '-\\tan(x)',
+    }
+  };
+
+  // ---------- Update visuals ----------
+  function updateVisibility(){
+    transforms.forEach(t => {
+      const on = t.enabled();
+      t.point.setAttribute({visible:on});
+      t.ray.setAttribute({visible:on});
+      t.text.setAttribute({visible:on});
+    });
+    board.update();
+  }
+
+  // ---------- Update formulas ----------
+  function updateFormulas(){
+    if(!isRendered(document.getElementById('formulasGroup'))) return;
+    const fn = getFn();
+    const list = document.getElementById('formulaList');
+    list.innerHTML = '';
+
+    const active = transforms.filter(t => t.enabled());
+    if(active.length === 0){
+      list.innerHTML = '<div class="note">Aucune case cochée : coche un ou plusieurs angles.</div>';
+      document.getElementById('tanWarning').style.display = 'none';
+      typeset(list);
+      return;
+    }
+
+    active.forEach(t => {
+      const rhs = RHS[fn][t.id] || '...';
+      const f = FN_LATEX[fn];
+
+      const line = document.createElement('div');
+      line.className = 'formula';
+      line.innerHTML =
+        `<span class="tag" style="border-color:${t.color}; color:${t.color}">${t.label}</span>` +
+        `\\(${f}\\left(${t.angleLatex}\\right) = ${rhs}\\)`;
+      list.appendChild(line);
+    });
+
+    // Note sur les cas indéfinis pour tan
+    const warning = document.getElementById('tanWarning');
+    if(fn === 'tan'){
+      warning.style.display = 'block';
+      warning.innerHTML =
+        "Attention : \\(\\tan(x)\\) est indéfinie si \\(\\cos(x)=0\\) (ex : \\(x=\\pi/2\\)). " +
+        "Et \\(\\tan(\\pi/2\u00b1x)\\) implique \\(1/\\tan(x)\\), donc c’est indéfini si \\(\\tan(x)=0\\) (ex : \\(x=0\\)).";
+    } else {
+      warning.style.display = 'none';
+    }
+
+    typeset(list);
+    typeset(warning); // typeset formule + note
+  }
+
+  function typeset(node){
+    if(!isRendered(node)) return;
+    if(window.MathJax && MathJax.typesetPromise){
+      MathJax.typesetClear();
+      MathJax.typesetPromise([node]).catch(() => {});
+    }
+  }
+
+  // ---------- Readout (angle + valeurs) ----------
+  function updateReadout(){
+    if(!isRendered(document.getElementById('readoutPanel'))) return;
+    const x = normAngle(Math.atan2(P.Y(), P.X()));
+    const deg = x * 180 / Math.PI;
+
+    document.getElementById('xRad').textContent = fmt(x);
+    document.getElementById('xDeg').textContent = fmtDeg(deg);
+
+    // approx en k*pi/n
+    const nice = nicePi(x);
+    const xNice = document.getElementById('xNice');
+    if(nice){
+      xNice.innerHTML = nice;
+      if(isRendered(document.getElementById('kvAngle'))) typeset(xNice);
+    } else {
+      xNice.textContent = '—';
+    }
+
+    // valeurs numériques
+    const c = P.X();
+    const s = P.Y();
+    const valCos = document.getElementById('valCos');
+    const valSin = document.getElementById('valSin');
+    const valTan = document.getElementById('valTan');
+
+    valCos.textContent = fmt(c);
+    valSin.textContent = fmt(s);
+
+    const eps = 1e-6;
+    if(Math.abs(c) < eps){
+      valTan.textContent = 'indéfini';
+    } else {
+      const t = s / c;
+      // limite l’affichage si très grand
+      if(Math.abs(t) > 1e4) valTan.textContent = 'très grand';
+      else valTan.textContent = fmt(t);
+    }
+  }
+
+  function updateUrlFromState(){
+    if(!config.sync) return;
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+    const fn = getFn();
+    const activeAngles = ANGLE_KEYS
+      .filter((key) => document.getElementById(ANGLE_KEY_TO_CHECKBOX[key]).checked)
+      .join(',');
+    const partsCsv = VALID_PARTS.filter(part => config.parts.has(part)).join(',');
+    const x = normAngle(Math.atan2(P.Y(), P.X()));
+
+    params.set('fn', fn);
+    params.set('angles', activeAngles);
+    params.set('parts', partsCsv);
+    params.set('readoutMode', config.readoutMode);
+    params.set('proj', config.proj);
+    params.set('interactive', config.interactive ? '1' : '0');
+    params.set('chrome', config.chrome ? '1' : '0');
+    params.set('sync', config.sync ? '1' : '0');
+    params.set('x', String(Math.round(x * 1e6) / 1e6));
+    params.delete('xpi');
+    history.replaceState(null, '', url.toString());
+  }
+
+  // ---------- Main update ----------
+  function updateAll(){
+    updateVisibility();
+    updateProjections();
+    updateReadout();
+    updateFormulas();
+    updateUrlFromState();
+  }
+
+  // ---------- Hook UI ----------
+  const ids = ['chk_neg','chk_pi_plus','chk_pi_minus','chk_hp_plus','chk_hp_minus','chk_2pi_minus'];
+  ids.forEach(id => document.getElementById(id).addEventListener('change', updateAll));
+
+  document.querySelectorAll('input[name="fn"]').forEach(r => r.addEventListener('change', updateAll));
+
+  document.getElementById('btnAll').addEventListener('click', () => {
+    ids.forEach(id => document.getElementById(id).checked = true);
+    updateAll();
+  });
+  document.getElementById('btnNone').addEventListener('click', () => {
+    ids.forEach(id => document.getElementById(id).checked = false);
+    updateAll();
+  });
+
+  // init
+  applyUiConfigFromUrl();
+  updateAll();
+})();
+</script>
+
+</body>
+</html>

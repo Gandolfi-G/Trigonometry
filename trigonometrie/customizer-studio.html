@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Studio de personnalisation</title>
+  <style>
+    .studio{max-width:1280px;margin:1rem auto;padding:0 1rem 1.2rem;display:grid;grid-template-columns:360px 1fr;gap:1rem}
+    @media (max-width: 980px){.studio{grid-template-columns:1fr}}
+    .panel{border:1px solid #e5e7eb;border-radius:16px;background:#fff;padding:1rem;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+    .stack{display:flex;flex-direction:column;gap:.6rem}
+    .row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    label{font-weight:700}
+    select,input{font:inherit;padding:.45rem .55rem;border:1px solid #d1d5db;border-radius:10px;width:100%}
+    iframe{width:100%;height:78vh;border:1px solid #e5e7eb;border-radius:16px;background:#fff}
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.55rem .75rem;font-weight:800;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .hint{font-size:.92rem;opacity:.8;margin:0;line-height:1.45}
+  </style>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="index.html">Trigonométrie HTML</a></div>
+    <nav><a href="index.html">Accueil</a><a href="trigonometry.html">Toutes les pages</a><a class="active" href="customizer-studio.html">Studio</a></nav>
+  </div>
+</header>
+<main class="studio">
+  <section class="panel stack">
+    <h1 style="margin:.1rem 0 .3rem 0;font-size:1.6rem">Studio</h1>
+    <p class="hint">Prévisualise n'importe quelle page publiée avec des réglages globaux. La liste reprend les noms refactorés et toutes les variantes du site.</p>
+
+    <div class="stack">
+      <label for="page">Page</label>
+      <select id="page">
+      <optgroup label="Cours principal">
+        <option value="trigo-01-cercle.html">01. Cercle trigonométrique - trigo-01-cercle.html</option>
+        <option value="trigo-02-perimetre.html">02. Périmètre du cercle unité - trigo-02-perimetre.html</option>
+        <option value="trigo-03-radian.html">03. Le radian - trigo-03-radian.html</option>
+        <option value="trigo-04-coordonnee.html">04. Coordonnées du point sur le cercle - trigo-04-coordonnee.html</option>
+        <option value="trigo-05-cos-sin.html">05. Cosinus et sinus - trigo-05-cos-sin.html</option>
+        <option value="trigo-06-relation-fondamentale.html">06. Relation fondamentale - trigo-06-relation-fondamentale.html</option>
+        <option value="trigo-07-tangente.html">07. Tangente - trigo-07-tangente.html</option>
+        <option value="trigo-09-triangles-quelconques.html">09. Triangles quelconques - trigo-09-triangles-quelconques.html</option>
+        <option value="trigo-10-theoreme-sinus.html">10. Théorème du sinus - trigo-10-theoreme-sinus.html</option>
+        <option value="trigo-11-fonctions-trigonometriques.html">11. Fonctions trigonométriques - trigo-11-fonctions-trigonometriques.html</option>
+        <option value="trigo-12-amplitude.html">12. Effet de l&#x27;amplitude - trigo-12-amplitude.html</option>
+        <option value="trigo-13-periode.html">13. Effet de la période - trigo-13-periode.html</option>
+      </optgroup>
+      <optgroup label="Compléments et variantes">
+        <option value="trigo-complement-08a-formules-base.html">Complément 08A. Formules de base - trigo-complement-08a-formules-base.html</option>
+        <option value="trigo-complement-08b-formulaire-complet.html">Complément 08B. Formulaire complet du cercle - trigo-complement-08b-formulaire-complet.html</option>
+        <option value="trigo-complement-09a-formulaire-cercle.html">Complément 09A. Formulaire sinus/cosinus - trigo-complement-09a-formulaire-cercle.html</option>
+        <option value="trigo-complement-09b-rotations-symetries.html">Complément 09B. Rotations et symétries - trigo-complement-09b-rotations-symetries.html</option>
+        <option value="trigo-complement-09c-rotations-projections.html">Complément 09C. Rotations et projections - trigo-complement-09c-rotations-projections.html</option>
+        <option value="trigo-complement-09d-rotations-projections-guidees.html">Complément 09D. Rotations, projections et lecture guidée - trigo-complement-09d-rotations-projections-guidees.html</option>
+      </optgroup>
+      <optgroup label="Outils et archives">
+        <option value="trigo-outil-parametrage-rotations.html">Outil. Paramétrage des rotations - trigo-outil-parametrage-rotations.html</option>
+        <option value="trigo-archive-sommaire-source.html">Archive. Sommaire HTML source - trigo-archive-sommaire-source.html</option>
+      </optgroup>
+      </select>
+    </div>
+
+    <div class="stack">
+      <label for="c_primary">Couleur principale</label>
+      <input id="c_primary" type="color" value="#35478c">
+    </div>
+
+    <div class="stack">
+      <label for="c_bg">Fond</label>
+      <input id="c_bg" type="color" value="#f5f6fa">
+    </div>
+
+    <div class="stack">
+      <label for="c_text">Texte</label>
+      <input id="c_text" type="color" value="#1f2937">
+    </div>
+
+    <div class="stack">
+      <label for="c_scale">Échelle texte</label>
+      <input id="c_scale" type="number" min="0.8" max="1.35" step="0.01" value="1">
+    </div>
+
+    <div class="stack">
+      <label for="c_maxw">Largeur max</label>
+      <input id="c_maxw" type="number" min="860" max="1600" step="10" value="1100">
+    </div>
+
+    <div class="stack">
+      <label for="c_radius">Rayon</label>
+      <input id="c_radius" type="number" min="0" max="28" step="1" value="12">
+    </div>
+
+    <div class="row">
+      <label><input id="c_hideHeader" type="checkbox"> Masquer header</label>
+    </div>
+    <div class="row">
+      <label><input id="c_hideFooter" type="checkbox"> Masquer footer</label>
+    </div>
+
+    <div class="row">
+      <button class="btn primary" id="btnApply" type="button">Appliquer</button>
+      <button class="btn" id="btnOpen" type="button">Ouvrir</button>
+      <button class="btn" id="btnCopy" type="button">Copier URL</button>
+    </div>
+
+    <input id="url" type="text" readonly>
+  </section>
+
+  <section class="panel">
+    <iframe id="preview" title="Aperçu"></iframe>
+  </section>
+</main>
+<footer><div class="container">© 2026 Studio de personnalisation</div></footer>
+
+<script>
+(function(){
+  function byId(id){ return document.getElementById(id); }
+  function currentUrl(){
+    const page = byId('page').value;
+    const u = new URL(page, window.location.href);
+    const p = u.searchParams;
+    p.set('c_primary', byId('c_primary').value);
+    p.set('c_bg', byId('c_bg').value);
+    p.set('c_text', byId('c_text').value);
+    p.set('c_scale', byId('c_scale').value || '1');
+    p.set('c_maxw', byId('c_maxw').value || '1100');
+    p.set('c_radius', byId('c_radius').value || '12');
+    p.set('c_hideHeader', byId('c_hideHeader').checked ? '1' : '0');
+    p.set('c_hideFooter', byId('c_hideFooter').checked ? '1' : '0');
+    return u.toString();
+  }
+
+  function refresh(){
+    const url = currentUrl();
+    byId('url').value = url;
+    byId('preview').src = url;
+  }
+
+  byId('btnApply').addEventListener('click', refresh);
+  byId('btnOpen').addEventListener('click', () => window.open(currentUrl(), '_blank', 'noopener'));
+  byId('btnCopy').addEventListener('click', async () => {
+    const url = currentUrl();
+    try { await navigator.clipboard.writeText(url); } catch(_e){}
+  });
+
+  document.querySelectorAll('input,select').forEach(el => {
+    el.addEventListener('input', refresh);
+    el.addEventListener('change', refresh);
+  });
+
+  refresh();
+})();
+</script>
+</body>
+</html>

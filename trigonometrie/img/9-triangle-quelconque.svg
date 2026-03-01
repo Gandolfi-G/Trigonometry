@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Triangle quelconque">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <g transform="translate(130 55)">
+    <polygon points="140,500 860,520 540,120" fill="none" stroke="#0f172a" stroke-width="14"/>
+    <circle cx="140" cy="500" r="12" fill="#0f172a"/>
+    <circle cx="860" cy="520" r="12" fill="#0f172a"/>
+    <circle cx="540" cy="120" r="12" fill="#0f172a"/>
+
+    <text x="110" y="550" font-size="44" font-weight="800" font-family="Montserrat, Arial, sans-serif" fill="#0f172a">A</text>
+    <text x="880" y="570" font-size="44" font-weight="800" font-family="Montserrat, Arial, sans-serif" fill="#0f172a">B</text>
+    <text x="560" y="100" font-size="44" font-weight="800" font-family="Montserrat, Arial, sans-serif" fill="#0f172a">C</text>
+
+    <text x="510" y="545" font-size="46" font-weight="800" font-family="Montserrat, Arial, sans-serif" fill="#16a34a">c</text>
+    <text x="325" y="305" font-size="46" font-weight="800" font-family="Montserrat, Arial, sans-serif" fill="#ef4444">b</text>
+    <text x="710" y="325" font-size="46" font-weight="800" font-family="Montserrat, Arial, sans-serif" fill="#0ea5e9">a</text>
+  </g>
+  <text x="58" y="86" font-size="52" font-weight="900" font-family="Montserrat, Arial, sans-serif" fill="#0f172a">Triangle quelconque</text>
+</svg>

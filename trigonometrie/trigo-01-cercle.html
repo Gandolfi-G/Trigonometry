@@ -39,6 +39,10 @@
   </style>
 
   <title>01. Le cercle trigonométrique</title>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
 </head>
 <body>
 <header>
@@ -63,8 +67,7 @@
         <li><strong>Point de départ</strong> : <span class="pill">A(1,0)</span> correspond à l’angle <span class="pill">0</span>.</li>
         <li><strong>Sens trigonométrique</strong> : rotation <strong>anti‑horaire</strong> → angles <strong>positifs</strong>.</li>
         <li><strong>Sens horaire</strong> : rotation <strong>horaire</strong> → angles <strong>négatifs</strong>.</li>
-        <li><strong>Un tour complet</strong> : <span class="pill">2π</span> radians = <span class="pill">360°</span>.</li>
-        <li>Si <span class="pill">M</span> correspond à l’angle θ, alors <strong>M(cos(θ), sin(θ))</strong>.</li>
+        <li><strong>Un tour complet</strong> :  <span class="pill">360°</span>.</li>
       </ul>
       <p class="note">
         Sur cette page, vous pouvez faire varier l’angle, déplacer le point rouge, et surtout visualiser
@@ -433,8 +436,7 @@
       `Sens sélectionné : <strong>${sens}</strong><br>` +
       `Angle affiché : θ = <strong>${ts.toFixed(4)}</strong> rad (${degSigned.toFixed(1)}°)<br>` +
       `Angle équivalent dans [0, 2π[ : <strong>${theta.toFixed(4)}</strong> rad (${degPos.toFixed(1)}°)<br>` +
-      `Point M(cos(θ), sin(θ)) = (<strong>${x.toFixed(4)}</strong>, <strong>${y.toFixed(4)}</strong>)<br>` +
-      `tan(θ) = ${tanStr}`;
+      `Point M(x, y) = (<strong>${x.toFixed(4)}</strong>, <strong>${y.toFixed(4)}</strong>)<br>`;
   }
 
   function setDir(newDir){

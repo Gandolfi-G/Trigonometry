@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Format commun : sections en "scène" + panneau */
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width: 980px){.stage{grid-template-columns:1fr}.panel{max-width:720px}}
+
+    .panel{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+    .panel h3{margin:.2rem 0 .6rem 0}
+    .card{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.25rem .6rem;font-weight:800}
+
+    .math{font-family: ui-serif, Georgia, 'Times New Roman', serif}
+    .note{font-size:.95rem;opacity:.92;line-height:1.45}
+
+    .formula-block{border:1px dashed #cbd5e1;border-radius:12px;background:#fbfdff;padding:1rem;margin:.75rem 0}
+    .formula-block .title{font-weight:900;margin:0 0 .35rem 0}
+
+    .cCos{color:#ef4444}
+    .cSin{color:#16a34a}
+    .cTan{color:#7c3aed}
+    .cRad{color:#2563eb}
+
+    table.values{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid #e8e8e8;border-radius:12px}
+    table.values th, table.values td{padding:.65rem .75rem;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle}
+    table.values thead th{background:#fbfdff;font-weight:900}
+    table.values tbody tr:last-child td{border-bottom:none}
+    table.values td:first-child, table.values th:first-child{text-align:left}
+
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.55rem .75rem;font-weight:800;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .btn:active{transform:translateY(1px)}
+
+    .controls{display:flex;flex-direction:column;gap:.65rem}
+    .controls .row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+
+    .warn{display:none;border:1px solid #fecaca;background:#fff1f2;color:#7f1d1d;border-radius:12px;padding:.65rem .75rem;font-weight:700}
+    .warn.show{display:block}
+
+    /* Zone diagramme (cercle trigo) */
+    .uc-wrap{
+      position:relative;
+      width:min(720px, 100%);
+      aspect-ratio: 1 / 1;
+      margin:.6rem auto 0 auto;
+      border:1px solid #e8e8e8;
+      border-radius:14px;
+      background:#fff;
+      overflow:hidden;
+    }
+    .uc-svg{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      display:block;
+      background: radial-gradient(circle at 50% 50%, rgba(37,99,235,0.03), transparent 60%);
+    }
+    .uc-label{
+      position:absolute;
+      transform:translate(-50%,-50%);
+      font-weight:900;
+      font-size:0.95rem;
+      line-height:1.05;
+      pointer-events:none;
+      text-shadow: 0 1px 0 rgba(255,255,255,.95);
+      white-space:nowrap;
+    }
+    .uc-label.small{font-size:.88rem;font-weight:800}
+    .uc-label.angle{color:#111827}
+    .uc-label.coords{color:#111827; opacity:.95}
+    .uc-label.axis{font-size:1.05rem; opacity:.85}
+    .uc-label.quad{font-size:.88rem; opacity:.65; font-weight:800}
+
+    .legend{display:flex; flex-wrap:wrap; gap:.5rem; margin:.8rem 0 0 0;}
+  </style>
+
+  <title>Complément 08B. Formulaire complet du cercle trigonométrique</title>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\(', '\)']],
+        displayMath: [['$$','$$'], ['\[','\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
+
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">Complément 08B. Formulaire complet du cercle trigonométrique</h1>
+
+    <p class="lead">
+      Cette page regroupe en un seul endroit :
+      (1) les <strong>formules de base</strong> + le <strong>tableau des valeurs remarquables</strong> sur $[0;\pi/2]$,
+      puis (2) le <strong>cercle trigonométrique</strong> complet avec les valeurs remarquables et les <strong>symétries</strong>.
+    </p>
+
+    <!-- =========================================================
+         PARTIE A — Formules + valeurs remarquables
+    ========================================================== -->
+    <section id="partie-a">
+      <h2>Partie A — Formules de base et valeurs remarquables (0 à $\pi/2$)</h2>
+
+      <div class="stage">
+        <section class="card" aria-label="formules et tableau">
+          <h3 id="formules-base">Formules de base</h3>
+
+          <div class="formula-block">
+            <div class="title">Définition sur le cercle trigonométrique (cercle unité)</div>
+            <div class="math">Le point du cercle associé à l’angle $\theta$ a pour coordonnées :</div>
+            <div class="math" style="font-weight:900;font-size:1.15rem;margin:.35rem 0;">
+              $$P(\cos(\theta),\,\sin(\theta))$$
+            </div>
+            <div class="note">
+              Ainsi, sur le cercle unité, <span class="pill"><span class="cCos">x</span> = cos(θ)</span> et
+              <span class="pill"><span class="cSin">y</span> = sin(θ)</span>.
+            </div>
+          </div>
+
+          <div class="formula-block">
+            <div class="title">Relation fondamentale</div>
+            <div class="math" style="font-weight:900;font-size:1.15rem;margin:.35rem 0;">
+              $$\cos^2(\theta) + \sin^2(\theta) = 1$$
+            </div>
+            <div class="note">
+              Elle permet de retrouver un cosinus à partir d’un sinus (et inversement), en tenant compte du signe selon le quadrant.
+            </div>
+          </div>
+
+          <div class="formula-block">
+            <div class="title">Tangente</div>
+            <div class="math" style="font-weight:900;font-size:1.15rem;margin:.35rem 0;">
+              $$\tan(\theta) = \frac{\sin(\theta)}{\cos(\theta)}$$
+            </div>
+            <div class="note">
+              Attention : $\tan(\theta)$ est <strong>indéfinie</strong> quand $\cos(\theta)=0$ (division par zéro), notamment pour $\theta=\pi/2$.
+            </div>
+          </div>
+
+          <h3 id="tableau-valeurs">Tableau des valeurs remarquables</h3>
+          <p class="note">Angles classiques entre $0$ et $\pi/2$ : $0$, $\pi/6$, $\pi/4$, $\pi/3$, $\pi/2$.</p>
+
+          <div class="table-wrap" style="overflow:auto;">
+            <table class="values" aria-label="Valeurs remarquables sinus cosinus tangente">
+              <thead>
+                <tr>
+                  <th>Angle $\theta$</th>
+                  <th><span class="cCos">cos</span>($\theta$)</th>
+                  <th><span class="cSin">sin</span>($\theta$)</th>
+                  <th><span class="cTan">tan</span>($\theta$)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>$0$</td><td>$1$</td><td>$0$</td><td>$0$</td></tr>
+                <tr><td>$\pi/6$</td><td>$\sqrt{3}/2$</td><td>$1/2$</td><td>$\sqrt{3}/3$</td></tr>
+                <tr><td>$\pi/4$</td><td>$\sqrt{2}/2$</td><td>$\sqrt{2}/2$</td><td>$1$</td></tr>
+                <tr><td>$\pi/3$</td><td>$1/2$</td><td>$\sqrt{3}/2$</td><td>$\sqrt{3}$</td></tr>
+                <tr><td>$\pi/2$</td><td>$0$</td><td>$1$</td><td>indéfinie</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="astuce-memo">Astuce de mémorisation (très efficace)</h3>
+          <div class="formula-block">
+            <div class="title">La “ligne” des racines</div>
+            <div class="note">
+              Pour les angles $0$, $\pi/6$, $\pi/4$, $\pi/3$, $\pi/2$ :
+              <ul>
+                <li>$\sin(\theta)$ suit : $\sqrt{0}/2$, $\sqrt{1}/2$, $\sqrt{2}/2$, $\sqrt{3}/2$, $\sqrt{4}/2$</li>
+                <li>$\cos(\theta)$ suit la même liste… mais à l’envers.</li>
+                <li>Ensuite, $\tan(\theta)=\sin(\theta)/\cos(\theta)$.</li>
+              </ul>
+            </div>
+          </div>
+
+          <section id="exercices-a">
+            <h3>Exercices rapides</h3>
+            <ol>
+              <li>Calcule $\tan(\pi/6)$ et simplifie le résultat (forme $\sqrt{3}/3$).</li>
+              <li>Retrouve $\cos(\pi/4)$ en utilisant $\sin^2(\theta)+\cos^2(\theta)=1$ et la symétrie.</li>
+              <li>Explique pourquoi $\tan(\pi/2)$ est indéfinie (avec une phrase mathématique).</li>
+            </ol>
+          </section>
+        </section>
+
+        <aside class="panel" aria-label="voix off">
+          <h3>Texte pour l’animation</h3>
+          <div class="controls">
+            <div class="row">
+              <button id="btnSpeak" class="btn primary" type="button">Lire la voix off</button>
+              <button id="btnStop" class="btn" type="button">Stop</button>
+            </div>
+            <div id="voiceWarn" class="warn" role="status" aria-live="polite"></div>
+
+            <details class="accordion" open>
+              <summary>Voix off proposée</summary>
+              <div class="accordion-body" id="voiceText">
+                <p>
+                  Pour tout angle $\theta$, nous avons une valeur de cosinus,
+                  de sinus et de tangente associée.
+                  Il n’est pas utile de connaître toutes les valeurs, mais certaines valeurs entre $0$ et $\pi/2$ sont à remarquer.
+                </p>
+                <p>
+                  Pour $\theta = 0$, on observe que $\cos(0)=1$ et $\sin(0)=0$.
+                </p>
+                <p>
+                  Pour $\theta = \pi/6$, on remarque que $\sin(\pi/6)=1/2$.
+                  Pour trouver $\cos(\pi/6)$, on utilise la relation $\sin^2(\theta) + \cos^2(\theta)=1$.
+                  On obtient $\cos(\pi/6)=\sqrt{3}/2$ (positif dans le premier quadrant).
+                </p>
+                <p>
+                  Pour $\theta = \pi/4$, on est sur une symétrie : le cosinus et le sinus ont la même valeur.
+                  On déduit alors $\sin(\pi/4)=\cos(\pi/4)=\sqrt{2}/2$.
+                </p>
+                <p>
+                  Pour $\theta = \pi/3$, par symétrie avec $\pi/6$, on a $\cos(\pi/3)=1/2$ et $\sin(\pi/3)=\sqrt{3}/2$.
+                </p>
+                <p>
+                  Enfin, pour $\theta = \pi/2$, on a $\sin(\pi/2)=1$ et $\cos(\pi/2)=0$.
+                  La tangente est alors indéfinie, car on ne peut pas diviser par zéro.
+                </p>
+              </div>
+            </details>
+
+            <p class="note">
+              Remarque : selon le navigateur, la lecture vocale peut nécessiter une interaction utilisateur (clic) et une voix française disponible.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PARTIE B — Cercle trigonométrique complet (corrigé)
+    ========================================================== -->
+    <section id="partie-b" style="margin-top:1.4rem">
+      <h2>Partie B — Cercle trigonométrique : valeurs remarquables &amp; symétries</h2>
+
+      <div class="stage">
+        <section class="card" aria-label="cercle trigonométrique et valeurs remarquables">
+          <h3 id="cercle">Cercle trigonométrique (valeurs remarquables)</h3>
+
+          <div class="note">
+            Sur le cercle unité : <span class="pill"><span class="cCos">x</span> = cos(θ)</span> et
+            <span class="pill"><span class="cSin">y</span> = sin(θ)</span>.
+            Le point associé à l’angle $\theta$ est :
+            <span class="math" style="font-weight:900">$P(\cos(\theta),\sin(\theta))$</span>.
+          </div>
+
+          <div class="uc-wrap" id="ucWrap" aria-label="diagramme du cercle trigonométrique">
+            <svg class="uc-svg" id="ucSvg" viewBox="-300 -300 600 600" role="img" aria-label="Cercle trigonométrique">
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,3 L0,6 Z" fill="#111827"></path>
+                </marker>
+              </defs>
+
+              <!-- Axes -->
+              <line x1="-280" y1="0" x2="280" y2="0" stroke="#111827" stroke-width="2" marker-end="url(#arrow)"/>
+              <line x1="0" y1="280" x2="0" y2="-280" stroke="#111827" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Cercle unité -->
+              <circle cx="0" cy="0" r="200" fill="none" stroke="#111827" stroke-width="3"/>
+
+              <!-- Points cardinaux -->
+              <circle cx="200" cy="0" r="4.2" fill="#111827"/>
+              <circle cx="-200" cy="0" r="4.2" fill="#111827"/>
+              <circle cx="0" cy="-200" r="4.2" fill="#111827"/>
+              <circle cx="0" cy="200" r="4.2" fill="#111827"/>
+
+              <!-- Rayons (gris) -->
+              <g id="rays" stroke="#cbd5e1" stroke-width="2"></g>
+
+              <!-- Points remarquables -->
+              <g id="points"></g>
+            </svg>
+          </div>
+
+          <div class="legend">
+            <span class="pill"><span class="cCos">cos</span> en abscisse</span>
+            <span class="pill"><span class="cSin">sin</span> en ordonnée</span>
+            <span class="pill"><span class="cRad">radians</span> &amp; degrés</span>
+          </div>
+
+          <h3 id="symetries">Formules utiles (symétries)</h3>
+          <div class="note" style="margin-top:.4rem">
+            <ul>
+              <li>$\cos(-\theta)=\cos(\theta)$ et $\sin(-\theta)=-\sin(\theta)$</li>
+              <li>$\cos(\pi-\theta)=-\cos(\theta)$ et $\sin(\pi-\theta)=\sin(\theta)$</li>
+              <li>$\cos(\pi+\theta)=-\cos(\theta)$ et $\sin(\pi+\theta)=-\sin(\theta)$</li>
+              <li>$\cos(2\pi-\theta)=\cos(\theta)$ et $\sin(2\pi-\theta)=-\sin(\theta)$</li>
+            </ul>
+          </div>
+        </section>
+
+        <aside class="panel" aria-label="rappel rapide">
+          <h3>Rappel express</h3>
+          <p class="note">
+            Les seules valeurs à mémoriser sont celles du premier quadrant :
+            $0$, $\pi/6$, $\pi/4$, $\pi/3$, $\pi/2$.
+            Le reste se déduit avec les <strong>symétries</strong> et les <strong>signes</strong> selon le quadrant.
+          </p>
+
+          <div class="card" style="margin-top:.8rem">
+            <div style="font-weight:900;margin-bottom:.35rem">Signes par quadrant</div>
+            <div class="note">
+              <ul style="margin:.2rem 0 0 1.1rem">
+                <li>Quadrant I : cos +, sin +</li>
+                <li>Quadrant II : cos −, sin +</li>
+                <li>Quadrant III : cos −, sin −</li>
+                <li>Quadrant IV : cos +, sin −</li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="note" style="margin-top:.8rem">
+            Astuce : la “ligne des racines” pour le 1er quadrant :
+            $\sin: \sqrt{0}/2,\sqrt{1}/2,\sqrt{2}/2,\sqrt{3}/2,\sqrt{4}/2$
+            et $\cos$ en sens inverse.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <div class="spacer"></div>
+    <a class="button" href="trigonometry.html">Sommaire</a>
+    <a class="button" href="trigo-07-tangente.html">← Précédent</a>
+    <a class="button" href="trigo-complement-09b-rotations-symetries.html">Suivant →</a>
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#partie-a">Partie A</a></li>
+      <li><a href="#formules-base">Formules de base</a></li>
+      <li><a href="#tableau-valeurs">Tableau</a></li>
+      <li><a href="#astuce-memo">Astuce</a></li>
+      <li><a href="#exercices-a">Exercices</a></li>
+      <li><a href="#partie-b">Partie B</a></li>
+      <li><a href="#cercle">Cercle trigo</a></li>
+      <li><a href="#symetries">Symétries</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2026 Enseignant de Mathématiques à Genève</div></footer>
+
+<script>
+/* =======================
+   Voix off (Partie A)
+======================= */
+(() => {
+  const btnSpeak = document.getElementById('btnSpeak');
+  const btnStop = document.getElementById('btnStop');
+  const voiceWarn = document.getElementById('voiceWarn');
+  const voiceTextEl = document.getElementById('voiceText');
+
+  function showWarn(msg){
+    voiceWarn.textContent = msg;
+    voiceWarn.classList.add('show');
+  }
+  function clearWarn(){
+    voiceWarn.classList.remove('show');
+    voiceWarn.textContent = '';
+  }
+
+  function getCleanText(){
+    const raw = voiceTextEl?.innerText || '';
+    return raw
+      .replace(/\$\$[\s\S]*?\$\$/g, ' ')
+      .replace(/\$[^$]*\$/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function speak(){
+    clearWarn();
+    if(!('speechSynthesis' in window)){
+      showWarn("La synthèse vocale n’est pas disponible sur ce navigateur.");
+      return;
+    }
+    const text = getCleanText();
+    if(!text){
+      showWarn("Aucun texte à lire.");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'fr-FR';
+    u.rate = 1.0;
+    u.pitch = 1.0;
+    u.onerror = () => showWarn("Impossible de lancer la lecture vocale (paramétrage navigateur/OS).");
+    window.speechSynthesis.speak(u);
+  }
+
+  function stop(){
+    clearWarn();
+    if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  }
+
+  btnSpeak?.addEventListener('click', speak);
+  btnStop?.addEventListener('click', stop);
+})();
+</script>
+
+<script>
+/* =======================
+   Cercle trigo (Partie B)
+   IMPORTANT : on injecte le LaTeX sous forme $...$ (pas \(...\)) pour éviter les soucis d'échappement.
+======================= */
+(() => {
+  const R = 200;
+  const rPoint = R;
+  const rCoords = R + 62;
+  const rAngle  = R - 62;
+
+  const wrap = document.getElementById('ucWrap');
+  const gRays = document.getElementById('rays');
+  const gPts = document.getElementById('points');
+
+  // Les chaînes ci-dessous doivent contenir UNE SEULE barre oblique inverse en LaTeX.
+  // En JS, cela s'écrit avec \ dans le source.
+  const A = [
+    {rad: 0,             r: "0",        d: "0°",   c: "(1,\,0)"},
+    {rad: Math.PI/6,     r: "\\pi/6", d: "30°",  c: "(\\sqrt{3}/2,\\,1/2)"},
+    {rad: Math.PI/4,     r: "\\pi/4", d: "45°",  c: "(\\sqrt{2}/2,\\,\\sqrt{2}/2)"},
+    {rad: Math.PI/3,     r: "\\pi/3", d: "60°",  c: "(1/2,\\,\\sqrt{3}/2)"},
+    {rad: Math.PI/2,     r: "\\pi/2", d: "90°",  c: "(0,\\,1)"},
+    {rad: 2*Math.PI/3,   r: "2\\pi/3", d: "120°", c: "(-1/2,\\,\\sqrt{3}/2)"},
+    {rad: 3*Math.PI/4,   r: "3\\pi/4", d: "135°", c: "(-\\sqrt{2}/2,\\,\\sqrt{2}/2)"},
+    {rad: 5*Math.PI/6,   r: "5\\pi/6", d: "150°", c: "(-\\sqrt{3}/2,\\,1/2)"},
+    {rad: Math.PI,       r: "\\pi",   d: "180°", c: "(-1,\\,0)"},
+    {rad: 7*Math.PI/6,   r: "7\\pi/6", d: "210°", c: "(-\\sqrt{3}/2,\\,-1/2)"},
+    {rad: 5*Math.PI/4,   r: "5\\pi/4", d: "225°", c: "(-\\sqrt{2}/2,\\,-\\sqrt{2}/2)"},
+    {rad: 4*Math.PI/3,   r: "4\\pi/3", d: "240°", c: "(-1/2,\\,-\\sqrt{3}/2)"},
+    {rad: 3*Math.PI/2,   r: "3\\pi/2", d: "270°", c: "(0,\\,-1)"},
+    {rad: 5*Math.PI/3,   r: "5\\pi/3", d: "300°", c: "(1/2,\\,-\\sqrt{3}/2)"},
+    {rad: 7*Math.PI/4,   r: "7\\pi/4", d: "315°", c: "(\\sqrt{2}/2,\\,-\\sqrt{2}/2)"},
+    {rad: 11*Math.PI/6,  r: "11\\pi/6", d: "330°", c: "(\\sqrt{3}/2,\\,-1/2)"},
+  ];
+
+  const SVGNS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs={}){
+    const n = document.createElementNS(SVGNS, tag);
+    for(const [k,v] of Object.entries(attrs)) n.setAttribute(k, v);
+    return n;
+  }
+
+  function toSvgXY(rad, radius){
+    const x = radius * Math.cos(rad);
+    const y = -radius * Math.sin(rad);
+    return {x,y};
+  }
+
+  function svgToPixel(x, y){
+    const rect = wrap.getBoundingClientRect();
+    const px = (x + 300) / 600 * rect.width;
+    const py = (y + 300) / 600 * rect.height;
+    return {px, py};
+  }
+
+  function addHtmlLabel(px, py, html, cls){
+    const d = document.createElement('div');
+    d.className = `uc-label ${cls || ""}`.trim();
+    d.style.left = `${px}px`;
+    d.style.top  = `${py}px`;
+    d.innerHTML = html;
+    wrap.appendChild(d);
+    return d;
+  }
+
+  // Rayons
+  for(const a of A){
+    const p = toSvgXY(a.rad, R);
+    gRays.appendChild(el('line', {x1:"0",y1:"0",x2:String(p.x),y2:String(p.y)}));
+  }
+
+  function typesetWrap(){
+    if(window.MathJax && MathJax.typesetPromise){
+      // Attendre que MathJax soit prêt (startup) si présent
+      const ready = (MathJax.startup && MathJax.startup.promise) ? MathJax.startup.promise : Promise.resolve();
+      ready.then(() => MathJax.typesetPromise([wrap])).catch(() => {});
+    }
+  }
+
+  function render(){
+    [...wrap.querySelectorAll('.uc-label')].forEach(n => n.remove());
+    gPts.replaceChildren();
+
+    // labels axes
+    addHtmlLabel(svgToPixel(282,  0).px, svgToPixel(282,0).py, "x", "axis");
+    addHtmlLabel(svgToPixel( 0, -282).px, svgToPixel(0,-282).py, "y", "axis");
+
+    // quadrants
+    addHtmlLabel(svgToPixel(110, -110).px, svgToPixel(110,-110).py, "I", "quad");
+    addHtmlLabel(svgToPixel(-110,-110).px, svgToPixel(-110,-110).py, "II", "quad");
+    addHtmlLabel(svgToPixel(-110, 110).px, svgToPixel(-110,110).py, "III", "quad");
+    addHtmlLabel(svgToPixel(110, 110).px, svgToPixel(110,110).py, "IV", "quad");
+
+    for(const a of A){
+      const p = toSvgXY(a.rad, rPoint);
+      gPts.appendChild(el('circle', {cx:String(p.x), cy:String(p.y), r:"4.8", fill:"#2563eb"}));
+
+      // coordonnées (extérieur) -> $...$
+      const pc = toSvgXY(a.rad, rCoords);
+      const {px: cx, py: cy} = svgToPixel(pc.x, pc.y);
+      addHtmlLabel(cx, cy, `$${a.c}$`, "coords");
+
+      // angle (intérieur) -> $...$ + degrés
+      const pa = toSvgXY(a.rad, rAngle);
+      const {px: ax, py: ay} = svgToPixel(pa.x, pa.y);
+      addHtmlLabel(ax, ay, `$${a.r}$<div class="uc-label small" style="position:static;transform:none;margin-top:2px;opacity:.85">${a.d}</div>`, "angle");
+    }
+
+    // points cardinaux lisibles
+    const specials = [
+      {x:  rCoords, y: 0,        html: "(1,\,0)"},
+      {x:  0,       y: -rCoords, html: "(0,\,1)"},
+      {x: -rCoords, y: 0,        html: "(-1,\,0)"},
+      {x:  0,       y:  rCoords, html: "(0,\,-1)"},
+    ];
+    for(const s of specials){
+      const {px,py} = svgToPixel(s.x, s.y);
+      addHtmlLabel(px, py, `$${s.html}$`, "coords");
+    }
+
+    typesetWrap();
+  }
+
+  window.addEventListener('load', render);
+  window.addEventListener('resize', () => {
+    clearTimeout(window.__ucT);
+    window.__ucT = setTimeout(render, 80);
+  });
+})();
+</script>
+
+</body>
+</html>

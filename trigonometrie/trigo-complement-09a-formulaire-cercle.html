@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Même “format” que tes pages : une scène + un panneau à droite */
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:1.25rem;align-items:start;margin:1rem 0}
+    @media (max-width: 980px){.stage{grid-template-columns:1fr}.panel{max-width:720px}}
+
+    .panel{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+    .panel h3{margin:.2rem 0 .6rem 0}
+
+    .card{border:1px solid #e8e8e8;border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:1rem}
+
+    .pill{display:inline-block;background:#f7f8ff;border:1px solid #e8e8e8;border-radius:999px;padding:.25rem .6rem;font-weight:800}
+
+    .math{font-family: ui-serif, Georgia, 'Times New Roman', serif}
+    .note{font-size:.95rem;opacity:.92;line-height:1.45}
+
+    .cCos{color:#ef4444}
+    .cSin{color:#16a34a}
+    .cRad{color:#2563eb}
+
+    /* Zone diagramme */
+    .uc-wrap{
+      position:relative;
+      width:min(720px, 100%);
+      aspect-ratio: 1 / 1;
+      margin:.6rem auto 0 auto;
+      border:1px solid #e8e8e8;
+      border-radius:14px;
+      background:#fff;
+      overflow:hidden;
+    }
+    .uc-svg{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      display:block;
+      background: radial-gradient(circle at 50% 50%, rgba(37,99,235,0.03), transparent 60%);
+    }
+    .uc-label{
+      position:absolute;
+      transform:translate(-50%,-50%);
+      font-weight:900;
+      font-size:0.95rem;
+      line-height:1.05;
+      pointer-events:none;
+      text-shadow: 0 1px 0 rgba(255,255,255,.95);
+      white-space:nowrap;
+    }
+    .uc-label.small{font-size:.88rem;font-weight:800}
+    .uc-label.angle{color:#111827}
+    .uc-label.coords{color:#111827; opacity:.95}
+    .uc-label.axis{font-size:1.05rem; opacity:.85}
+    .uc-label.quad{font-size:.88rem; opacity:.65; font-weight:800}
+
+    /* mini légende */
+    .legend{
+      display:flex; flex-wrap:wrap; gap:.5rem;
+      margin:.8rem 0 0 0;
+    }
+
+    /* Boutons (si tu veux étendre plus tard) */
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;border-radius:10px;padding:.55rem .75rem;font-weight:800;cursor:pointer}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+  </style>
+
+  <title>Complément 09A. Formulaire sinus et cosinus</title>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Global customizer -->
+  <link rel="stylesheet" href="customizer/customizer.css">
+  <script defer src="customizer/customizer.js"></script>
+</head>
+
+<body>
+<header>
+  <div class="nav-container">
+    <div class="brand"><a href="trigonometry.html">Trigonométrie</a></div>
+    <nav><a href="index.html">Accueil</a></nav>
+  </div>
+</header>
+
+<main class="container page-with-toc">
+  <div>
+    <h1 id="top">Complément 09A. Formulaire sinus et cosinus sur le cercle trigonométrique</h1>
+
+    <p class="lead">
+      Ici, l’objectif est simple : <strong>avoir sous les yeux</strong> les valeurs remarquables de
+      <span class="cCos"><strong>cos</strong></span> et <span class="cSin"><strong>sin</strong></span>,
+      comme sur le schéma du cercle trigo.
+    </p>
+
+    <div class="stage">
+      <section class="card" aria-label="cercle trigonométrique et valeurs remarquables">
+        <h2 id="cercle">Cercle trigonométrique (valeurs remarquables)</h2>
+
+        <div class="note">
+          Sur le cercle unité : <span class="pill"><span class="cCos">x</span> = cos(θ)</span> et
+          <span class="pill"><span class="cSin">y</span> = sin(θ)</span>. Le point associé à l’angle θ est :
+          <span class="math" style="font-weight:900">\(P(\cos(\theta),\sin(\theta))\)</span>.
+        </div>
+
+        <div class="uc-wrap" id="ucWrap" aria-label="diagramme du cercle trigonométrique">
+          <svg class="uc-svg" id="ucSvg" viewBox="-300 -300 600 600" role="img" aria-label="Cercle trigonométrique">
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L10,3 L0,6 Z" fill="#111827"></path>
+              </marker>
+            </defs>
+
+            <!-- Axes -->
+            <line x1="-280" y1="0" x2="280" y2="0" stroke="#111827" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="0" y1="280" x2="0" y2="-280" stroke="#111827" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- Cercle unité (rayon R) -->
+            <circle id="ucCircle" cx="0" cy="0" r="200" fill="none" stroke="#111827" stroke-width="3"/>
+
+            <!-- Petits repères (quadrants) -->
+            <circle cx="200" cy="0" r="4.2" fill="#111827"/>
+            <circle cx="-200" cy="0" r="4.2" fill="#111827"/>
+            <circle cx="0" cy="-200" r="4.2" fill="#111827"/>
+            <circle cx="0" cy="200" r="4.2" fill="#111827"/>
+
+            <!-- Rayons (lignes grises) -->
+            <g id="rays" stroke="#cbd5e1" stroke-width="2"></g>
+
+            <!-- Points remarquables -->
+            <g id="points"></g>
+          </svg>
+        </div>
+
+        <div class="legend">
+          <span class="pill"><span class="cCos">cos</span> en abscisse</span>
+          <span class="pill"><span class="cSin">sin</span> en ordonnée</span>
+          <span class="pill"><span class="cRad">radians</span> &amp; degrés</span>
+        </div>
+
+        <h2 id="formules">Formules utiles (symétries)</h2>
+        <div class="note" style="margin-top:.4rem">
+          <ul>
+            <li><span class="math">\( \cos(-\theta)=\cos(\theta)\)</span> et <span class="math">\( \sin(-\theta)=-\sin(\theta)\)</span></li>
+            <li><span class="math">\( \cos(\pi-\theta)=-\cos(\theta)\)</span> et <span class="math">\( \sin(\pi-\theta)=\sin(\theta)\)</span></li>
+            <li><span class="math">\( \cos(\pi+\theta)=-\cos(\theta)\)</span> et <span class="math">\( \sin(\pi+\theta)=-\sin(\theta)\)</span></li>
+            <li><span class="math">\( \cos(2\pi-\theta)=\cos(\theta)\)</span> et <span class="math">\( \sin(2\pi-\theta)=-\sin(\theta)\)</span></li>
+          </ul>
+        </div>
+
+        <div class="spacer"></div>
+        <a class="button" href="trigonometry.html">Sommaire</a>
+        <a class="button" href="trigo-complement-08a-formules-base.html">← Précédent</a>
+      </section>
+
+      <aside class="panel" aria-label="rappel rapide">
+        <h3>Rappel express</h3>
+        <p class="note">
+          Les seules valeurs à mémoriser sont celles du premier quadrant :
+          <span class="math">\(0,\ \pi/6,\ \pi/4,\ \pi/3,\ \pi/2\)</span>.
+          Le reste se déduit avec les <strong>symétries</strong> et les <strong>signes</strong> selon le quadrant.
+        </p>
+
+        <div class="card" style="margin-top:.8rem">
+          <div style="font-weight:900;margin-bottom:.35rem">Signes par quadrant</div>
+          <div class="note">
+            <ul style="margin:.2rem 0 0 1.1rem">
+              <li>Quadrant I : cos +, sin +</li>
+              <li>Quadrant II : cos −, sin +</li>
+              <li>Quadrant III : cos −, sin −</li>
+              <li>Quadrant IV : cos +, sin −</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="note" style="margin-top:.8rem">
+          Astuce : la “ligne des racines” pour le 1er quadrant :
+          <span class="math">\( \sin: \sqrt{0}/2,\sqrt{1}/2,\sqrt{2}/2,\sqrt{3}/2,\sqrt{4}/2\)</span>
+          et <span class="math">\( \cos\)</span> en sens inverse.
+        </p>
+      </aside>
+    </div>
+  </div>
+
+  <aside class="local-toc">
+    <h3>Sur cette page</h3>
+    <ul>
+      <li><a href="#top">Titre</a></li>
+      <li><a href="#cercle">Cercle trigo</a></li>
+      <li><a href="#formules">Formules</a></li>
+    </ul>
+  </aside>
+</main>
+
+<footer><div class="container">© 2026 Enseignant de Mathématiques à Genève</div></footer>
+
+<script>
+(() => {
+  // --- Paramètres ---
+  const R = 200;                // rayon du cercle dans le SVG (viewBox)
+  const rPoint = R;             // rayon où sont les points
+  const rCoords = R + 62;       // rayon des étiquettes coordonnées
+  const rAngle  = R - 62;       // rayon des étiquettes angles
+  const svg = document.getElementById('ucSvg');
+  const wrap = document.getElementById('ucWrap');
+  const gRays = document.getElementById('rays');
+  const gPts = document.getElementById('points');
+
+  // Angles remarquables (radians) + labels (radians, degrés) + coordonnées
+  // NB: coordonnées sont données sous forme LaTeX pour MathJax.
+  const A = [
+    {rad: 0,             r: "0",        d: "0°",   c: "(1,\\,0)"},
+    {rad: Math.PI/6,     r: "\\pi/6", d: "30°",  c: "(\\sqrt{3}/2,\\,1/2)"},
+    {rad: Math.PI/4,     r: "\\pi/4", d: "45°",  c: "(\\sqrt{2}/2,\\,\\sqrt{2}/2)"},
+    {rad: Math.PI/3,     r: "\\pi/3", d: "60°",  c: "(1/2,\\,\\sqrt{3}/2)"},
+    {rad: Math.PI/2,     r: "\\pi/2", d: "90°",  c: "(0,\\,1)"},
+    {rad: 2*Math.PI/3,   r: "2\\pi/3", d: "120°", c: "(-1/2,\\,\\sqrt{3}/2)"},
+    {rad: 3*Math.PI/4,   r: "3\\pi/4", d: "135°", c: "(-\\sqrt{2}/2,\\,\\sqrt{2}/2)"},
+    {rad: 5*Math.PI/6,   r: "5\\pi/6", d: "150°", c: "(-\\sqrt{3}/2,\\,1/2)"},
+    {rad: Math.PI,       r: "\\pi",   d: "180°", c: "(-1,\\,0)"},
+    {rad: 7*Math.PI/6,   r: "7\\pi/6", d: "210°", c: "(-\\sqrt{3}/2,\\,-1/2)"},
+    {rad: 5*Math.PI/4,   r: "5\\pi/4", d: "225°", c: "(-\\sqrt{2}/2,\\,-\\sqrt{2}/2)"},
+    {rad: 4*Math.PI/3,   r: "4\\pi/3", d: "240°", c: "(-1/2,\\,-\\sqrt{3}/2)"},
+    {rad: 3*Math.PI/2,   r: "3\\pi/2", d: "270°", c: "(0,\\,-1)"},
+    {rad: 5*Math.PI/3,   r: "5\\pi/3", d: "300°", c: "(1/2,\\,-\\sqrt{3}/2)"},
+    {rad: 7*Math.PI/4,   r: "7\\pi/4", d: "315°", c: "(\\sqrt{2}/2,\\,-\\sqrt{2}/2)"},
+    {rad: 11*Math.PI/6,  r: "11\\pi/6", d: "330°", c: "(\\sqrt{3}/2,\\,-1/2)"},
+  ];
+
+  // --- Helpers ---
+  const SVGNS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs={}){
+    const n = document.createElementNS(SVGNS, tag);
+    for(const [k,v] of Object.entries(attrs)) n.setAttribute(k, v);
+    return n;
+  }
+
+  function toSvgXY(rad, radius){
+    // Attention: dans le SVG, y positif va vers le bas -> on inverse pour avoir y vers le haut
+    const x = radius * Math.cos(rad);
+    const y = -radius * Math.sin(rad);
+    return {x,y};
+  }
+
+  function svgToPixel(x, y){
+    // Convertit des coordonnées viewBox vers pixels dans .uc-wrap
+    const rect = wrap.getBoundingClientRect();
+    const px = (x + 300) / 600 * rect.width;
+    const py = (y + 300) / 600 * rect.height;
+    return {px, py};
+  }
+
+  function addHtmlLabel(px, py, html, cls){
+    const d = document.createElement('div');
+    d.className = `uc-label ${cls || ""}`.trim();
+    d.style.left = `${px}px`;
+    d.style.top  = `${py}px`;
+    d.innerHTML = html;
+    wrap.appendChild(d);
+    return d;
+  }
+
+  // --- Dessin des rayons ---
+  for(const a of A){
+    const p = toSvgXY(a.rad, R);
+    gRays.appendChild(el('line', {x1:"0",y1:"0",x2:String(p.x),y2:String(p.y)}));
+  }
+
+  // --- Points + labels ---
+  function render(){
+    // Nettoyage labels HTML (en cas de resize)
+    [...wrap.querySelectorAll('.uc-label')].forEach(n => n.remove());
+
+    // Axes labels
+    addHtmlLabel(svgToPixel(282,  0).px, svgToPixel(282,0).py, "x", "axis");
+    addHtmlLabel(svgToPixel( 0, -282).px, svgToPixel(0,-282).py, "y", "axis");
+
+    // Quadrants (indicatif)
+    addHtmlLabel(svgToPixel(110, -110).px, svgToPixel(110,-110).py, "I", "quad");
+    addHtmlLabel(svgToPixel(-110,-110).px, svgToPixel(-110,-110).py, "II", "quad");
+    addHtmlLabel(svgToPixel(-110, 110).px, svgToPixel(-110,110).py, "III", "quad");
+    addHtmlLabel(svgToPixel(110, 110).px, svgToPixel(110,110).py, "IV", "quad");
+
+    // Points SVG
+    gPts.replaceChildren();
+
+    for(const a of A){
+      const p = toSvgXY(a.rad, rPoint);
+      gPts.appendChild(el('circle', {cx:String(p.x), cy:String(p.y), r:"4.8", fill:"#2563eb"}));
+
+      // Coordonnées (extérieur)
+      const pc = toSvgXY(a.rad, rCoords);
+      const {px: cx, py: cy} = svgToPixel(pc.x, pc.y);
+      addHtmlLabel(cx, cy, `\\(${a.c}\\)`, "coords");
+
+      // Angle (intérieur) : radians + degrés en petit
+      const pa = toSvgXY(a.rad, rAngle);
+      const {px: ax, py: ay} = svgToPixel(pa.x, pa.y);
+      addHtmlLabel(ax, ay, `\\(${a.r}\\)<div class="uc-label small" style="position:static;transform:none;margin-top:2px;opacity:.85">${a.d}</div>`, "angle");
+    }
+
+    // (1,0), (0,1), (-1,0), (0,-1) plus lisibles
+    const specials = [
+      {x:  rCoords, y: 0,       html: "(1,0)"},
+      {x:  0,       y: -rCoords, html: "(0,1)"},
+      {x: -rCoords, y: 0,       html: "(-1,0)"},
+      {x:  0,       y:  rCoords, html: "(0,-1)"},
+    ];
+    for(const s of specials){
+      const {px,py} = svgToPixel(s.x, s.y);
+      addHtmlLabel(px, py, `\\(${s.html}\\)`, "coords");
+    }
+
+    // Demande à MathJax de typer les nouveaux labels
+    if(window.MathJax && MathJax.typesetPromise){
+      MathJax.typesetPromise([wrap]).catch(() => {});
+    }
+  }
+
+  // Render initial + sur resize (pour repositionner les labels)
+  window.addEventListener('load', render);
+  window.addEventListener('resize', () => {
+    // petit debounce
+    clearTimeout(window.__ucT);
+    window.__ucT = setTimeout(render, 80);
+  });
+
+})();
+</script>
+
+</body>
+</html>
