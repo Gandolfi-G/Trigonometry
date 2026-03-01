@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 4 | Volume</title>
+    <link rel="stylesheet" href="../style.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body data-page="lesson" data-module="04-volume">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="../index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="../index.html">Accueil</a>
+            <a href="../index.html#modules">Modules</a>
+            <a href="../evaluation.html">Evaluation</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <p class="eyebrow">Module 4</p>
+          <h1>Volume : definition, unites, conversions et formules</h1>
+          <p>
+            Le volume mesure l'espace occupe par un solide. Dans ce module, tu travailles les unites cubiques, les
+            calculs de volume et l'isolement d'une variable dans une formule.
+          </p>
+          <div class="progress-banner">
+            <strong>Progression :</strong>
+            <span class="progress-count" data-progress-count>0/6</span>
+            <span class="chip" data-module-status>Validation : 70% au quiz ou devoir ludique</span>
+            <span class="score-chip">Score module : <span data-module-score>Pas encore de score</span></span>
+          </div>
+        </section>
+
+        <section class="lesson-layout">
+          <div>
+            <article class="card">
+              <p class="eyebrow">Fiche de cours</p>
+              <h2>Ce qu'il faut savoir</h2>
+              <div class="retenir-box">
+                <p><strong>Volume :</strong> espace occupe par un solide.</p>
+                <p><strong>Unites :</strong> km3, hm3, dam3, m3, dm3, cm3, mm3.</p>
+                <p>A chaque pas dans le tableau, on multiplie ou on divise par <strong>1000</strong>.</p>
+              </div>
+              <div class="mini-grid">
+                <div class="formula">Cube : V = a3</div>
+                <div class="formula">Pave droit : V = L x l x h</div>
+                <div class="formula">h = V / (L x l)</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Exemples guides</p>
+              <h2>Calculer puis convertir</h2>
+              <div class="example-box">
+                <p><strong>Cube de cote 7 cm :</strong> V = 7 x 7 x 7 = 343 cm3.</p>
+              </div>
+              <div class="example-box">
+                <p><strong>Pave droit 40 x 15 x 5 cm :</strong> V = 40 x 15 x 5 = 3000 cm3.</p>
+              </div>
+              <div class="example-box">
+                <p><strong>25,6 cm3 en dm3 :</strong> 0,0256 dm3.</p>
+                <p><strong>4,38 dm3 en m3 :</strong> 0,00438 m3.</p>
+              </div>
+              <div class="note-box">
+                <p>Pour isoler la hauteur : si V = L x l x h, alors h = V / (L x l).</p>
+              </div>
+            </article>
+
+            <article class="card quiz" data-quiz data-module-id="04-volume" data-pass-score="70">
+              <p class="eyebrow">Exercices</p>
+              <h2>Entrainement auto-corrige</h2>
+              <p>10 questions melangees : calculs, conversions et transformation de formule.</p>
+              <form class="quiz-form">
+                <article class="quiz-question" data-type="single" data-answer="a">
+                  <h3>1. Le volume mesure...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m4q1" value="a" /> l'espace occupe par un solide</label>
+                    <label class="choice"><input type="radio" name="m4q1" value="b" /> le contour d'une figure</label>
+                    <label class="choice"><input type="radio" name="m4q1" value="c" /> la longueur d'une arete</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="cm3|cm^3">
+                  <h3>2. Une unite adaptee pour le volume d'une petite boite est...</h3>
+                  <input type="text" name="m4q2" placeholder="Ex. cm3" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="343">
+                  <h3>3. Volume d'un cube de cote 7 cm</h3>
+                  <input type="number" name="m4q3" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="3000">
+                  <h3>4. Volume d'un pave droit 40 x 15 x 5 cm</h3>
+                  <input type="number" name="m4q4" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="0.0256" data-tolerance="0.0001">
+                  <h3>5. Convertis 25,6 cm3 en dm3</h3>
+                  <input type="text" name="m4q5" placeholder="Virgule ou point acceptes" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="0.00438" data-tolerance="0.00001">
+                  <h3>6. Convertis 4,38 dm3 en m3</h3>
+                  <input type="text" name="m4q6" placeholder="Virgule ou point acceptes" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="c">
+                  <h3>7. La formule du volume d'un pave droit est...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m4q7" value="a" /> V = L + l + h</label>
+                    <label class="choice"><input type="radio" name="m4q7" value="b" /> V = 2(L + l + h)</label>
+                    <label class="choice"><input type="radio" name="m4q7" value="c" /> V = L x l x h</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="4">
+                  <h3>8. Si V = 120 cm3, L = 6 cm et l = 5 cm, alors h = ?</h3>
+                  <input type="number" name="m4q8" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>9. Pour isoler h dans V = L x l x h, on ecrit...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m4q9" value="a" /> h = V x L x l</label>
+                    <label class="choice"><input type="radio" name="m4q9" value="b" /> h = V / (L x l)</label>
+                    <label class="choice"><input type="radio" name="m4q9" value="c" /> h = L x l / V</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="1000">
+                  <h3>10. 1 dm3 correspond a combien de cm3 ?</h3>
+                  <input type="number" name="m4q10" />
+                  <p class="feedback"></p>
+                </article>
+
+                <div class="quiz-actions">
+                  <button class="btn" type="submit">Corriger le quiz</button>
+                  <button class="ghost-btn" type="button" data-reset-quiz>Effacer mes reponses</button>
+                </div>
+              </form>
+              <div class="quiz-summary" data-quiz-summary></div>
+            </article>
+          </div>
+
+          <div>
+            <article class="illustration-card">
+              <img src="../assets/img/pave-droit.svg" alt="Pave droit utilise pour parler du volume" />
+              <figcaption>Sur un pave droit, on multiplie longueur, largeur et hauteur.</figcaption>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A retenir</p>
+              <h2>Conversion rapide</h2>
+              <div class="check-list">
+                <div class="note-box">Vers une unite plus grande : on divise par 1000 a chaque pas.</div>
+                <div class="note-box">Vers une unite plus petite : on multiplie par 1000 a chaque pas.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A rendre / Devoir ludique</p>
+              <h2>Cuisine &amp; volume</h2>
+              <div class="exercise-box">
+                <ul>
+                  <li>Choisis une boite ou un petit carton.</li>
+                  <li>Mesure longueur, largeur et hauteur en centimetres.</li>
+                  <li>Calcule un volume en cm3 puis convertis en dm3.</li>
+                  <li>Explique en une phrase ce que represente ce volume.</li>
+                  <li>Prends une photo de l'objet avec les mesures ecrites.</li>
+                </ul>
+              </div>
+              <div class="module-actions">
+                <button class="btn" type="button" data-homework-toggle>J'ai fait le devoir ludique</button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Parametrage | Solides et volume</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="config.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body data-page="settings">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html">Accueil</a>
+            <a href="teacher.html">Guide prof</a>
+            <a href="parametrage.html">Parametrage</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="card admin-lock" data-admin-gate>
+          <p class="eyebrow">Acces enseignant</p>
+          <h1>Page de parametrage</h1>
+          <p>
+            Protection legere uniquement. Cette page n'est pas liee au menu eleve et demande un code, mais elle reste
+            basee sur un site statique.
+          </p>
+          <form class="profile-form">
+            <label>
+              Code enseignant
+              <input type="password" placeholder="Entrer le code" />
+            </label>
+            <div class="module-actions">
+              <button class="btn" type="submit">Ouvrir</button>
+            </div>
+          </form>
+          <p class="small" data-admin-feedback></p>
+        </section>
+
+        <div data-admin-content hidden>
+          <section class="hero">
+            <p class="eyebrow">Parametrage enseignant</p>
+            <h1>Calendrier d'ouverture des modules</h1>
+            <p>
+              Sur GitHub Pages, ce formulaire sert d'abord d'aperçu local. Pour appliquer les dates a tous les eleves,
+              il faut reporter les memes valeurs dans <code>config.js</code> puis republier le site.
+            </p>
+          </section>
+
+          <section class="dashboard-grid">
+            <article class="card">
+              <p class="eyebrow">Reglages</p>
+              <h2>Dates d'ouverture</h2>
+              <form class="profile-form" data-settings-form>
+                <label>
+                  Code enseignant leger
+                  <input type="text" name="teacherCode" />
+                </label>
+                <label>
+                  Module 1
+                  <input type="date" name="01-vocabulaire" />
+                </label>
+                <label>
+                  Module 2
+                  <input type="date" name="02-polyedres" />
+                </label>
+                <label>
+                  Module 3
+                  <input type="date" name="03-patrons" />
+                </label>
+                <label>
+                  Module 4
+                  <input type="date" name="04-volume" />
+                </label>
+                <label>
+                  Module 5
+                  <input type="date" name="05-prismes" />
+                </label>
+                <label>
+                  Evaluation finale
+                  <input type="date" name="evaluation" />
+                </label>
+                <div class="module-actions">
+                  <button class="btn" type="submit">Mettre a jour l'aperçu local</button>
+                  <button class="ghost-btn" type="button" data-reset-settings>Revenir a config.js</button>
+                </div>
+              </form>
+              <p class="small muted" data-settings-status>
+                Les dates actuelles proviennent de <code>config.js</code>.
+              </p>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A recopier</p>
+              <h2>Bloc pret pour config.js</h2>
+              <pre class="code-preview" data-config-preview></pre>
+            </article>
+          </section>
+
+          <section class="card">
+            <p class="eyebrow">Calendrier courant</p>
+            <h2>Ouvertures prevues</h2>
+            <div class="steps-list" data-schedule-list></div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

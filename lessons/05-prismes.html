@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 5 | Prismes droits</title>
+    <link rel="stylesheet" href="../style.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body data-page="lesson" data-module="05-prismes">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="../index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="../index.html">Accueil</a>
+            <a href="../index.html#modules">Modules</a>
+            <a href="../evaluation.html">Evaluation</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <p class="eyebrow">Module 5</p>
+          <h1>Prismes droits</h1>
+          <p>
+            Tu apprends a reconnaitre un prisme droit, a identifier ses bases et a calculer son volume en utilisant
+            l'aire de la base.
+          </p>
+          <div class="progress-banner">
+            <strong>Progression :</strong>
+            <span class="progress-count" data-progress-count>0/6</span>
+            <span class="chip" data-module-status>Validation : 70% au quiz ou devoir ludique</span>
+            <span class="score-chip">Score module : <span data-module-score>Pas encore de score</span></span>
+          </div>
+        </section>
+
+        <section class="lesson-layout">
+          <div>
+            <article class="card">
+              <p class="eyebrow">Fiche de cours</p>
+              <h2>Definition et formule</h2>
+              <div class="retenir-box">
+                <p>Un <strong>prisme droit</strong> possede <strong>2 bases identiques et paralleles</strong>.</p>
+                <p>Ses faces laterales sont des <strong>rectangles</strong>.</p>
+                <p>La <strong>hauteur</strong> est la distance entre les deux bases.</p>
+              </div>
+              <div class="mini-grid">
+                <div class="formula">V = Aire(base) x hauteur</div>
+                <div class="formula">Base rectangle : A = L x l</div>
+                <div class="formula">Base triangle rectangle : A = c1 x c2 / 2</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Exemples guides</p>
+              <h2>Deux cas classiques</h2>
+              <div class="example-box">
+                <p>
+                  <strong>Base rectangle 5 x 6 et hauteur 6 :</strong> A(base) = 30, donc V = 30 x 6 = 180 cm3.
+                </p>
+              </div>
+              <div class="example-box">
+                <p>
+                  <strong>Base triangle rectangle de cotes 6 et 4, hauteur 6 :</strong> A(base) = 6 x 4 / 2 = 12,
+                  donc V = 12 x 6 = 72 cm3.
+                </p>
+              </div>
+            </article>
+
+            <article class="card quiz" data-quiz data-module-id="05-prismes" data-pass-score="70">
+              <p class="eyebrow">Exercices</p>
+              <h2>Entrainement auto-corrige</h2>
+              <p>10 questions pour reconnaitre les prismes et calculer leur volume.</p>
+              <form class="quiz-form">
+                <article class="quiz-question" data-type="single" data-answer="a">
+                  <h3>1. Un prisme droit possede...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m5q1" value="a" /> deux bases identiques et paralleles</label>
+                    <label class="choice"><input type="radio" name="m5q1" value="b" /> une seule base</label>
+                    <label class="choice"><input type="radio" name="m5q1" value="c" /> des faces courbes</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="rectangles|rectangle">
+                  <h3>2. Les faces laterales d'un prisme droit sont des...</h3>
+                  <input type="text" name="m5q2" placeholder="Ecris un mot" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="distance">
+                  <h3>3. La hauteur est la ... entre les deux bases.</h3>
+                  <input type="text" name="m5q3" placeholder="Ecris un mot" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>4. La formule generale du volume d'un prisme droit est...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m5q4" value="a" /> V = perimetre(base) x hauteur</label>
+                    <label class="choice"><input type="radio" name="m5q4" value="b" /> V = Aire(base) x hauteur</label>
+                    <label class="choice"><input type="radio" name="m5q4" value="c" /> V = cote x cote</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="180">
+                  <h3>5. Base rectangle 5 x 6 et hauteur 6 : volume = ?</h3>
+                  <input type="number" name="m5q5" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="12">
+                  <h3>6. Aire d'une base triangulaire rectangle de cotes 6 et 4</h3>
+                  <input type="number" name="m5q6" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="72">
+                  <h3>7. Avec cette base triangulaire et une hauteur 6, le volume vaut...</h3>
+                  <input type="number" name="m5q7" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="180">
+                  <h3>8. Si l'aire de base vaut 20 cm2 et la hauteur 9 cm, alors V = ?</h3>
+                  <input type="number" name="m5q8" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="c">
+                  <h3>9. Les bases d'un prisme droit sont...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m5q9" value="a" /> les plus petites faces</label>
+                    <label class="choice"><input type="radio" name="m5q9" value="b" /> les faces laterales</label>
+                    <label class="choice"><input type="radio" name="m5q9" value="c" /> deux faces identiques et paralleles</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>10. Un cylindre est-il un prisme droit ?</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m5q10" value="a" /> Oui</label>
+                    <label class="choice"><input type="radio" name="m5q10" value="b" /> Non</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <div class="quiz-actions">
+                  <button class="btn" type="submit">Corriger le quiz</button>
+                  <button class="ghost-btn" type="button" data-reset-quiz>Effacer mes reponses</button>
+                </div>
+              </form>
+              <div class="quiz-summary" data-quiz-summary></div>
+            </article>
+          </div>
+
+          <div>
+            <article class="illustration-card">
+              <img src="../assets/img/prisme.svg" alt="Prisme droit a base triangulaire" />
+              <figcaption>On cherche d'abord l'aire d'une base, puis on multiplie par la hauteur du prisme.</figcaption>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A retenir</p>
+              <h2>Ordre de calcul</h2>
+              <div class="check-list">
+                <div class="note-box">1. Reconnaitre la forme de la base.</div>
+                <div class="note-box">2. Calculer l'aire de la base.</div>
+                <div class="note-box">3. Multiplier par la hauteur.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A rendre / Devoir ludique</p>
+              <h2>Objet du quotidien</h2>
+              <div class="exercise-box">
+                <ul>
+                  <li>Trouve un prisme droit, ou fabrique-en un avec un patron.</li>
+                  <li>Identifie les bases.</li>
+                  <li>Mesure ou estime l'aire d'une base et la hauteur.</li>
+                  <li>Calcule un volume approximatif.</li>
+                  <li>Prends une photo avec ton calcul.</li>
+                </ul>
+              </div>
+              <div class="module-actions">
+                <button class="btn" type="button" data-homework-toggle>J'ai fait le devoir ludique</button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 1 | Vocabulaire des solides</title>
+    <link rel="stylesheet" href="../style.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body data-page="lesson" data-module="01-vocabulaire">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="../index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="../index.html">Accueil</a>
+            <a href="../index.html#modules">Modules</a>
+            <a href="../evaluation.html">Evaluation</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <p class="eyebrow">Module 1</p>
+          <h1>Vocabulaire des solides : face, arete, sommet</h1>
+          <p>
+            Dans ce module, tu apprends a reconnaitre les trois mots de base du chapitre. Ce vocabulaire est
+            indispensable pour compter, decrire et comparer des solides.
+          </p>
+          <div class="progress-banner">
+            <strong>Progression :</strong>
+            <span class="progress-count" data-progress-count>0/6</span>
+            <span class="chip" data-module-status>Validation : 70% au quiz ou devoir ludique</span>
+            <span class="score-chip">Score module : <span data-module-score>Pas encore de score</span></span>
+          </div>
+        </section>
+
+        <section class="lesson-layout">
+          <div>
+            <article class="card">
+              <p class="eyebrow">Fiche de cours</p>
+              <h2>Definitions</h2>
+              <div class="retenir-box">
+                <p><strong>Face :</strong> surface plane du solide.</p>
+                <p><strong>Arete :</strong> segment ou deux faces se rencontrent.</p>
+                <p><strong>Sommet :</strong> point ou plusieurs aretes se rencontrent.</p>
+              </div>
+              <div class="warning-box">
+                <h3>Erreurs frequentes</h3>
+                <ul>
+                  <li>Une diagonale n'est pas une arete.</li>
+                  <li>Une face cachee existe meme si on ne la voit pas sur le dessin.</li>
+                  <li>Un sommet est un point, pas un petit morceau de face.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Exemple guide</p>
+              <h2>Compter sur un cube</h2>
+              <div class="example-box">
+                <p>
+                  Un cube possede <strong>6 faces</strong>, <strong>12 aretes</strong> et <strong>8 sommets</strong>.
+                </p>
+                <p>
+                  Astuce : compte les faces cachees. Sur un dessin en perspective, on ne voit souvent que 3 faces, mais
+                  il y en a bien 6 au total.
+                </p>
+              </div>
+              <div class="example-box">
+                <h3>Compter sur un pave droit</h3>
+                <p>
+                  Un pave droit a le meme nombre de faces, d'aretes et de sommets qu'un cube :
+                  <strong>6 faces</strong>, <strong>12 aretes</strong>, <strong>8 sommets</strong>.
+                </p>
+                <p>La difference est que les faces ne sont pas toutes des carres.</p>
+              </div>
+            </article>
+
+            <article class="illustration-card">
+              <img src="../assets/img/cube.svg" alt="Cube annote avec une face, une arete et un sommet" />
+              <figcaption>Schema repere : sur un cube, on peut montrer une face, une arete et un sommet.</figcaption>
+            </article>
+
+            <article class="card quiz" data-quiz data-module-id="01-vocabulaire" data-pass-score="70">
+              <p class="eyebrow">Exercices</p>
+              <h2>Entrainement auto-corrige</h2>
+              <p>8 questions. Vise au moins 6 bonnes reponses pour valider par le quiz.</p>
+              <form class="quiz-form">
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>1. Combien de faces a un cube ?</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m1q1" value="a" /> 4</label>
+                    <label class="choice"><input type="radio" name="m1q1" value="b" /> 6</label>
+                    <label class="choice"><input type="radio" name="m1q1" value="c" /> 8</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="c">
+                  <h3>2. Une arete est...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m1q2" value="a" /> une surface plane</label>
+                    <label class="choice"><input type="radio" name="m1q2" value="b" /> un point du solide</label>
+                    <label class="choice"><input type="radio" name="m1q2" value="c" /> le segment commun a deux faces</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="8">
+                  <h3>3. Combien de sommets a un cube ?</h3>
+                  <input type="number" name="m1q3" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="6">
+                  <h3>4. Combien de faces a un pave droit ?</h3>
+                  <input type="number" name="m1q4" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="arete">
+                  <h3>5. Une diagonale n'est pas une...</h3>
+                  <input type="text" name="m1q5" placeholder="Ecris un mot" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="12">
+                  <h3>6. Combien d'aretes a un pave droit ?</h3>
+                  <input type="number" name="m1q6" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="a">
+                  <h3>7. Une face cachee sur un dessin...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m1q7" value="a" /> existe quand meme</label>
+                    <label class="choice"><input type="radio" name="m1q7" value="b" /> ne compte pas</label>
+                    <label class="choice"><input type="radio" name="m1q7" value="c" /> devient une arete</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="sommet">
+                  <h3>8. Le point commun a plusieurs aretes s'appelle un...</h3>
+                  <input type="text" name="m1q8" placeholder="Ecris un mot" />
+                  <p class="feedback"></p>
+                </article>
+
+                <div class="quiz-actions">
+                  <button class="btn" type="submit">Corriger le quiz</button>
+                  <button class="ghost-btn" type="button" data-reset-quiz>Effacer mes reponses</button>
+                </div>
+              </form>
+              <div class="quiz-summary" data-quiz-summary></div>
+            </article>
+          </div>
+
+          <div>
+            <article class="card">
+              <p class="eyebrow">A retenir</p>
+              <h2>Mini-memo</h2>
+              <div class="check-list">
+                <div class="note-box">Face = surface plane.</div>
+                <div class="note-box">Arete = segment entre deux faces.</div>
+                <div class="note-box">Sommet = point de rencontre des aretes.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A rendre / Devoir ludique</p>
+              <h2>Chasse au vocabulaire</h2>
+              <div class="exercise-box">
+                <ul>
+                  <li>Trouve un pave droit et un cylindre dans la maison.</li>
+                  <li>Prends une photo de chaque objet.</li>
+                  <li>Sur la photo du pave droit, indique une face, une arete et un sommet.</li>
+                  <li>Ecris le nombre de faces, d'aretes et de sommets du pave droit.</li>
+                </ul>
+              </div>
+              <div class="module-actions">
+                <button class="btn" type="button" data-homework-toggle>J'ai fait le devoir ludique</button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

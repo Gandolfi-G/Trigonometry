@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Evaluation finale | Solides et volume</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="config.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body data-page="evaluation" data-module="evaluation">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html">Accueil</a>
+            <a href="index.html#modules">Modules</a>
+            <a href="evaluation.html">Evaluation</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <p class="eyebrow">Evaluation finale</p>
+          <h1>Chapitre "Solides et volume"</h1>
+          <p>
+            Partie A : quiz auto-corrige sur 20 points. Partie B : deux exercices a faire sur papier, puis a rendre en
+            photo sur Classroom.
+          </p>
+          <div class="progress-banner">
+            <strong>Progression :</strong>
+            <span class="progress-count" data-progress-count>0/6</span>
+            <span class="chip" data-module-status>Validation : 14/20 minimum</span>
+            <span class="score-chip">Score evaluation : <span data-module-score>Pas encore de score</span></span>
+          </div>
+        </section>
+
+        <section class="card quiz" data-quiz data-module-id="evaluation" data-pass-score="70">
+          <p class="eyebrow">Partie A</p>
+          <h2>Quiz auto-corrige /20</h2>
+          <p>Validation si le score est au moins egal a 14/20.</p>
+          <form class="quiz-form">
+            <article class="quiz-question" data-type="number" data-answer="6">
+              <h3>1. Combien de faces a un cube ?</h3>
+              <input type="number" name="e1" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="text" data-answer="arete">
+              <h3>2. Le segment commun a deux faces s'appelle une...</h3>
+              <input type="text" name="e2" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="single" data-answer="b">
+              <h3>3. Une sphere est-elle un polyedre ?</h3>
+              <div class="choice-list">
+                <label class="choice"><input type="radio" name="e3" value="a" /> Oui</label>
+                <label class="choice"><input type="radio" name="e3" value="b" /> Non</label>
+              </div>
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="2">
+              <h3>4. Pour un cube, 8 + 6 - 12 vaut...</h3>
+              <input type="number" name="e4" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="text" data-answer="patron">
+              <h3>5. Le dessin a plat d'un solide est un...</h3>
+              <input type="text" name="e5" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="single" data-answer="b">
+              <h3>6. Un bon patron peut-il se chevaucher au pliage ?</h3>
+              <div class="choice-list">
+                <label class="choice"><input type="radio" name="e6" value="a" /> Oui</label>
+                <label class="choice"><input type="radio" name="e6" value="b" /> Non</label>
+              </div>
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="343">
+              <h3>7. Volume d'un cube de cote 7 cm</h3>
+              <input type="number" name="e7" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="3000">
+              <h3>8. Volume d'un pave droit 40 x 15 x 5 cm</h3>
+              <input type="number" name="e8" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="0.0256" data-tolerance="0.0001">
+              <h3>9. Convertis 25,6 cm3 en dm3</h3>
+              <input type="text" name="e9" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="0.00438" data-tolerance="0.00001">
+              <h3>10. Convertis 4,38 dm3 en m3</h3>
+              <input type="text" name="e10" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="single" data-answer="c">
+              <h3>11. La formule du volume d'un pave droit est...</h3>
+              <div class="choice-list">
+                <label class="choice"><input type="radio" name="e11" value="a" /> V = L + l + h</label>
+                <label class="choice"><input type="radio" name="e11" value="b" /> V = 2(L + l + h)</label>
+                <label class="choice"><input type="radio" name="e11" value="c" /> V = L x l x h</label>
+              </div>
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="4">
+              <h3>12. Si V = 120 cm3, L = 6 cm et l = 5 cm, alors h = ?</h3>
+              <input type="number" name="e12" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="single" data-answer="a">
+              <h3>13. Un prisme droit possede...</h3>
+              <div class="choice-list">
+                <label class="choice"><input type="radio" name="e13" value="a" /> deux bases identiques et paralleles</label>
+                <label class="choice"><input type="radio" name="e13" value="b" /> une surface courbe</label>
+              </div>
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="text" data-answer="rectangles|rectangle">
+              <h3>14. Les faces laterales d'un prisme droit sont des...</h3>
+              <input type="text" name="e14" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="180">
+              <h3>15. Aire de base 30 cm2 et hauteur 6 cm : volume = ?</h3>
+              <input type="number" name="e15" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="12">
+              <h3>16. Aire d'un triangle rectangle de cotes 6 cm et 4 cm</h3>
+              <input type="number" name="e16" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="72">
+              <h3>17. Volume du prisme triangulaire precedent si la hauteur vaut 6 cm</h3>
+              <input type="number" name="e17" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="single" data-answer="b">
+              <h3>18. Une canette est...</h3>
+              <div class="choice-list">
+                <label class="choice"><input type="radio" name="e18" value="a" /> un polyedre</label>
+                <label class="choice"><input type="radio" name="e18" value="b" /> un cylindre</label>
+              </div>
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="text" data-answer="sommet">
+              <h3>19. Le point ou plusieurs aretes se rencontrent est un...</h3>
+              <input type="text" name="e19" />
+              <p class="feedback"></p>
+            </article>
+            <article class="quiz-question" data-type="number" data-answer="1000">
+              <h3>20. 1 dm3 = ... cm3</h3>
+              <input type="number" name="e20" />
+              <p class="feedback"></p>
+            </article>
+
+            <div class="quiz-actions">
+              <button class="btn" type="submit">Corriger la partie A</button>
+              <button class="ghost-btn" type="button" data-reset-quiz>Effacer mes reponses</button>
+            </div>
+          </form>
+          <div class="quiz-summary" data-quiz-summary></div>
+        </section>
+
+        <section class="card">
+          <p class="eyebrow">Partie B</p>
+          <h2>Deux exercices papier a rendre</h2>
+          <p class="print-only">
+            Imprime cette page ou recopie clairement les consignes. Les productions doivent etre rendues en photo.
+          </p>
+          <div class="summary-grid">
+            <article class="paper-task">
+              <h3>Exercice 1 : patrons</h3>
+              <p>Dessine un patron de cube.</p>
+              <p>Dessine aussi un patron de pave droit de dimensions 8 x 5 x 3 cm.</p>
+              <p>Verifie que toutes les faces sont presentes et qu'il n'y a pas de chevauchement au pliage.</p>
+            </article>
+            <article class="paper-task">
+              <h3>Exercice 2 : probleme de volume</h3>
+              <p>Une boite mesure 18 x 40 x 12 cm.</p>
+              <p>1. Calcule son volume en cm3.</p>
+              <p>2. Convertis ce volume en dm3.</p>
+              <p>3. Si le volume vaut 8640 cm3 et que L = 40 cm, l = 18 cm, retrouve la hauteur.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

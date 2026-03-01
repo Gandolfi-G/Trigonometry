@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="prismeTitle prismeDesc">
+  <title id="prismeTitle">Prisme droit</title>
+  <desc id="prismeDesc">Prisme droit a base triangulaire.</desc>
+  <rect width="320" height="220" rx="24" fill="#08151f"/>
+  <polygon points="88,70 150,40 150,120" fill="#ffb84d"/>
+  <polygon points="170,88 232,58 232,138" fill="#ffb84d" opacity="0.92"/>
+  <polygon points="88,70 150,40 232,58 170,88" fill="#6bd2ff" opacity="0.88"/>
+  <polygon points="88,70 170,88 170,168 88,150" fill="#49dcb1" opacity="0.9"/>
+  <polygon points="150,40 232,58 232,138 150,120" fill="#208c92" opacity="0.84"/>
+  <polygon points="88,150 170,168 232,138 150,120" fill="#2d728f" opacity="0.82"/>
+  <g fill="none" stroke="#eaf9ff" stroke-width="4">
+    <path d="M88 70l62-30v80L88 70zM170 88l62-30v80l-62-50z"/>
+    <path d="M88 70l82 18v80l-82-18zM150 40l82 18v80l-82-18zM88 150l62-30 82 18-62 30z"/>
+  </g>
+  <g fill="#ffffff" font-family="Trebuchet MS, Verdana, sans-serif" font-size="15">
+    <text x="16" y="28">Base</text>
+    <text x="236" y="52">Base</text>
+    <text x="106" y="204">Hauteur = distance entre les bases</text>
+  </g>
+</svg>

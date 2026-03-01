@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guide prof | Solides et volume</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="config.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body data-page="teacher">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html">Accueil</a>
+            <a href="teacher.html">Guide prof</a>
+            <a href="parametrage.html">Parametrage</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="card admin-lock" data-admin-gate>
+          <p class="eyebrow">Acces enseignant</p>
+          <h1>Guide prof protege par code</h1>
+          <p>
+            Protection legere uniquement. Sur un site statique GitHub Pages, ce code evite surtout un acces casual. Il
+            ne remplace pas une vraie authentification serveur.
+          </p>
+          <form class="profile-form">
+            <label>
+              Code enseignant
+              <input type="password" placeholder="Entrer le code" />
+            </label>
+            <div class="module-actions">
+              <button class="btn" type="submit">Ouvrir</button>
+            </div>
+          </form>
+          <p class="small" data-admin-feedback></p>
+        </section>
+
+        <div data-admin-content hidden>
+          <section class="hero">
+            <p class="eyebrow">Guide enseignant</p>
+            <h1>Objectifs, corriges et bareme propose</h1>
+            <p>
+              Cette page synthétise les intentions pedagogiques, les reponses attendues et les elements a verifier lors
+              des depots Classroom.
+            </p>
+            <div class="progress-banner">
+              <strong>Progression eleve :</strong>
+              <span class="progress-count" data-progress-count>0/6</span>
+              <span class="chip">Mise a jour locale : <span data-last-update>Pas encore</span></span>
+            </div>
+          </section>
+
+          <section class="teacher-grid">
+            <article class="card">
+              <p class="eyebrow">Module 1</p>
+              <h2>Vocabulaire des solides</h2>
+              <div class="retenir-box">
+                <p>Objectifs : definir face, arete, sommet et compter sur cube/pave droit.</p>
+                <p>Quiz attendu : 1:b, 2:c, 3:8, 4:6, 5:arete, 6:12, 7:a, 8:sommet.</p>
+                <p>Devoir ludique : 2 photos, annotations correctes sur le pave droit, comptages exacts.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Module 2</p>
+              <h2>Polyedres</h2>
+              <div class="retenir-box">
+                <p>Objectifs : distinguer polyedre / non-polyedre, utiliser bases et faces laterales, observer Euler.</p>
+                <p>Quiz attendu : 1:b, 2:polygones, 3:a, 4:2, 5:c, 6:bases, 7:laterales, 8:b, 9:b, 10:2.</p>
+                <p>Devoir ludique : 5 objets tries, 3 objets polyedres justifies, 1 objet piege explique.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Module 3</p>
+              <h2>Patrons</h2>
+              <div class="retenir-box">
+                <p>Objectifs : definir un patron, verifier faces, connexions et absence de chevauchement.</p>
+                <p>Quiz attendu : 1:6, 2:b, 3:aretes, 4:a, 5:c, 6:b, 7:patron, 8:6.</p>
+                <p>Devoir ludique : patron dessine proprement, dimensions plausibles, photo du patron et eventuelle boite.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Module 4</p>
+              <h2>Volume</h2>
+              <div class="retenir-box">
+                <p>Objectifs : calculer un volume, convertir les unites cubiques, isoler une variable.</p>
+                <p>Quiz attendu : 1:a, 2:cm3, 3:343, 4:3000, 5:0,0256, 6:0,00438, 7:c, 8:4, 9:b, 10:1000.</p>
+                <p>Devoir ludique : objet mesure, calcul en cm3, conversion en dm3, explication ecrite.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Module 5</p>
+              <h2>Prismes droits</h2>
+              <div class="retenir-box">
+                <p>Objectifs : reconnaitre un prisme droit, identifier la hauteur, calculer V = Aire(base) x h.</p>
+                <p>Quiz attendu : 1:a, 2:rectangles, 3:distance, 4:b, 5:180, 6:12, 7:72, 8:180, 9:c, 10:b.</p>
+                <p>Devoir ludique : objet prismatique identifie, base et hauteur reperees, volume approxime.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Evaluation finale</p>
+              <h2>Corriges attendus</h2>
+              <div class="retenir-box">
+                <p>Quiz /20 : 1:6, 2:arete, 3:b, 4:2, 5:patron, 6:b, 7:343, 8:3000, 9:0,0256, 10:0,00438.</p>
+                <p>11:c, 12:4, 13:a, 14:rectangles, 15:180, 16:12, 17:72, 18:b, 19:sommet, 20:1000.</p>
+                <p>Validation suggeree : 14/20 ou plus.</p>
+              </div>
+            </article>
+          </section>
+
+          <section class="summary-grid">
+            <article class="card">
+              <p class="eyebrow">Partie B</p>
+              <h2>Resultats attendus</h2>
+              <div class="example-box">
+                <p>
+                  Exercice 1 : un patron correct de cube et un patron correct de pave droit 8 x 5 x 3 cm, avec 6 faces
+                  bien reliees.
+                </p>
+                <p>
+                  Exercice 2 : V = 18 x 40 x 12 = <strong>8640 cm3</strong>, soit <strong>8,64 dm3</strong>, puis
+                  h = 8640 / (40 x 18) = <strong>12 cm</strong>.
+                </p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Bareme propose</p>
+              <h2>Notation simple</h2>
+              <div class="check-list">
+                <div class="note-box">Quiz final auto-corrige : /20</div>
+                <div class="note-box">5 devoirs ludiques : 5 x 2 points = /10</div>
+                <div class="note-box">Partie B de l'evaluation : /10</div>
+                <div class="note-box">Total possible : /40, a convertir selon les usages de la classe.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Checklist Classroom</p>
+              <h2>Depots a demander</h2>
+              <div class="check-list">
+                <div class="note-box">Photo lisible de chaque devoir ludique si retenu pour l'evaluation continue.</div>
+                <div class="note-box">Photo nette des 2 exercices papier de l'evaluation finale.</div>
+                <div class="note-box">Suivi des quiz directement sur l'appareil de l'eleve si necessaire.</div>
+              </div>
+            </article>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

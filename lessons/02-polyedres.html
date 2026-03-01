@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 2 | Polyedres</title>
+    <link rel="stylesheet" href="../style.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body data-page="lesson" data-module="02-polyedres">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="../index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="../index.html">Accueil</a>
+            <a href="../index.html#modules">Modules</a>
+            <a href="../evaluation.html">Evaluation</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <p class="eyebrow">Module 2</p>
+          <h1>Polyedres : reconnaitre et classer</h1>
+          <p>
+            Ici, tu distingues les solides a faces polygonales des solides arrondis. Tu revois aussi les bases et les
+            faces laterales, utiles pour les prismes.
+          </p>
+          <div class="progress-banner">
+            <strong>Progression :</strong>
+            <span class="progress-count" data-progress-count>0/6</span>
+            <span class="chip" data-module-status>Validation : 70% au quiz ou devoir ludique</span>
+            <span class="score-chip">Score module : <span data-module-score>Pas encore de score</span></span>
+          </div>
+        </section>
+
+        <section class="lesson-layout">
+          <div>
+            <article class="card">
+              <p class="eyebrow">Fiche de cours</p>
+              <h2>Qu'est-ce qu'un polyedre ?</h2>
+              <div class="retenir-box">
+                <p>
+                  Un <strong>polyedre</strong> est un solide dont <strong>toutes les faces sont des polygones</strong>.
+                </p>
+                <p>Exemples : cube, pave droit, pyramide, prisme.</p>
+                <p>Non-exemples : cylindre, sphere, cone, car ils ont des surfaces courbes.</p>
+              </div>
+              <div class="note-box">
+                <h3>Vocabulaire utile</h3>
+                <p><strong>Base :</strong> face choisie comme point de depart pour decrire le solide.</p>
+                <p><strong>Faces laterales :</strong> faces qui relient les bases.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Observation</p>
+              <h2>La relation d'Euler</h2>
+              <div class="example-box">
+                <p>
+                  Pour beaucoup de polyedres, on observe la relation <strong>s + f - a = 2</strong>, avec
+                  <strong>s</strong> pour sommets, <strong>f</strong> pour faces et <strong>a</strong> pour aretes.
+                </p>
+                <p>Cube : 8 + 6 - 12 = 2.</p>
+                <p>Pave droit : 8 + 6 - 12 = 2.</p>
+                <p>Ce n'est pas une preuve ici, seulement une observation utile.</p>
+              </div>
+            </article>
+
+            <article class="card quiz" data-quiz data-module-id="02-polyedres" data-pass-score="70">
+              <p class="eyebrow">Exercices</p>
+              <h2>Entrainement auto-corrige</h2>
+              <p>10 questions pour reconnaitre et classer.</p>
+              <form class="quiz-form">
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>1. Un cylindre est-il un polyedre ?</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m2q1" value="a" /> Oui</label>
+                    <label class="choice"><input type="radio" name="m2q1" value="b" /> Non</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="polygones|polygone">
+                  <h3>2. Les faces d'un polyedre sont des...</h3>
+                  <input type="text" name="m2q2" placeholder="Ecris un mot" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="a">
+                  <h3>3. Le cube est...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m2q3" value="a" /> un polyedre</label>
+                    <label class="choice"><input type="radio" name="m2q3" value="b" /> un non-polyedre</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="2">
+                  <h3>4. Combien vaut 8 + 6 - 12 ?</h3>
+                  <input type="number" name="m2q4" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="c">
+                  <h3>5. Une canette est plutot...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m2q5" value="a" /> un cube</label>
+                    <label class="choice"><input type="radio" name="m2q5" value="b" /> une pyramide</label>
+                    <label class="choice"><input type="radio" name="m2q5" value="c" /> un cylindre, donc pas un polyedre</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="bases|base">
+                  <h3>6. Dans un prisme, les deux faces identiques et paralleles s'appellent les...</h3>
+                  <input type="text" name="m2q6" placeholder="Ecris un mot" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="laterales|faces laterales">
+                  <h3>7. Les faces qui relient les bases sont les faces...</h3>
+                  <input type="text" name="m2q7" placeholder="Ecris une reponse" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>8. Une sphere a-t-elle uniquement des faces polygonales ?</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m2q8" value="a" /> Oui</label>
+                    <label class="choice"><input type="radio" name="m2q8" value="b" /> Non</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>9. Le pave droit est classe comme...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m2q9" value="a" /> non-polyedre</label>
+                    <label class="choice"><input type="radio" name="m2q9" value="b" /> polyedre</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="2">
+                  <h3>10. Pour un cube, s + f - a vaut...</h3>
+                  <input type="number" name="m2q10" />
+                  <p class="feedback"></p>
+                </article>
+
+                <div class="quiz-actions">
+                  <button class="btn" type="submit">Corriger le quiz</button>
+                  <button class="ghost-btn" type="button" data-reset-quiz>Effacer mes reponses</button>
+                </div>
+              </form>
+              <div class="quiz-summary" data-quiz-summary></div>
+            </article>
+          </div>
+
+          <div>
+            <article class="illustration-card">
+              <img src="../assets/img/pave-droit.svg" alt="Pave droit represente en perspective" />
+              <figcaption>Le pave droit est un polyedre : ses faces sont toutes des rectangles.</figcaption>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Exemple guide</p>
+              <h2>Verifier Euler</h2>
+              <div class="example-box">
+                <p>Cube : 8 sommets + 6 faces - 12 aretes = 2.</p>
+                <p>Pave droit : 8 sommets + 6 faces - 12 aretes = 2.</p>
+                <p>Le resultat reste 2 sur ces deux solides.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A rendre / Devoir ludique</p>
+              <h2>Safari polyedres</h2>
+              <div class="exercise-box">
+                <ul>
+                  <li>Trouve 5 objets dans la maison.</li>
+                  <li>Pour chacun, dis si c'est un polyedre ou non.</li>
+                  <li>Pour 3 objets polyedres, precise le type si possible et estime faces, aretes, sommets.</li>
+                  <li>Ajoute un objet piege et explique pourquoi ce n'est pas un polyedre.</li>
+                </ul>
+              </div>
+              <div class="module-actions">
+                <button class="btn" type="button" data-homework-toggle>J'ai fait le devoir ludique</button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

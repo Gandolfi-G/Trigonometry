@@ -1,16 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solides et volume | 9e CO</title>
+    <meta
+      name="description"
+      content="Site statique de cours, d'entrainement et d'evaluation sur les solides et le volume pour la 9e CO Geneve."
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="config.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body data-page="home">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html">Accueil</a>
+            <a href="#modules">Modules</a>
+            <a href="evaluation.html">Evaluation</a>
+          </nav>
+        </div>
+      </header>
 
-<!DOCTYPE html><html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"><title>Vidéos de Mathématiques</title></head>
-<body>
-<header><div class="nav-container"><div class="brand"><a href="index.html">Vidéos de Mathématiques</a></div><nav><a href="index.html">Accueil</a></nav></div></header>
-<main class="container">
-  <h1>Chapitres</h1>
-  <section class="grid">
-    <a class="card" href="./trigonometrie/trigonometry.html"><div class="card-placeholder"></div><div class="card-content"><div class="card-title">Trigonométrie</div><div class="card-description">Angles, cercle trigo, fonctions, triangles, applications.</div></div></a>
-  </section>
-</main>
-<footer><div class="container">© 2026 Enseignant de Mathématiques à Genève</div></footer>
-<script src="script.js"></script>
-</body></html>
+      <main>
+        <section class="hero landing-card" data-landing-screen>
+          <p class="eyebrow">Bienvenue</p>
+          <h1>Avant de commencer</h1>
+          <p>
+            Entre ton prenom et ta classe pour demarrer ton parcours sur le chapitre.
+          </p>
+          <form class="profile-form" data-landing-form>
+            <label>
+              Prenom
+              <input id="student-name" type="text" placeholder="Ex. Lea" />
+            </label>
+            <label>
+              Classe
+              <input id="student-class" type="text" placeholder="Ex. 9R3" />
+            </label>
+            <div class="module-actions">
+              <button class="btn" type="submit">Entrer sur le site</button>
+            </div>
+          </form>
+          <p class="small muted" data-landing-feedback>Complete les deux champs pour entrer sur le site.</p>
+        </section>
+
+        <div class="landing-shell" data-home-content hidden>
+        <section class="hero">
+          <div class="hero-grid">
+            <div>
+              <p class="eyebrow">Chapitre 9e CO Geneve</p>
+              <h1>Comprendre les solides, les patrons et le volume</h1>
+              <p>
+                Ce site reprend le cours sous forme de fiches courtes, d'exemples guides, d'exercices auto-corriges
+                et de devoirs ludiques a deposer sur Classroom.
+              </p>
+              <div class="module-actions">
+                <a class="btn" href="lessons/01-vocabulaire.html" data-start-link>Commencer le module du jour</a>
+                <a class="ghost-btn" href="evaluation.html">Voir l'evaluation finale</a>
+              </div>
+            </div>
+            <div class="card">
+              <div class="progress-banner">
+                <strong>Progression :</strong>
+                <span class="progress-count" data-progress-count>0/6</span>
+                <span class="chip">Derniere mise a jour : <span data-last-update>Pas encore</span></span>
+              </div>
+              <p class="small muted">
+                Validation d'un module : au moins 70% au quiz ou le bouton "J'ai fait le devoir ludique".
+              </p>
+              <div class="mini-grid">
+                <div class="card">
+                  <div class="metric">5</div>
+                  <p>modules de cours</p>
+                </div>
+                <div class="card">
+                  <div class="metric">1</div>
+                  <p>evaluation finale</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="card">
+            <div class="card-title-row">
+              <div>
+                <p class="eyebrow">Bienvenue</p>
+                <h2>Suivi enregistre sur cet appareil</h2>
+              </div>
+            </div>
+            <div class="retenir-box">
+              <p><strong>Prenom :</strong> <span data-student-name-display>Pas encore renseigne</span></p>
+              <p><strong>Classe :</strong> <span data-student-class-display>Pas encore renseignee</span></p>
+            </div>
+            <p class="small muted">
+              Le prenom et la classe ne reapparaissent plus sous forme de formulaire apres l'entree sur le site.
+            </p>
+          </article>
+
+          <article class="card">
+            <p class="eyebrow">Plan de semaine</p>
+            <h2>Calendrier d'ouverture</h2>
+            <div class="steps-list" data-schedule-list>
+            </div>
+          </article>
+        </section>
+
+        <section id="modules">
+          <div class="card-title-row">
+            <div>
+              <p class="eyebrow">Modules</p>
+              <h2>Modules disponibles aujourd'hui</h2>
+            </div>
+          </div>
+          <p class="small muted">
+            Les autres modules apparaitront automatiquement a la date prevue par l'enseignant.
+          </p>
+          <p class="status-note" data-no-modules hidden>Aucun module n'est encore ouvert aujourd'hui.</p>
+          <div class="card-grid" data-modules-grid>
+            <article class="card lesson-card" data-module-card="01-vocabulaire">
+              <div class="module-meta">
+                <span class="chip">Module 1</span>
+                <span class="status-chip pending" data-card-status>En cours</span>
+              </div>
+              <h3>Vocabulaire des solides</h3>
+              <p>Face, arete, sommet, erreurs frequentes, comptages sur cube et pave droit.</p>
+              <p class="small" data-card-score>Pas de score</p>
+              <p class="small muted" data-card-date>Pas encore de tentative</p>
+              <a class="btn" href="lessons/01-vocabulaire.html">Ouvrir</a>
+            </article>
+
+            <article class="card lesson-card" data-module-card="02-polyedres">
+              <div class="module-meta">
+                <span class="chip">Module 2</span>
+                <span class="status-chip pending" data-card-status>En cours</span>
+              </div>
+              <h3>Polyedres</h3>
+              <p>Reconnaissance, classement, bases, faces laterales et observation d'Euler.</p>
+              <p class="small" data-card-score>Pas de score</p>
+              <p class="small muted" data-card-date>Pas encore de tentative</p>
+              <a class="btn" href="lessons/02-polyedres.html">Ouvrir</a>
+            </article>
+
+            <article class="card lesson-card" data-module-card="03-patrons">
+              <div class="module-meta">
+                <span class="chip">Module 3</span>
+                <span class="status-chip pending" data-card-status>En cours</span>
+              </div>
+              <h3>Developpements et patrons</h3>
+              <p>Mettre a plat, verifier les connexions et eviter les chevauchements au pliage.</p>
+              <p class="small" data-card-score>Pas de score</p>
+              <p class="small muted" data-card-date>Pas encore de tentative</p>
+              <a class="btn" href="lessons/03-patrons.html">Ouvrir</a>
+            </article>
+
+            <article class="card lesson-card" data-module-card="04-volume">
+              <div class="module-meta">
+                <span class="chip">Module 4</span>
+                <span class="status-chip pending" data-card-status>En cours</span>
+              </div>
+              <h3>Volume et conversions</h3>
+              <p>Unites cubiques, formules, calculs et transformations de formules.</p>
+              <p class="small" data-card-score>Pas de score</p>
+              <p class="small muted" data-card-date>Pas encore de tentative</p>
+              <a class="btn" href="lessons/04-volume.html">Ouvrir</a>
+            </article>
+
+            <article class="card lesson-card" data-module-card="05-prismes">
+              <div class="module-meta">
+                <span class="chip">Module 5</span>
+                <span class="status-chip pending" data-card-status>En cours</span>
+              </div>
+              <h3>Prismes droits</h3>
+              <p>Bases identiques, hauteur et volume avec une aire de base rectangulaire ou triangulaire.</p>
+              <p class="small" data-card-score>Pas de score</p>
+              <p class="small muted" data-card-date>Pas encore de tentative</p>
+              <a class="btn" href="lessons/05-prismes.html">Ouvrir</a>
+            </article>
+
+            <article class="card lesson-card" data-module-card="evaluation">
+              <div class="module-meta">
+                <span class="chip">Etape 6</span>
+                <span class="status-chip pending" data-card-status>En cours</span>
+              </div>
+              <h3>Evaluation finale</h3>
+              <p>20 questions auto-corrigees et 2 exercices papier a rendre en photo.</p>
+              <p class="small" data-card-score>Pas de score</p>
+              <p class="small muted" data-card-date>Pas encore de tentative</p>
+              <a class="btn" href="evaluation.html">Ouvrir</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="summary-grid">
+          <article class="card">
+            <p class="eyebrow">A retenir</p>
+            <h2>Comment valider</h2>
+            <div class="retenir-box">
+              <p>Chaque module est valide si tu obtiens au moins 70% au quiz.</p>
+              <p>Tu peux aussi valider un module en cliquant sur le bouton du devoir ludique quand tu l'as realise.</p>
+            </div>
+          </article>
+          <article class="card">
+            <p class="eyebrow">PDF du cours</p>
+            <h2>Supports fournis</h2>
+            <div class="quick-list">
+              <a class="ghost-btn" href="assets/pdfs/Th9ème - Solides et volume.pdf">Theorie PDF</a>
+              <a class="ghost-btn" href="assets/pdfs/Ex9ème - Solides et volume.pdf">Exercices PDF</a>
+              <a class="ghost-btn" href="assets/pdfs/9R3-devoirsGM.pdf">Devoirs PDF</a>
+            </div>
+          </article>
+          <article class="card">
+            <p class="eyebrow">Depots Classroom</p>
+            <h2>Ce qu'il faut garder</h2>
+            <div class="check-list">
+              <div class="note-box">Photos des devoirs ludiques si demandees.</div>
+              <div class="note-box">Photo des 2 exercices papier de l'evaluation finale.</div>
+              <div class="note-box">Reponses et productions sur feuille quand le professeur le demande.</div>
+            </div>
+          </article>
+        </section>
+        </div>
+      </main>
+
+      <footer class="footer-panel">
+        <p>
+          
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

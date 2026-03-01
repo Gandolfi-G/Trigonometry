@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 3 | Patrons</title>
+    <link rel="stylesheet" href="../style.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body data-page="lesson" data-module="03-patrons">
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="header-row">
+          <a class="brand" href="../index.html">Solides <span>&</span> volume 9e</a>
+          <nav class="nav-links" aria-label="Navigation principale">
+            <a href="../index.html">Accueil</a>
+            <a href="../index.html#modules">Modules</a>
+            <a href="../evaluation.html">Evaluation</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <p class="eyebrow">Module 3</p>
+          <h1>Developpements et patrons</h1>
+          <p>
+            Un patron montre comment un solide peut etre mis a plat. Le test important est toujours le meme : est-ce
+            que le patron peut se replier sans trou ni chevauchement ?
+          </p>
+          <div class="progress-banner">
+            <strong>Progression :</strong>
+            <span class="progress-count" data-progress-count>0/6</span>
+            <span class="chip" data-module-status>Validation : 70% au quiz ou devoir ludique</span>
+            <span class="score-chip">Score module : <span data-module-score>Pas encore de score</span></span>
+          </div>
+        </section>
+
+        <section class="lesson-layout">
+          <div>
+            <article class="card">
+              <p class="eyebrow">Fiche de cours</p>
+              <h2>Definition</h2>
+              <div class="retenir-box">
+                <p>
+                  Un <strong>patron</strong> est le dessin a plat de toutes les faces d'un solide. Si on decoupe puis on
+                  replie, on doit retrouver le solide.
+                </p>
+              </div>
+              <div class="warning-box">
+                <h3>Check-list d'un patron correct</h3>
+                <ul>
+                  <li>Toutes les faces sont presentes.</li>
+                  <li>Les faces sont reliees par des aretes.</li>
+                  <li>Au pliage, rien ne se chevauche.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">Exemples guides</p>
+              <h2>Patrons possibles</h2>
+              <div class="example-box">
+                <p>Pour un cube, plusieurs patrons sont possibles. Ils ont toujours 6 carres relies par des aretes.</p>
+              </div>
+              <div class="example-box">
+                <p>
+                  Pour un pave droit, on place 6 rectangles avec les bonnes dimensions. Les faces opposees doivent etre
+                  de meme taille.
+                </p>
+              </div>
+            </article>
+
+            <article class="card quiz" data-quiz data-module-id="03-patrons" data-pass-score="70">
+              <p class="eyebrow">Exercices</p>
+              <h2>Entrainement auto-corrige</h2>
+              <p>8 questions pour verifier si un patron est correct.</p>
+              <form class="quiz-form">
+                <article class="quiz-question" data-type="number" data-answer="6">
+                  <h3>1. Combien de faces doit avoir un patron de cube ?</h3>
+                  <input type="number" name="m3q1" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>2. Un bon patron peut-il avoir deux faces qui se chevauchent au pliage ?</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m3q2" value="a" /> Oui</label>
+                    <label class="choice"><input type="radio" name="m3q2" value="b" /> Non</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="aretes|arete">
+                  <h3>3. Les faces d'un patron sont reliees par des...</h3>
+                  <input type="text" name="m3q3" placeholder="Ecris un mot" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="a">
+                  <h3>4. Un patron de cube contient...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m3q4" value="a" /> seulement des carres</label>
+                    <label class="choice"><input type="radio" name="m3q4" value="b" /> seulement des triangles</label>
+                    <label class="choice"><input type="radio" name="m3q4" value="c" /> 4 rectangles et 2 triangles</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="c">
+                  <h3>5. Pour un pave droit, les faces opposees sont...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m3q5" value="a" /> toujours de formes differentes</label>
+                    <label class="choice"><input type="radio" name="m3q5" value="b" /> des triangles</label>
+                    <label class="choice"><input type="radio" name="m3q5" value="c" /> de meme taille</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="single" data-answer="b">
+                  <h3>6. Si une face manque dans un patron, alors...</h3>
+                  <div class="choice-list">
+                    <label class="choice"><input type="radio" name="m3q6" value="a" /> le solide se replie quand meme</label>
+                    <label class="choice"><input type="radio" name="m3q6" value="b" /> le patron n'est pas correct</label>
+                  </div>
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="text" data-answer="patron">
+                  <h3>7. Le dessin a plat d'un solide s'appelle un...</h3>
+                  <input type="text" name="m3q7" placeholder="Ecris un mot" />
+                  <p class="feedback"></p>
+                </article>
+
+                <article class="quiz-question" data-type="number" data-answer="6">
+                  <h3>8. Un patron de pave droit a aussi ... faces.</h3>
+                  <input type="number" name="m3q8" />
+                  <p class="feedback"></p>
+                </article>
+
+                <div class="quiz-actions">
+                  <button class="btn" type="submit">Corriger le quiz</button>
+                  <button class="ghost-btn" type="button" data-reset-quiz>Effacer mes reponses</button>
+                </div>
+              </form>
+              <div class="quiz-summary" data-quiz-summary></div>
+            </article>
+          </div>
+
+          <div>
+            <article class="illustration-card">
+              <img src="../assets/img/patron.svg" alt="Patron de cube represente en six carres" />
+              <figcaption>Exemple de patron de cube : 6 faces reliees, sans chevauchement au pliage.</figcaption>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A retenir</p>
+              <h2>Question a se poser</h2>
+              <div class="note-box">
+                <p>Si je replie ce dessin, est-ce que j'obtiens exactement le solide voulu ?</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">A rendre / Devoir ludique</p>
+              <h2>Fabrique une boite</h2>
+              <div class="exercise-box">
+                <ul>
+                  <li>Choisis des dimensions simples, par exemple 6 x 4 x 3 cm.</li>
+                  <li>Dessine un patron de pave droit sur une feuille.</li>
+                  <li>Si possible, decoupe et plie pour former la boite.</li>
+                  <li>Prends une photo du patron et une photo de la boite si tu l'as montee.</li>
+                </ul>
+              </div>
+              <div class="module-actions">
+                <button class="btn" type="button" data-homework-toggle>J'ai fait le devoir ludique</button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 240" role="img" aria-labelledby="patronTitle patronDesc">
+  <title id="patronTitle">Patron de cube</title>
+  <desc id="patronDesc">Exemple de patron d'un cube avec six faces reliees.</desc>
+  <rect width="340" height="240" rx="24" fill="#08151f"/>
+  <g stroke="#eaf9ff" stroke-width="4">
+    <rect x="120" y="40" width="50" height="50" fill="#49dcb1"/>
+    <rect x="70" y="90" width="50" height="50" fill="#6bd2ff"/>
+    <rect x="120" y="90" width="50" height="50" fill="#ffb84d"/>
+    <rect x="170" y="90" width="50" height="50" fill="#49dcb1"/>
+    <rect x="220" y="90" width="50" height="50" fill="#6bd2ff"/>
+    <rect x="120" y="140" width="50" height="50" fill="#ffb84d"/>
+  </g>
+  <g fill="#ffffff" font-family="Trebuchet MS, Verdana, sans-serif" font-size="15">
+    <text x="44" y="210">Toutes les faces sont reliees par des aretes.</text>
+    <text x="44" y="228">Au pliage, elles ne doivent pas se chevaucher.</text>
+  </g>
+</svg>
