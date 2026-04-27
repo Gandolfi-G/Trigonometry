@@ -1,0 +1,109 @@
+.customizer-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.customizer-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.customizer-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.customizer-row {
+  border: 1px solid #e4ebe1;
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #fbfcfa;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.customizer-label {
+  font-weight: 700;
+}
+
+.customizer-help {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.customizer-checkbox-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.45rem;
+}
+
+.customizer-subcheck {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #f0f6ee;
+  border: 1px solid #d8e5d7;
+  border-radius: 8px;
+  padding: 0.35rem 0.45rem;
+}
+
+.customizer-enum-switch {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid #c6d9c6;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #eef6eb;
+}
+
+.customizer-enum-switch-option {
+  position: relative;
+  cursor: pointer;
+}
+
+.customizer-enum-switch-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.customizer-enum-switch-option span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.1rem;
+  padding: 0.35rem 0.9rem;
+  font-weight: 600;
+  color: #1d3524;
+  background: transparent;
+  border-right: 1px solid #d3e2d2;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.customizer-enum-switch-option.is-right span {
+  border-right: 0;
+}
+
+.customizer-enum-switch-option input:checked + span {
+  background: #2f6d3f;
+  color: #ffffff;
+}
+
+.url-preview {
+  border: 1px dashed #bdcfc1;
+  background: #f6faf4;
+  border-radius: 10px;
+  padding: 0.7rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  word-break: break-word;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personnalisation - Coordonnées d’un point</title>
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <link rel="stylesheet" href="/assets/css/layout.css" />
+    <link rel="stylesheet" href="/assets/css/customizer.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <div class="title-row">
+          <a href="/index.html" class="site-brand">
+            <strong>Trigonométrie Programmable</strong>
+            <span>Personnalisation de notion</span>
+          </a>
+          <span class="version-pill" id="site-version"></span>
+        </div>
+      </header>
+
+      <section class="hero">
+        <h1 id="customizer-title"></h1>
+        <p id="customizer-description"></p>
+      </section>
+
+      <section class="customizer-layout">
+        <article class="customizer-panel">
+          <h2>Options disponibles</h2>
+          <p>Active ou désactive les blocs, puis génère une URL prête à partager.</p>
+          <form id="customizer-form" class="customizer-form"></form>
+        </article>
+
+        <article class="customizer-panel">
+          <h2>URL générée</h2>
+          <p class="url-preview" id="generated-url"></p>
+          <div class="action-row">
+            <button class="btn btn-primary" id="open-page-btn" type="button">Ouvrir la page</button>
+            <button class="btn btn-secondary" id="copy-url-btn" type="button">Copier l’URL</button>
+            <button class="btn btn-secondary" id="save-config-btn" type="button">Sauvegarder</button>
+            <button class="btn btn-danger" id="reset-config-btn" type="button">Réinitialiser</button>
+          </div>
+          <p class="customizer-help">La sauvegarde locale mémorise la dernière configuration pour cette notion.</p>
+        </article>
+      </section>
+
+      <footer class="site-footer">
+        <p><a href="./index.html">Ouvrir la notion</a> · <a href="/index.html">Retour à l’accueil</a></p>
+      </footer>
+    </main>
+
+    <script type="module" src="/assets/js/pages/coordonnees/customizer.js"></script>
+  </body>
+</html>
