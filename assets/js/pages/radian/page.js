@@ -1,5 +1,5 @@
-import { bootNotionPage } from '/assets/js/core/page-shell.js';
-import { renderQuiz } from '/assets/js/core/quiz.js';
+import { bootNotionPage } from '/Trigonometry/assets/js/core/page-shell.js';
+import { renderQuiz } from '/Trigonometry/assets/js/core/quiz.js';
 import { defaults } from './defaults.js';
 import { schema } from './config-schema.js';
 import { mountRadianAnimation } from './animation.js';
@@ -9,7 +9,7 @@ const notion = {
   title: 'Le radian',
   subtitle: 'Définition par longueur d’arc',
   description: 'Un angle de 1 radian intercepte un arc de longueur égale au rayon.',
-  customizerPath: '/assets/js/pages/radian/customizer.html',
+  customizerPath: '/Trigonometry/assets/js/pages/radian/customizer.html',
 };
 
 bootNotionPage({

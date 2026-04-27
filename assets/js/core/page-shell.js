@@ -53,7 +53,7 @@ export function bootNotionPage(options) {
     customizerLink.textContent = 'Personnaliser cette page';
 
     const homeLink = document.createElement('a');
-    homeLink.href = '/index.html';
+    homeLink.href = '/Trigonometry/index.html';
     homeLink.className = 'btn btn-ghost';
     homeLink.textContent = 'Retour à l’accueil';
 

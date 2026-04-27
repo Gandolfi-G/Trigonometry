@@ -1,5 +1,5 @@
-import { createElement, formatNumber } from '/assets/js/core/utils.js';
-import { createBoard } from '/assets/js/jsxgraph/board-utils.js';
+import { createElement, formatNumber } from '/Trigonometry/assets/js/core/utils.js';
+import { createBoard } from '/Trigonometry/assets/js/jsxgraph/board-utils.js';
 
 const TAU = Math.PI * 2;
 const EPS = 1e-6;

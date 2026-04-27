@@ -1,6 +1,6 @@
-import { bootNotionPage } from '/assets/js/core/page-shell.js';
-import { createElement, formatNumber } from '/assets/js/core/utils.js';
-import { renderQuiz } from '/assets/js/core/quiz.js';
+import { bootNotionPage } from '/Trigonometry/assets/js/core/page-shell.js';
+import { createElement, formatNumber } from '/Trigonometry/assets/js/core/utils.js';
+import { renderQuiz } from '/Trigonometry/assets/js/core/quiz.js';
 import { defaults } from './defaults.js';
 import { schema } from './config-schema.js';
 import { mountCoordonneesAnimation } from './animation.js';
@@ -10,7 +10,7 @@ const notion = {
   title: 'Coordonnées d’un point',
   subtitle: 'Projection sur les axes',
   description: 'Les coordonnées d’un point du cercle trigonométrique sont données par (cos t, sin t).',
-  customizerPath: '/assets/js/pages/coordonnees/customizer.html',
+  customizerPath: '/Trigonometry/assets/js/pages/coordonnees/customizer.html',
 };
 
 const valuesStore = {

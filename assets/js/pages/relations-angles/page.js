@@ -1,5 +1,5 @@
-import { bootNotionPage } from '/assets/js/core/page-shell.js';
-import { createElement, unique } from '/assets/js/core/utils.js';
+import { bootNotionPage } from '/Trigonometry/assets/js/core/page-shell.js';
+import { createElement, unique } from '/Trigonometry/assets/js/core/utils.js';
 import { defaults } from './defaults.js';
 import { schema, ANGLE_OPTIONS, ANGLE_LABELS } from './config-schema.js';
 import { mountRelationsAnimation } from './animation.js';
@@ -9,7 +9,7 @@ const notion = {
   title: 'Relation entre les angles',
   subtitle: 'Comparer x avec des angles liés',
   description: 'Affiche des relations trigonométriques en cosinus, sinus ou tangente pour plusieurs transformations d’angle.',
-  customizerPath: '/assets/js/pages/relations-angles/customizer.html',
+  customizerPath: '/Trigonometry/assets/js/pages/relations-angles/customizer.html',
 };
 
 const angleColorMap = {

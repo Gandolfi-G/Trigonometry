@@ -1,6 +1,6 @@
-import { createElement } from '/assets/js/core/utils.js';
-import { createBoard } from '/assets/js/jsxgraph/board-utils.js';
-import { COLORS } from '/assets/js/jsxgraph/common-styles.js';
+import { createElement } from '/Trigonometry/assets/js/core/utils.js';
+import { createBoard } from '/Trigonometry/assets/js/jsxgraph/board-utils.js';
+import { COLORS } from '/Trigonometry/assets/js/jsxgraph/common-styles.js';
 
 const TAU = Math.PI * 2;
 const ANTI_TRIGO_START = TAU - 0.0001;

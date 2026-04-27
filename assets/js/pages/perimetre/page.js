@@ -1,5 +1,5 @@
-import { bootNotionPage } from '/assets/js/core/page-shell.js';
-import { renderQuiz } from '/assets/js/core/quiz.js';
+import { bootNotionPage } from '/Trigonometry/assets/js/core/page-shell.js';
+import { renderQuiz } from '/Trigonometry/assets/js/core/quiz.js';
 import { defaults } from './defaults.js';
 import { schema } from './config-schema.js';
 import { mountPerimetreAnimation } from './animation.js';
@@ -9,7 +9,7 @@ const notion = {
   title: 'Périmètre du cercle',
   subtitle: 'Longueur du demi-cercle unité',
   description: 'Le demi-cercle de rayon 1 a une longueur π. L’animation déroule visuellement cette longueur sur une règle.',
-  customizerPath: '/assets/js/pages/perimetre/customizer.html',
+  customizerPath: '/Trigonometry/assets/js/pages/perimetre/customizer.html',
 };
 
 bootNotionPage({

@@ -1,4 +1,4 @@
-import { bootCustomizerPage } from '/assets/js/core/customizer-shell.js';
+import { bootCustomizerPage } from '/Trigonometry/assets/js/core/customizer-shell.js';
 import { schema } from './config-schema.js';
 import { defaults } from './defaults.js';
 

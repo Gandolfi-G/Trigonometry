@@ -1,5 +1,5 @@
-import { createElement, formatNumber, clamp } from '/assets/js/core/utils.js';
-import { createBoard } from '/assets/js/jsxgraph/board-utils.js';
+import { createElement, formatNumber, clamp } from '/Trigonometry/assets/js/core/utils.js';
+import { createBoard } from '/Trigonometry/assets/js/jsxgraph/board-utils.js';
 
 const BOUNDING_BOX = [-2.2, 2, 4.8, -1.9];
 const CIRCLE_CENTER = { x: -0.55, y: 0 };

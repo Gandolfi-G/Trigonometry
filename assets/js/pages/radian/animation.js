@@ -1,5 +1,5 @@
-import { createElement } from '/assets/js/core/utils.js';
-import { createBoard } from '/assets/js/jsxgraph/board-utils.js';
+import { createElement } from '/Trigonometry/assets/js/core/utils.js';
+import { createBoard } from '/Trigonometry/assets/js/jsxgraph/board-utils.js';
 
 const BOUNDING_BOX = [-1.8, 1.8, 1.8, -1.8];
 const PHASE_TRANSITION_HOLD_MS = 900;

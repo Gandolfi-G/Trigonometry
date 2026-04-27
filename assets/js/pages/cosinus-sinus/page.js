@@ -1,6 +1,6 @@
-import { bootNotionPage } from '/assets/js/core/page-shell.js';
-import { createElement, formatNumber } from '/assets/js/core/utils.js';
-import { renderQuiz } from '/assets/js/core/quiz.js';
+import { bootNotionPage } from '/Trigonometry/assets/js/core/page-shell.js';
+import { createElement, formatNumber } from '/Trigonometry/assets/js/core/utils.js';
+import { renderQuiz } from '/Trigonometry/assets/js/core/quiz.js';
 import { defaults } from './defaults.js';
 import { schema } from './config-schema.js';
 import { mountCosSinAnimation } from './animation.js';
@@ -10,7 +10,7 @@ const notion = {
   title: 'Cosinus et sinus',
   subtitle: 'Tableau de valeurs',
   description: 'Enregistre des positions du point pour construire progressivement un tableau angle / cosinus / sinus.',
-  customizerPath: '/assets/js/pages/cosinus-sinus/customizer.html',
+  customizerPath: '/Trigonometry/assets/js/pages/cosinus-sinus/customizer.html',
 };
 
 const rowsStore = {

@@ -1,6 +1,6 @@
-import { bootNotionPage } from '/assets/js/core/page-shell.js';
-import { createElement, formatNumber } from '/assets/js/core/utils.js';
-import { renderQuiz } from '/assets/js/core/quiz.js';
+import { bootNotionPage } from '/Trigonometry/assets/js/core/page-shell.js';
+import { createElement, formatNumber } from '/Trigonometry/assets/js/core/utils.js';
+import { renderQuiz } from '/Trigonometry/assets/js/core/quiz.js';
 import { defaults } from './defaults.js';
 import { schema } from './config-schema.js';
 import { mountCercleAnimation } from './animation.js';
@@ -10,7 +10,7 @@ const notion = {
   title: 'Cercle trigonométrique',
   subtitle: 'Lecture de l’angle sur le cercle unité',
   description: 'Cette page présente le sens trigonométrique, le rayon unité et les premières valeurs utiles.',
-  customizerPath: '/assets/js/pages/cercle/customizer.html',
+  customizerPath: '/Trigonometry/assets/js/pages/cercle/customizer.html',
 };
 
 const angleStore = {
