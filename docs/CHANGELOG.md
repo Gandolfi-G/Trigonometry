@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.8 - 2026-04-27
+
+- Déploiement GitHub Pages (repo `Trigonometry`) :
+  - correction globale des chemins absolus pour charger correctement les assets sous `/Trigonometry/`.
+  - mise à jour des liens d’accueil et de documentation pour éviter les erreurs 404 en production.
+
 ## v0.1.7 - 2026-04-27
 
 - Notion 01 (cercle) :
