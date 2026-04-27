@@ -35,6 +35,13 @@
     .catalog-kicker{font-size:.75rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#475569}
     .catalog-meta{font-size:.84rem;color:#64748b}
     .nav-container nav a.active{font-weight:800;text-decoration:underline}
+    .update-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(15,23,42,.62);z-index:1000}
+    .update-modal{max-width:620px;width:100%;border-radius:16px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 30px 80px rgba(15,23,42,.35);padding:1.2rem}
+    .update-modal h2{margin:.1rem 0 .45rem 0;font-size:1.35rem}
+    .update-modal p{margin:0;color:#475569;line-height:1.5}
+    .update-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+    .update-btn{display:inline-flex;align-items:center;justify-content:center;padding:.62rem .95rem;border-radius:12px;border:1px solid #334155;background:#334155;color:#fff;text-decoration:none;font-weight:700;cursor:pointer}
+    .update-btn.secondary{background:#fff;color:#334155}
     @media (max-width: 900px){
       .hero{grid-template-columns:1fr}
       .stats{grid-template-columns:1fr}
@@ -47,6 +54,16 @@
   <script defer src="customizer/customizer.js"></script>
 </head>
 <body>
+<div class="update-overlay" id="update-overlay" role="dialog" aria-modal="true" aria-labelledby="update-title">
+  <div class="update-modal">
+    <h2 id="update-title">Une version plus récente est disponible</h2>
+    <p>Cette page appartient à une ancienne version du site. Clique sur le bouton pour ouvrir la version actuelle.</p>
+    <div class="update-actions">
+      <a class="update-btn" id="update-redirect" href="/Trigonometry/">Ouvrir la version récente</a>
+      <button class="update-btn secondary" id="update-close" type="button">Rester sur cette page</button>
+    </div>
+  </div>
+</div>
 <header>
   <div class="nav-container">
     <div class="brand"><a href="index.html">Trigonométrie HTML</a></div>
@@ -145,5 +162,27 @@
   </div>
 </main>
 <footer><div class="container">© 2026 Site HTML refactoré</div></footer>
+<script>
+  (function () {
+    var redirectBtn = document.getElementById('update-redirect');
+    var closeBtn = document.getElementById('update-close');
+    var overlay = document.getElementById('update-overlay');
+    var targetUrl = '/Trigonometry/' + window.location.search + window.location.hash;
+
+    if (redirectBtn) {
+      redirectBtn.setAttribute('href', targetUrl);
+      redirectBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+        window.location.replace(targetUrl);
+      });
+    }
+
+    if (closeBtn && overlay) {
+      closeBtn.addEventListener('click', function () {
+        overlay.style.display = 'none';
+      });
+    }
+  })();
+</script>
 </body>
 </html>
