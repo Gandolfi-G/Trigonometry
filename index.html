@@ -1,16 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trigonométrie Programmable</title>
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <link rel="stylesheet" href="/assets/css/layout.css" />
+    <link rel="stylesheet" href="/assets/css/blocks.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <div class="title-row">
+          <a href="/index.html" class="site-brand">
+            <strong>Trigonométrie Programmable</strong>
+            <span>Site statique pédagogique</span>
+          </a>
+          <span class="version-pill" id="site-version"></span>
+        </div>
+      </header>
 
-<!DOCTYPE html><html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"><title>Vidéos de Mathématiques</title></head>
-<body>
-<header><div class="nav-container"><div class="brand"><a href="index.html">Vidéos de Mathématiques</a></div><nav><a href="index.html">Accueil</a></nav></div></header>
-<main class="container">
-  <h1>Chapitres</h1>
-  <section class="grid">
-    <a class="card" href="./trigonometrie/trigonometry.html"><div class="card-placeholder"></div><div class="card-content"><div class="card-title">Trigonométrie</div><div class="card-description">Angles, cercle trigo, fonctions, triangles, applications.</div></div></a>
-  </section>
-</main>
-<footer><div class="container">© 2026 Enseignant de Mathématiques à Genève</div></footer>
-<script src="script.js"></script>
-</body></html>
+      <section class="hero">
+        <h1>Notions de trigonométrie configurables par URL</h1>
+        <p class="home-lead">
+          Parcours conseillé : cercle trigonométrique -> périmètre -> radian -> coordonnées -> cosinus/sinus -> relations entre les angles.
+        </p>
+        <p>
+          Chaque notion a sa propre page de rendu et sa propre page de personnalisation.
+          Un enseignant peut choisir les blocs visibles, générer l’URL finale, puis la partager.
+        </p>
+        <p>
+          Dernière publication : <span id="release-date"></span>
+        </p>
+      </section>
+
+      <section>
+        <h2>Notions disponibles</h2>
+        <div class="notion-grid" id="notion-list"></div>
+      </section>
+
+      <footer class="site-footer">
+        <p>
+          Documentation :
+          <a href="/docs/README.md">README</a>,
+          <a href="/docs/ARCHITECTURE.md">ARCHITECTURE</a>,
+          <a href="/docs/CHANGELOG.md">CHANGELOG</a>,
+          <a href="/docs/ROADMAP.md">ROADMAP</a>
+        </p>
+      </footer>
+    </main>
+
+    <script type="module" src="/assets/js/home.js"></script>
+  </body>
+</html>
