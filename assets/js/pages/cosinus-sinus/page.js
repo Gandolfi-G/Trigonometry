@@ -108,18 +108,25 @@ bootNotionPage({
         title: 'Tableau de valeurs',
         render: (target) => {
           const summary = createElement('div', { className: 'inline-values' });
-          const currentChip = createElement('span', { className: 'value-chip' });
-          const countChip = createElement('span', { className: 'value-chip' });
-          summary.append(currentChip, countChip);
+          const label    = createElement('span', { className: 'inline-values-label', text: 'Position' });
+          const angleChip = createElement('span', { className: 'value-chip value-chip-angle' });
+          const cosChip   = createElement('span', { className: 'value-chip value-chip-cos' });
+          const sinChip   = createElement('span', { className: 'value-chip value-chip-sin' });
+          const countChip = createElement('span', { className: 'count-badge' });
+          const chips = [label, angleChip];
+          if (valueModeFlags.showCos) chips.push(cosChip);
+          if (valueModeFlags.showSin) chips.push(sinChip);
+          chips.push(countChip);
+          summary.append(...chips);
 
           const columns = [
-            { key: 'angle', label: 'Angle', getValue: (row) => row.angleExact },
+            { key: 'angle', label: 'Angle', getValue: (row) => row.angleExact, thClass: '' },
           ];
           if (valueModeFlags.showCos) {
-            columns.push({ key: 'cos', label: 'cos(angle)', getValue: (row) => row.cosExact });
+            columns.push({ key: 'cos', label: 'cos(θ)', getValue: (row) => row.cosExact, thClass: 'col-cos' });
           }
           if (valueModeFlags.showSin) {
-            columns.push({ key: 'sin', label: 'sin(angle)', getValue: (row) => row.sinExact });
+            columns.push({ key: 'sin', label: 'sin(θ)', getValue: (row) => row.sinExact, thClass: 'col-sin' });
           }
 
           const table = createElement('table', { className: 'data-table' });
@@ -127,7 +134,7 @@ bootNotionPage({
             <thead>
               <tr>
                 <th>#</th>
-                ${columns.map((column) => `<th>${column.label}</th>`).join('')}
+                ${columns.map((column) => `<th class="${column.thClass}">${column.label}</th>`).join('')}
               </tr>
             </thead>
             <tbody></tbody>
@@ -140,23 +147,18 @@ bootNotionPage({
           const cleanups = [
             subscribeCurrent((values) => {
               const exact = toExactDisplay(values);
-              const parts = [`Courant: θ=${exact.angle}`];
-              if (valueModeFlags.showCos) {
-                parts.push(`cos(θ)=${exact.cos}`);
-              }
-              if (valueModeFlags.showSin) {
-                parts.push(`sin(θ)=${exact.sin}`);
-              }
-              currentChip.textContent = parts.join(' | ');
+              angleChip.textContent = `θ = ${exact.angle}`;
+              if (valueModeFlags.showCos) cosChip.textContent = `cos(θ) = ${exact.cos}`;
+              if (valueModeFlags.showSin) sinChip.textContent = `sin(θ) = ${exact.sin}`;
             }),
             subscribeRows((rows) => {
-              countChip.textContent = `Lignes enregistrées: ${rows.length}`;
+              countChip.textContent = `${rows.length} / 16`;
               if (!tbody) return;
               tbody.innerHTML = rows
                 .map((row) => `
                   <tr>
                     <td>${row.index}</td>
-                    ${columns.map((column) => `<td>${column.getValue(row)}</td>`).join('')}
+                    ${columns.map((column) => `<td class="${column.thClass || ''}">${column.getValue(row)}</td>`).join('')}
                   </tr>
                 `)
                 .join('');

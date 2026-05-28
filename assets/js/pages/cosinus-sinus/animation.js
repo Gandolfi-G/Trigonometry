@@ -21,6 +21,7 @@ const CLASSIC_VALUES = [
   { angle: (11 * Math.PI) / 6, angleExact: '11π/6', cos: Math.sqrt(3) / 2, cosExact: '√3/2', sin: -1 / 2, sinExact: '-1/2' },
 ];
 const SNAP_TOLERANCE = 0.06;
+const BB = [-1.55, 1.55, 1.55, -1.55];
 
 function normalizeAngle(angle) {
   const mod = angle % TAU;
@@ -35,17 +36,6 @@ function angleFromXY(x, y) {
   return normalizeAngle(Math.atan2(y, x));
 }
 
-/**
- * Animation cosinus/sinus de type trigo-05.
- * @param {HTMLElement} target
- * @param {{
- *  onCurrentValues: (values: {angle: number, cos: number, sin: number}) => void,
- *  onSaveRequested: (values: {angle: number, cos: number, sin: number}) => void,
- *  onClearRequested: () => void,
- *  valueMode?: 'both'|'cos'|'sin',
- * }} options
- * @returns {() => void}
- */
 export function mountCosSinAnimation(target, options) {
   const wrapper = createElement('div', { className: 'board-zone' });
   target.append(wrapper);
@@ -53,241 +43,185 @@ export function mountCosSinAnimation(target, options) {
   const { board, destroy } = createBoard(wrapper, {
     axis: true,
     grid: true,
-    boundingbox: [-1.6, 1.6, 1.6, -1.6],
+    boundingbox: BB,
     keepAspectRatio: true,
   });
 
+  // Keep board square — defer first call so CSS layout has resolved
+  const boardEl = board.containerObj;
+  function resizeBoard() {
+    const w = boardEl.clientWidth;
+    if (w > 0) {
+      board.resizeContainer(w, w);
+      board.setBoundingBox(BB, true);
+    }
+  }
+  requestAnimationFrame(resizeBoard);
+  window.addEventListener('resize', resizeBoard);
+
   const currentValue = {
-    angle: 0,
-    cos: 1,
-    sin: 0,
-    angleExact: '0',
-    cosExact: '1',
-    sinExact: '0',
+    angle: 0, cos: 1, sin: 0,
+    angleExact: '0', cosExact: '1', sinExact: '0',
   };
   const valueMode = options.valueMode || 'both';
   const showCos = valueMode !== 'sin';
   const showSin = valueMode !== 'cos';
 
+  // Origin
   const O = board.create('point', [0, 0], {
-    name: '',
-    size: 2.5,
-    strokeColor: '#111827',
-    fillColor: '#111827',
-    fixed: true,
-    withLabel: false,
+    name: '', size: 2, strokeColor: '#374151', fillColor: '#374151',
+    fixed: true, withLabel: false,
   });
 
+  // Unit circle — site primary color
   const circle = board.create('circle', [O, 1], {
-    strokeWidth: 3,
-    strokeColor: '#eab308',
+    strokeWidth: 2.5,
+    strokeColor: '#176b87',
+    fillColor: 'transparent',
   });
 
+  // Point P
   const point = board.create('glider', [1, 0, circle], {
-    name: 'P',
-    size: 4,
-    strokeColor: '#ef4444',
-    fillColor: '#ef4444',
-    withLabel: true,
-    label: { offset: [8, -10] },
+    name: 'P', size: 5,
+    strokeColor: '#d96c3f', fillColor: '#d96c3f',
+    withLabel: true, label: { offset: [8, -12], fontSize: 13, fontWeight: 'bold' },
   });
 
-  const projectionX = board.create('point', [() => point.X(), 0], {
-    name: 'A',
-    size: 3,
-    strokeColor: '#38bdf8',
-    fillColor: '#38bdf8',
-    fixed: true,
-    withLabel: false,
+  // Projection feet
+  const projX = board.create('point', [() => point.X(), 0], {
+    name: '', size: 3, strokeColor: '#2563eb', fillColor: '#2563eb',
+    fixed: true, withLabel: false,
+  });
+  const projY = board.create('point', [0, () => point.Y()], {
+    name: '', size: 3, strokeColor: '#16a34a', fillColor: '#16a34a',
+    fixed: true, withLabel: false,
   });
 
-  const projectionY = board.create('point', [0, () => point.Y()], {
-    name: 'B',
-    size: 3,
-    strokeColor: '#34d399',
-    fillColor: '#34d399',
-    fixed: true,
-    withLabel: false,
-  });
-
+  // Radius OP
   board.create('segment', [O, point], {
-    strokeColor: '#93c5fd',
-    strokeWidth: 4,
-    strokeOpacity: 0.9,
+    strokeColor: '#94a3b8', strokeWidth: 2, strokeOpacity: 0.8,
   });
 
-  board.create('segment', [point, projectionX], {
-    strokeColor: '#38bdf8',
-    strokeWidth: 2,
-    dash: 2,
-    strokeOpacity: 0.85,
+  // cos projection: dashed P→A, solid O→A (blue)
+  board.create('segment', [point, projX], {
+    strokeColor: '#2563eb', strokeWidth: 1.5, dash: 2, strokeOpacity: 0.7,
+  });
+  board.create('segment', [O, projX], {
+    strokeColor: '#2563eb', strokeWidth: 4, strokeOpacity: 0.85,
   });
 
-  board.create('segment', [point, projectionY], {
-    strokeColor: '#34d399',
-    strokeWidth: 2,
-    dash: 2,
-    strokeOpacity: 0.85,
+  // sin projection: dashed P→B, solid O→B (green)
+  board.create('segment', [point, projY], {
+    strokeColor: '#16a34a', strokeWidth: 1.5, dash: 2, strokeOpacity: 0.7,
+  });
+  board.create('segment', [O, projY], {
+    strokeColor: '#16a34a', strokeWidth: 4, strokeOpacity: 0.85,
   });
 
-  board.create('segment', [O, projectionX], {
-    strokeColor: '#38bdf8',
-    strokeWidth: 4,
-    strokeOpacity: 0.9,
+  // Coordinate label — placed radially outside P, clamped to board edges
+  const LABEL_R = 1.28;   // distance from origin (just outside the unit circle)
+  const MARGIN  = 0.18;   // keep label this far from each board edge
+  const [bbL, bbT, bbR, bbB] = BB; // left, top, right, bottom
+
+  board.create('text', [
+    () => {
+      const angle = angleFromXY(point.X(), point.Y());
+      const raw = Math.cos(angle) * LABEL_R;
+      return Math.max(bbL + MARGIN, Math.min(bbR - MARGIN, raw));
+    },
+    () => {
+      const angle = angleFromXY(point.X(), point.Y());
+      const raw = Math.sin(angle) * LABEL_R;
+      return Math.max(bbB + MARGIN, Math.min(bbT - MARGIN, raw));
+    },
+    () => `(${displayCos(currentValue)}, ${displaySin(currentValue)})`,
+  ], {
+    fontSize: 12,
+    color: '#374151',
+    anchorX: 'middle',
+    anchorY: 'middle',
   });
 
-  board.create('segment', [O, projectionY], {
-    strokeColor: '#34d399',
-    strokeWidth: 4,
-    strokeOpacity: 0.9,
+  // Board text — three color-coded lines, top-left
+  board.create('text', [-1.50, 1.48, () => `θ = ${displayAngle(currentValue)}`], {
+    color: '#5b21b6', fontSize: 13, fontStyle: 'bold',
   });
+  if (showCos) {
+    board.create('text', [-1.50, 1.30, () => `cos(θ) = ${displayCos(currentValue)}`], {
+      color: '#1d4ed8', fontSize: 13,
+    });
+  }
+  if (showSin) {
+    board.create('text', [-1.50, showCos ? 1.12 : 1.30, () => `sin(θ) = ${displaySin(currentValue)}`], {
+      color: '#15803d', fontSize: 13,
+    });
+  }
 
-  board.create('text', [-1.55, 1.45, () => {
-    const parts = [`θ = ${displayAngle(currentValue)}`];
-    if (showCos) {
-      parts.push(`cos(θ) = ${displayCos(currentValue)}`);
-    }
-    if (showSin) {
-      parts.push(`sin(θ) = ${displaySin(currentValue)}`);
-    }
-    return parts.join(' | ');
-  }], {
-    strokeColor: '#111827',
-    fontSize: 14,
-  });
-
-  board.create('text', [() => point.X() - 0.4, () => point.Y() + 0.16, () => {
-    if (showCos && showSin) {
-      return `(${displayCos(currentValue)}, ${displaySin(currentValue)})`;
-    }
-    if (showCos) {
-      return `cos(θ) = ${displayCos(currentValue)}`;
-    }
-    return `sin(θ) = ${displaySin(currentValue)}`;
-  }], {
-    strokeColor: '#111827',
-    fontSize: 13,
-  });
-
+  // Controls
   const controls = createElement('div', { className: 'control-row' });
   const saveButton = createElement('button', {
-    className: 'btn btn-primary',
-    attrs: { type: 'button' },
-    text: 'Enregistrer',
+    className: 'btn btn-primary', attrs: { type: 'button' }, text: '+ Enregistrer',
   });
   const clearButton = createElement('button', {
-    className: 'btn btn-danger',
-    attrs: { type: 'button' },
-    text: 'Réinitialiser le tableau',
+    className: 'btn btn-ghost', attrs: { type: 'button' }, text: 'Réinitialiser',
   });
-
   controls.append(saveButton, clearButton);
   wrapper.append(controls);
 
   let isSnapping = false;
 
   const closestClassicValue = (angle) => CLASSIC_VALUES.reduce((best, candidate) => {
-    const currentDistance = angleDistance(angle, candidate.angle);
-    if (!best || currentDistance < best.distance) {
-      return { distance: currentDistance, value: candidate };
-    }
+    const d = angleDistance(angle, candidate.angle);
+    if (!best || d < best.distance) return { distance: d, value: candidate };
     return best;
   }, null)?.value || CLASSIC_VALUES[0];
 
-  function displayAngle(value) {
-    return value.angleExact || formatNumber(value.angle, 3);
-  }
-
-  function displayCos(value) {
-    return value.cosExact || formatNumber(value.cos, 3);
-  }
-
-  function displaySin(value) {
-    return value.sinExact || formatNumber(value.sin, 3);
-  }
+  function displayAngle(v) { return v.angleExact || formatNumber(v.angle, 3); }
+  function displayCos(v)   { return v.cosExact   || formatNumber(v.cos, 3); }
+  function displaySin(v)   { return v.sinExact   || formatNumber(v.sin, 3); }
 
   function updateCurrentValue() {
     const cos = point.X();
     const sin = point.Y();
     const angle = angleFromXY(cos, sin);
     const closest = closestClassicValue(angle);
-    const distance = angleDistance(angle, closest.angle);
 
-    if (distance <= SNAP_TOLERANCE) {
-      currentValue.angle = closest.angle;
-      currentValue.cos = closest.cos;
-      currentValue.sin = closest.sin;
-      currentValue.angleExact = closest.angleExact;
-      currentValue.cosExact = closest.cosExact;
-      currentValue.sinExact = closest.sinExact;
-      return;
+    if (angleDistance(angle, closest.angle) <= SNAP_TOLERANCE) {
+      Object.assign(currentValue, closest);
+    } else {
+      currentValue.angle = angle;
+      currentValue.cos = cos;
+      currentValue.sin = sin;
+      currentValue.angleExact = undefined;
+      currentValue.cosExact = undefined;
+      currentValue.sinExact = undefined;
     }
-
-    currentValue.angle = angle;
-    currentValue.cos = cos;
-    currentValue.sin = sin;
-    currentValue.angleExact = undefined;
-    currentValue.cosExact = undefined;
-    currentValue.sinExact = undefined;
   }
 
-  const readCurrent = () => {
-    return {
-      angle: currentValue.angle,
-      cos: currentValue.cos,
-      sin: currentValue.sin,
-      angleExact: currentValue.angleExact,
-      cosExact: currentValue.cosExact,
-      sinExact: currentValue.sinExact,
-    };
-  };
-
-  const emitCurrent = () => {
-    options.onCurrentValues(readCurrent());
-  };
+  const readCurrent = () => ({ ...currentValue });
+  const emitCurrent = () => options.onCurrentValues(readCurrent());
 
   const maybeSnap = () => {
-    if (isSnapping) {
-      return;
-    }
-
-    const currentAngle = angleFromXY(point.X(), point.Y());
-    const closest = closestClassicValue(currentAngle);
-    const distance = angleDistance(currentAngle, closest.angle);
-
-    if (distance > SNAP_TOLERANCE) {
-      return;
-    }
-
+    if (isSnapping) return;
+    const angle = angleFromXY(point.X(), point.Y());
+    const closest = closestClassicValue(angle);
+    if (angleDistance(angle, closest.angle) > SNAP_TOLERANCE) return;
     isSnapping = true;
     point.moveTo([closest.cos, closest.sin], 0);
     isSnapping = false;
   };
 
-  point.on('drag', () => {
-    maybeSnap();
-    updateCurrentValue();
-    emitCurrent();
-  });
+  point.on('drag', () => { maybeSnap(); updateCurrentValue(); emitCurrent(); });
+  point.on('up',   () => { maybeSnap(); updateCurrentValue(); emitCurrent(); });
 
-  point.on('up', () => {
-    maybeSnap();
-    updateCurrentValue();
-    emitCurrent();
-  });
-
-  saveButton.addEventListener('click', () => {
-    options.onSaveRequested(readCurrent());
-  });
-
-  clearButton.addEventListener('click', () => {
-    options.onClearRequested();
-  });
+  saveButton.addEventListener('click',  () => options.onSaveRequested(readCurrent()));
+  clearButton.addEventListener('click', () => options.onClearRequested());
 
   updateCurrentValue();
   emitCurrent();
 
   return () => {
+    window.removeEventListener('resize', resizeBoard);
     destroy();
   };
 }
