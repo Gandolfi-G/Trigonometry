@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calcul différentiel - Maths Animées</title>
+    <link rel="stylesheet" href="/Trigonometry/assets/css/base.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/layout.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/blocks.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <div class="title-row">
+          <a href="/Trigonometry/index.html" class="site-brand">
+            <strong>Maths Animées</strong>
+            <span>Retour aux chapitres</span>
+          </a>
+          <span class="version-pill" id="site-version"></span>
+        </div>
+      </header>
+
+      <section class="hero platform-hero">
+        <div>
+          <p class="section-kicker">Chapitre 7</p>
+          <h1>Calcul différentiel</h1>
+          <p class="home-lead">
+            Comprendre la dérivée comme une pente instantanée : sécantes, tangentes, quotient de variation, fonction dérivée et règles de calcul.
+          </p>
+        </div>
+        <div class="hero-actions" aria-label="Accès rapides">
+          <a class="btn btn-primary" href="#animations-js">Animations JS</a>
+          <a class="btn btn-secondary" href="#videos-manim">Vidéos Manim</a>
+        </div>
+      </section>
+
+      <section class="platform-section" id="animations-js">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 1</p>
+          <h2>Animations interactives JavaScript</h2>
+          <p>Manipule les points et observe comment une pente moyenne devient une pente instantanée.</p>
+        </div>
+
+        <div class="algebra-grid">
+          <article class="algebra-lab">
+            <h3>Taux de variation moyen</h3>
+            <div class="control-row">
+              <label>a <input id="secant-a" type="range" min="-3" max="2" step="0.1" value="-1" /></label>
+              <label>b <input id="secant-b" type="range" min="-2" max="4" step="0.1" value="3" /></label>
+            </div>
+            <div class="expression-display" id="secant-result"></div>
+            <canvas class="graph-canvas" id="secant-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Sécante vers tangente</h3>
+            <div class="control-row">
+              <label>h <input id="tangent-h" type="range" min="0.1" max="3" step="0.05" value="2" /></label>
+            </div>
+            <div class="expression-display" id="tangent-result"></div>
+            <canvas class="graph-canvas" id="tangent-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Dérivée de x² en x0</h3>
+            <div class="control-row">
+              <label>x0 <input id="derivative-x0" type="range" min="-3" max="3" step="0.1" value="1.5" /></label>
+            </div>
+            <div class="expression-display" id="derivative-result"></div>
+            <canvas class="graph-canvas" id="derivative-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Fonction dérivée</h3>
+            <div class="expression-display">f(x) = x² et f’(x) = 2x</div>
+            <canvas class="graph-canvas" id="derived-function-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Continue mais non dérivable</h3>
+            <div class="expression-display">f(x) = |x| : deux pentes au point 0.</div>
+            <canvas class="graph-canvas" id="absolute-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Règles de dérivation</h3>
+            <div class="control-row">
+              <label>exemple
+                <select id="rule-select">
+                  <option value="sum">Somme</option>
+                  <option value="product">Produit</option>
+                  <option value="quotient">Quotient</option>
+                  <option value="chain">Composition</option>
+                </select>
+              </label>
+            </div>
+            <div class="expression-display" id="rule-result"></div>
+            <p class="chapter-meta">Les règles servent à calculer vite, une fois le sens géométrique de f’ compris.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="platform-section" id="videos-manim">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 2</p>
+          <h2>Vidéos Manim et code source</h2>
+          <p>Les vidéos suivent la partie 1 du cours : taux de variation, tangente, définition, dérivée et règles.</p>
+        </div>
+        <div class="manim-grid" id="manim-list"></div>
+      </section>
+
+      <footer class="site-footer">
+        <p><a href="/Trigonometry/index.html">Retour au sommaire</a></p>
+        <p>Dernière publication : <span id="release-date"></span></p>
+      </footer>
+    </main>
+
+    <script type="module" src="/Trigonometry/assets/js/chapter-calcul-differentiel.js"></script>
+  </body>
+</html>

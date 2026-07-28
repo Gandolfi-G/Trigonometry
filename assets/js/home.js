@@ -1,9 +1,9 @@
-import { notions } from './content/notions.js';
+import { chapters } from './content/chapters.js';
 import { VERSION_LABEL, RELEASE_DATE } from './core/version.js';
 
 const versionNode = document.getElementById('site-version');
 const releaseNode = document.getElementById('release-date');
-const listNode = document.getElementById('notion-list');
+const chapterListNode = document.getElementById('chapter-list');
 
 if (versionNode) {
   versionNode.textContent = VERSION_LABEL;
@@ -13,69 +13,41 @@ if (releaseNode) {
   releaseNode.textContent = RELEASE_DATE;
 }
 
-if (listNode) {
-  const sortedNotions = [...notions].sort((a, b) => a.order - b.order);
+if (chapterListNode) {
+  const sortedChapters = [...chapters].sort((a, b) => a.order - b.order);
 
-  sortedNotions.forEach((notion) => {
-    const card = document.createElement('article');
-    card.className = 'notion-card notion-card-rich';
+  sortedChapters.forEach((chapter) => {
+    const card = document.createElement('a');
+    card.className = 'chapter-card chapter-link-card';
+    card.href = chapter.path;
 
-    if (Array.isArray(notion.cardColors) && notion.cardColors.length === 2) {
-      card.style.setProperty('--card-c1', notion.cardColors[0]);
-      card.style.setProperty('--card-c2', notion.cardColors[1]);
+    const index = document.createElement('span');
+    index.className = 'chapter-number';
+    index.textContent = `Chapitre ${chapter.order}`;
+
+    const header = document.createElement('div');
+    header.className = 'chapter-card-header';
+    header.append(index);
+    if (chapter.status === 'À préparer') {
+      const status = document.createElement('span');
+      status.className = 'status-pill';
+      status.textContent = chapter.status;
+      header.append(status);
     }
 
-    const mediaLink = document.createElement('a');
-    mediaLink.href = notion.pagePath;
-    mediaLink.className = 'notion-media-link';
-    mediaLink.setAttribute('aria-label', `Ouvrir la notion ${notion.title}`);
-
-    const media = document.createElement('div');
-    media.className = 'notion-media';
-
-    const indexTag = document.createElement('span');
-    indexTag.className = 'notion-index';
-    indexTag.textContent = String(notion.order).padStart(2, '0');
-
-    const formulaTag = document.createElement('span');
-    formulaTag.className = 'notion-formula';
-    formulaTag.textContent = notion.cardFormula;
-
-    media.append(indexTag, formulaTag);
-    mediaLink.append(media);
-
-    const content = document.createElement('div');
-    content.className = 'notion-card-content';
-
     const title = document.createElement('h3');
-    title.className = 'notion-card-title';
-    title.textContent = `${String(notion.order).padStart(2, '0')}. ${notion.title}`;
-
-    const subtitle = document.createElement('p');
-    subtitle.className = 'notion-card-subtitle';
-    subtitle.textContent = notion.subtitle;
+    title.textContent = chapter.title;
 
     const description = document.createElement('p');
-    description.className = 'notion-card-description';
-    description.textContent = notion.description;
+    description.textContent = chapter.description;
 
-    const links = document.createElement('div');
-    links.className = 'card-links';
+    const meta = document.createElement('p');
+    meta.className = 'chapter-meta';
+    meta.textContent = chapter.jsCount || chapter.manimCount
+      ? `${chapter.jsCount || 0} animations JavaScript + ${chapter.manimCount || 0} vidéos Manim`
+      : 'Espace prêt pour les animations JavaScript et Manim';
 
-    const openLink = document.createElement('a');
-    openLink.href = notion.pagePath;
-    openLink.className = 'btn btn-primary';
-    openLink.textContent = 'Voir la notion';
-
-    const customizeLink = document.createElement('a');
-    customizeLink.href = notion.customizerPath;
-    customizeLink.className = 'btn btn-secondary';
-    customizeLink.textContent = 'Personnaliser';
-
-    links.append(openLink, customizeLink);
-    content.append(title, subtitle, description, links);
-
-    card.append(mediaLink, content);
-    listNode.append(card);
+    card.append(header, title, description, meta);
+    chapterListNode.append(card);
   });
 }

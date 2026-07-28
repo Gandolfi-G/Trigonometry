@@ -2,7 +2,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
-  padding: 1.2rem 1.25rem;
+  padding: 1rem;
   box-shadow: var(--shadow);
 }
 
@@ -24,7 +24,7 @@
 
 .board-zone {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
   background: #fff;
   padding: 0.5rem;
   box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
@@ -41,7 +41,7 @@
 .control-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.7rem;
   align-items: center;
   padding: 0.5rem 0 0.1rem;
 }
@@ -55,7 +55,7 @@
   padding: 0.55rem 0.75rem;
   background: #f7f9f7;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .inline-values-label {

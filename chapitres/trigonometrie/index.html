@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trigonométrie - Maths Animées</title>
+    <link rel="stylesheet" href="/Trigonometry/assets/css/base.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/layout.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/blocks.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <div class="title-row">
+          <a href="/Trigonometry/index.html" class="site-brand">
+            <strong>Maths Animées</strong>
+            <span>Retour aux chapitres</span>
+          </a>
+          <span class="version-pill" id="site-version"></span>
+        </div>
+      </header>
+
+      <section class="hero platform-hero">
+        <div>
+          <p class="section-kicker">Chapitre 9</p>
+          <h1>Trigonométrie</h1>
+          <p class="home-lead">
+            Le chapitre rassemble les animations interactives en JavaScript et les vidéos Manim autour du cercle trigonométrique, des radians, des coordonnées, du cosinus, du sinus et de la tangente.
+          </p>
+        </div>
+        <div class="hero-actions" aria-label="Accès rapides">
+          <a class="btn btn-primary" href="#animations-js">Animations JS</a>
+          <a class="btn btn-secondary" href="#videos-manim">Vidéos Manim</a>
+        </div>
+      </section>
+
+      <section class="platform-section" id="animations-js">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 1</p>
+          <h2>Animations interactives JavaScript</h2>
+          <p>
+            Ces pages permettent de manipuler les notions, d’afficher ou masquer des blocs et de générer des liens personnalisés.
+          </p>
+        </div>
+        <div class="notion-grid" id="notion-list"></div>
+      </section>
+
+      <section class="platform-section" id="videos-manim">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 2</p>
+          <h2>Vidéos Manim et code source</h2>
+          <p>
+            Chaque vidéo est générée avec Python Manim et reste accompagnée de son fichier source pour pouvoir la modifier, la régénérer et l’améliorer.
+          </p>
+        </div>
+        <div class="manim-grid" id="manim-list"></div>
+      </section>
+
+      <footer class="site-footer">
+        <p>
+          <a href="/Trigonometry/index.html">Retour au sommaire</a>
+        </p>
+        <p>Dernière publication : <span id="release-date"></span></p>
+      </footer>
+    </main>
+
+    <script type="module" src="/Trigonometry/assets/js/chapter-trigonometrie.js"></script>
+  </body>
+</html>

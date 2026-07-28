@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trigonométrie Programmable</title>
+    <title>Maths Animées</title>
     <link rel="stylesheet" href="/Trigonometry/assets/css/base.css" />
     <link rel="stylesheet" href="/Trigonometry/assets/css/layout.css" />
     <link rel="stylesheet" href="/Trigonometry/assets/css/blocks.css" />
@@ -13,40 +13,41 @@
       <header class="site-header">
         <div class="title-row">
           <a href="/Trigonometry/index.html" class="site-brand">
-            <strong>Trigonométrie Programmable</strong>
-            <span>Site statique pédagogique</span>
+            <strong>Maths Animées</strong>
+            <span>Animations JavaScript et vidéos Manim</span>
           </a>
           <span class="version-pill" id="site-version"></span>
         </div>
       </header>
 
-      <section class="hero">
-        <h1>Notions de trigonométrie configurables par URL</h1>
-        <p class="home-lead">
-          Parcours conseillé : cercle trigonométrique -> périmètre -> radian -> coordonnées -> cosinus/sinus -> relations entre les angles.
-        </p>
-        <p>
-          Chaque notion a sa propre page de rendu et sa propre page de personnalisation.
-          Un enseignant peut choisir les blocs visibles, générer l’URL finale, puis la partager.
-        </p>
-        <p>
-          Dernière publication : <span id="release-date"></span>
-        </p>
+      <section class="hero platform-hero">
+        <div>
+          <p class="section-kicker">Sommaire général</p>
+          <h1>Choisis un chapitre, puis construis ses animations et ses vidéos.</h1>
+          <p class="home-lead">
+            Les chapitres en cours regroupent des animations interactives JavaScript et des vidéos pédagogiques créées avec Python Manim, avec le code source associé.
+          </p>
+        </div>
       </section>
 
-      <section>
-        <h2>Notions disponibles</h2>
-        <div class="notion-grid" id="notion-list"></div>
+      <section class="platform-section" id="chapitres">
+        <div class="section-heading">
+          <h2>Chapitres de mathématiques</h2>
+          <p>
+            Avance chapitre par chapitre : les pages déjà préparées proposent les manipulations et les vidéos, les autres servent de feuille de route.
+          </p>
+        </div>
+        <div class="chapter-grid chapter-grid-wide" id="chapter-list"></div>
       </section>
 
       <footer class="site-footer">
         <p>
           Documentation :
           <a href="/Trigonometry/docs/README.md">README</a>,
-          <a href="/Trigonometry/docs/ARCHITECTURE.md">ARCHITECTURE</a>,
-          <a href="/Trigonometry/docs/CHANGELOG.md">CHANGELOG</a>,
-          <a href="/Trigonometry/docs/ROADMAP.md">ROADMAP</a>
+          <a href="/Trigonometry/docs/MANIM.md">MANIM</a>,
+          <a href="/Trigonometry/docs/TRIGONOMETRIE_MANIM_STORYBOARD.md">STORYBOARD TRIGO</a>
         </p>
+        <p>Dernière publication : <span id="release-date"></span></p>
       </footer>
     </main>
 

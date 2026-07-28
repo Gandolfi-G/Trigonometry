@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fonctions exponentielles - Maths Animées</title>
+    <link rel="stylesheet" href="/Trigonometry/assets/css/base.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/layout.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/blocks.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <div class="title-row">
+          <a href="/Trigonometry/index.html" class="site-brand">
+            <strong>Maths Animées</strong>
+            <span>Retour aux chapitres</span>
+          </a>
+          <span class="version-pill" id="site-version"></span>
+        </div>
+      </header>
+
+      <section class="hero platform-hero">
+        <div>
+          <p class="section-kicker">Chapitre 5</p>
+          <h1>Fonctions exponentielles</h1>
+          <p class="home-lead">
+            Comprendre la croissance multiplicative, les fonctions exponentielles, le nombre e et les logarithmes comme fonctions réciproques.
+          </p>
+        </div>
+        <div class="hero-actions" aria-label="Accès rapides">
+          <a class="btn btn-primary" href="#animations-js">Animations JS</a>
+          <a class="btn btn-secondary" href="#videos-manim">Vidéos Manim</a>
+        </div>
+      </section>
+
+      <section class="platform-section" id="animations-js">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 1</p>
+          <h2>Animations interactives JavaScript</h2>
+          <p>Fais varier la base, le taux ou la valeur cible pour voir comment exponentielle et logarithme se répondent.</p>
+        </div>
+
+        <div class="algebra-grid">
+          <article class="algebra-lab">
+            <h3>L’échiquier fou</h3>
+            <div class="control-row">
+              <label>case <input id="chess-square" type="range" min="1" max="64" step="1" value="16" /></label>
+            </div>
+            <div class="expression-display" id="chess-result"></div>
+            <canvas class="graph-canvas" id="chess-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Intérêts composés</h3>
+            <div class="control-row">
+              <label>années <input id="capital-years" type="range" min="0" max="30" step="1" value="10" /></label>
+              <label>taux % <input id="capital-rate" type="range" min="1" max="12" step="0.5" value="6" /></label>
+            </div>
+            <div class="expression-display" id="capital-result"></div>
+            <canvas class="graph-canvas" id="capital-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Courbe de a^x</h3>
+            <div class="control-row">
+              <label>base a <input id="exp-base" type="range" min="0.2" max="4" step="0.1" value="2" /></label>
+            </div>
+            <div class="expression-display" id="exp-result"></div>
+            <canvas class="graph-canvas" id="exp-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Vers le nombre e</h3>
+            <div class="control-row">
+              <label>capitalisations/an <input id="e-periods" type="range" min="1" max="120" step="1" value="12" /></label>
+            </div>
+            <div class="expression-display" id="e-result"></div>
+            <canvas class="graph-canvas" id="e-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Logarithme réciproque</h3>
+            <div class="control-row">
+              <label>y <input id="log-target" type="range" min="0.25" max="8" step="0.25" value="8" /></label>
+            </div>
+            <div class="expression-display" id="log-result"></div>
+            <canvas class="graph-canvas" id="log-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Propriétés des logarithmes</h3>
+            <div class="control-row">
+              <label>propriété
+                <select id="log-rule">
+                  <option value="product">Produit</option>
+                  <option value="quotient">Quotient</option>
+                  <option value="power">Puissance</option>
+                  <option value="change">Changement de base</option>
+                </select>
+              </label>
+            </div>
+            <div class="expression-display" id="log-rule-result"></div>
+            <p class="chapter-meta">Les propriétés des logarithmes traduisent les propriétés des puissances.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="platform-section" id="videos-manim">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 2</p>
+          <h2>Vidéos Manim et code source</h2>
+          <p>Les vidéos suivent le PDF : croissance, puissances, exponentielles, nombre e, logarithmes et propriétés.</p>
+        </div>
+        <div class="manim-grid" id="manim-list"></div>
+      </section>
+
+      <footer class="site-footer">
+        <p><a href="/Trigonometry/index.html">Retour au sommaire</a></p>
+        <p>Dernière publication : <span id="release-date"></span></p>
+      </footer>
+    </main>
+
+    <script type="module" src="/Trigonometry/assets/js/chapter-fonctions-exponentielles.js"></script>
+  </body>
+</html>

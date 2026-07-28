@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+
+assets/videos/manim/Tex/
+assets/videos/manim/texts/
+assets/videos/manim/videos/
+assets/videos/manim/images/
+assets/videos/manim/partial_movie_files/
+
+*.log

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Limites et continuité - Maths Animées</title>
+    <link rel="stylesheet" href="/Trigonometry/assets/css/base.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/layout.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/blocks.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <div class="title-row">
+          <a href="/Trigonometry/index.html" class="site-brand">
+            <strong>Maths Animées</strong>
+            <span>Retour aux chapitres</span>
+          </a>
+          <span class="version-pill" id="site-version"></span>
+        </div>
+      </header>
+
+      <section class="hero platform-hero">
+        <div>
+          <p class="section-kicker">Chapitre 6</p>
+          <h1>Limites et continuité</h1>
+          <p class="home-lead">
+            Observer ce qui se passe près d’un point, à l’infini, au voisinage d’une asymptote, puis relier ces idées à la continuité.
+          </p>
+        </div>
+        <div class="hero-actions" aria-label="Accès rapides">
+          <a class="btn btn-primary" href="#animations-js">Animations JS</a>
+          <a class="btn btn-secondary" href="#videos-manim">Vidéos Manim</a>
+        </div>
+      </section>
+
+      <section class="platform-section" id="animations-js">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 1</p>
+          <h2>Animations interactives JavaScript</h2>
+          <p>Fais varier la position de x et observe la valeur vers laquelle la fonction se rapproche.</p>
+        </div>
+
+        <div class="algebra-grid">
+          <article class="algebra-lab">
+            <h3>Limite en un point</h3>
+            <div class="control-row">
+              <label>x approche 2 <input id="hole-x" type="range" min="-1.5" max="1.5" step="0.01" value="-1.1" /></label>
+            </div>
+            <div class="expression-display" id="hole-result"></div>
+            <canvas class="graph-canvas" id="hole-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Limites latérales</h3>
+            <div class="control-row">
+              <label>x approche 0 <input id="side-x" type="range" min="-2" max="2" step="0.01" value="-1.2" /></label>
+            </div>
+            <div class="expression-display" id="side-result"></div>
+            <canvas class="graph-canvas" id="side-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Asymptote verticale</h3>
+            <div class="control-row">
+              <label>x approche 1 <input id="vertical-x" type="range" min="-1.8" max="1.8" step="0.01" value="-0.9" /></label>
+            </div>
+            <div class="expression-display" id="vertical-result"></div>
+            <canvas class="graph-canvas" id="vertical-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Asymptote horizontale</h3>
+            <div class="control-row">
+              <label>zoom horizontal <input id="infinity-zoom" type="range" min="4" max="18" step="1" value="8" /></label>
+            </div>
+            <div class="expression-display">f(x) = (2x - 5) / (x - 1), donc y = 2 à l’infini.</div>
+            <canvas class="graph-canvas" id="infinity-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Indétermination 0/0</h3>
+            <div class="expression-display" id="factor-result"></div>
+            <canvas class="graph-canvas" id="factor-canvas" width="520" height="320"></canvas>
+            <p class="chapter-meta">Factoriser permet de remplacer la fonction par une expression équivalente autour du trou.</p>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Continuité</h3>
+            <div class="control-row">
+              <label>valeur f(1) <input id="continuity-value" type="range" min="-2" max="4" step="1" value="2" /></label>
+            </div>
+            <div class="expression-display" id="continuity-result"></div>
+            <canvas class="graph-canvas" id="continuity-canvas" width="520" height="320"></canvas>
+          </article>
+        </div>
+      </section>
+
+      <section class="platform-section" id="videos-manim">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 2</p>
+          <h2>Vidéos Manim et code source</h2>
+          <p>Les vidéos suivent le fil du cours : définition de limite, extensions, calculs et continuité.</p>
+        </div>
+        <div class="manim-grid" id="manim-list"></div>
+      </section>
+
+      <footer class="site-footer">
+        <p><a href="/Trigonometry/index.html">Retour au sommaire</a></p>
+        <p>Dernière publication : <span id="release-date"></span></p>
+      </footer>
+    </main>
+
+    <script type="module" src="/Trigonometry/assets/js/chapter-limites-continuite.js"></script>
+  </body>
+</html>

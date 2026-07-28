@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calcul intégral - Maths Animées</title>
+    <link rel="stylesheet" href="/Trigonometry/assets/css/base.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/layout.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/blocks.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <div class="title-row">
+          <a href="/Trigonometry/index.html" class="site-brand">
+            <strong>Maths Animées</strong>
+            <span>Retour aux chapitres</span>
+          </a>
+          <span class="version-pill" id="site-version"></span>
+        </div>
+      </header>
+
+      <section class="hero platform-hero">
+        <div>
+          <p class="section-kicker">Chapitre 8</p>
+          <h1>Calcul intégral</h1>
+          <p class="home-lead">
+            Construire l’intégrale à partir des primitives, des aires sous courbe, des sommes de Riemann et du théorème fondamental.
+          </p>
+        </div>
+        <div class="hero-actions" aria-label="Accès rapides">
+          <a class="btn btn-primary" href="#animations-js">Animations JS</a>
+          <a class="btn btn-secondary" href="#videos-manim">Vidéos Manim</a>
+        </div>
+      </section>
+
+      <section class="platform-section" id="animations-js">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 1</p>
+          <h2>Animations interactives JavaScript</h2>
+          <p>Manipule les constantes, les bornes et les rectangles pour relier les calculs du cours à une lecture graphique.</p>
+        </div>
+
+        <div class="algebra-grid">
+          <article class="algebra-lab">
+            <h3>Primitive et constante C</h3>
+            <div class="control-row">
+              <label>C <input id="primitive-c" type="range" min="-2" max="2" step="1" value="0" /></label>
+            </div>
+            <div class="expression-display" id="primitive-result"></div>
+            <canvas class="graph-canvas" id="primitive-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Règle des puissances</h3>
+            <div class="control-row">
+              <label>n <input id="power-n" type="range" min="0" max="5" step="1" value="2" /></label>
+            </div>
+            <div class="expression-display" id="power-result"></div>
+            <canvas class="graph-canvas" id="power-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Aire sous x²</h3>
+            <div class="control-row">
+              <label>borne b <input id="area-b" type="range" min="0.2" max="2" step="0.1" value="1" /></label>
+            </div>
+            <div class="expression-display" id="area-result"></div>
+            <canvas class="graph-canvas" id="area-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Sommes de Riemann</h3>
+            <div class="control-row">
+              <label>rectangles <input id="riemann-n" type="range" min="2" max="40" step="1" value="8" /></label>
+              <label>méthode
+                <select id="riemann-mode">
+                  <option value="lower">Minorante</option>
+                  <option value="upper">Majorante</option>
+                  <option value="middle">Milieu</option>
+                </select>
+              </label>
+            </div>
+            <div class="expression-display" id="riemann-result"></div>
+            <canvas class="graph-canvas" id="riemann-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Aire algébrique</h3>
+            <div class="expression-display" id="signed-result"></div>
+            <canvas class="graph-canvas" id="signed-canvas" width="520" height="320"></canvas>
+            <p class="chapter-meta">Le signe dépend de la position de la courbe par rapport à l’axe des abscisses.</p>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Théorème fondamental</h3>
+            <div class="control-row">
+              <label>a <input id="tfci-a" type="range" min="0" max="1.5" step="0.1" value="0" /></label>
+              <label>b <input id="tfci-b" type="range" min="0.5" max="2" step="0.1" value="2" /></label>
+            </div>
+            <div class="expression-display" id="tfci-result"></div>
+            <canvas class="graph-canvas" id="tfci-canvas" width="520" height="320"></canvas>
+          </article>
+        </div>
+      </section>
+
+      <section class="platform-section" id="videos-manim">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 2</p>
+          <h2>Vidéos Manim et code source</h2>
+          <p>Les vidéos suivent la progression du cours : primitives, calculs d’aires, sommes de Riemann, intégrale définie et théorème fondamental.</p>
+        </div>
+        <div class="manim-grid" id="manim-list"></div>
+      </section>
+
+      <footer class="site-footer">
+        <p><a href="/Trigonometry/index.html">Retour au sommaire</a></p>
+        <p>Dernière publication : <span id="release-date"></span></p>
+      </footer>
+    </main>
+
+    <script type="module" src="/Trigonometry/assets/js/chapter-calcul-integral.js"></script>
+  </body>
+</html>

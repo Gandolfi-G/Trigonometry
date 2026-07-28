@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fonctions polynomiales - Maths Animées</title>
+    <link rel="stylesheet" href="/Trigonometry/assets/css/base.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/layout.css" />
+    <link rel="stylesheet" href="/Trigonometry/assets/css/blocks.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <div class="title-row">
+          <a href="/Trigonometry/index.html" class="site-brand">
+            <strong>Maths Animées</strong>
+            <span>Retour aux chapitres</span>
+          </a>
+          <span class="version-pill" id="site-version"></span>
+        </div>
+      </header>
+
+      <section class="hero platform-hero">
+        <div>
+          <p class="section-kicker">Chapitre 3</p>
+          <h1>Fonctions polynomiales</h1>
+          <p class="home-lead">
+            Comprendre les fonctions, leurs représentations, les fonctions de degré 0, 1, 2, les problèmes d’optimisation et les polynômes de degré supérieur.
+          </p>
+        </div>
+        <div class="hero-actions" aria-label="Accès rapides">
+          <a class="btn btn-primary" href="#animations-js">Animations JS</a>
+          <a class="btn btn-secondary" href="#videos-manim">Vidéos Manim</a>
+        </div>
+      </section>
+
+      <section class="platform-section" id="animations-js">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 1</p>
+          <h2>Animations interactives JavaScript</h2>
+          <p>Manipule les coefficients et observe le lien entre expression, tableau et graphique.</p>
+        </div>
+
+        <div class="algebra-grid">
+          <article class="algebra-lab">
+            <h3>Expression, tableau, courbe</h3>
+            <div class="control-row">
+              <label>a <input id="poly-a" type="range" min="-3" max="3" value="1" /></label>
+              <label>b <input id="poly-b" type="range" min="-5" max="5" value="0" /></label>
+              <label>c <input id="poly-c" type="range" min="-6" max="6" value="-4" /></label>
+            </div>
+            <div class="expression-display" id="poly-expression"></div>
+            <canvas class="graph-canvas" id="poly-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Image et préimages</h3>
+            <div class="control-row">
+              <label>x <input id="image-x" type="range" min="-5" max="5" value="2" /></label>
+              <label>niveau y <input id="preimage-y" type="range" min="-6" max="8" value="0" /></label>
+            </div>
+            <div class="expression-display" id="image-result"></div>
+            <canvas class="graph-canvas" id="image-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Fonction affine</h3>
+            <div class="control-row">
+              <label>pente a <input id="line-a" type="range" min="-4" max="4" value="2" /></label>
+              <label>ordonnée b <input id="line-b" type="range" min="-5" max="5" value="1" /></label>
+            </div>
+            <div class="expression-display" id="line-result"></div>
+            <canvas class="graph-canvas" id="line-canvas" width="520" height="320"></canvas>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Sommet et optimisation</h3>
+            <div class="expression-display">R(x) = (450 - 15x)(1000 + 100x)</div>
+            <canvas class="graph-canvas" id="optim-canvas" width="520" height="320"></canvas>
+            <p class="chapter-meta">Le maximum se lit au sommet de la parabole.</p>
+          </article>
+
+          <article class="algebra-lab">
+            <h3>Zéros et multiplicité</h3>
+            <div class="expression-display">f(x) = (x + 2)(x - 1)²(x - 3)</div>
+            <div class="sign-table">
+              <div>x</div><div>-2</div><div>1</div><div>3</div><div>effet</div>
+              <div>multiplicité</div><div>1</div><div>2</div><div>1</div><div></div>
+              <strong>signe</strong><strong>change</strong><strong>ne change pas</strong><strong>change</strong><strong>passer / toucher</strong>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="platform-section" id="videos-manim">
+        <div class="section-heading">
+          <p class="section-kicker">Partie 2</p>
+          <h2>Vidéos Manim et code source</h2>
+          <p>Les vidéos suivent le fil du PDF : définition, représentations, droites, paraboles, optimisation et degrés supérieurs.</p>
+        </div>
+        <div class="manim-grid" id="manim-list"></div>
+      </section>
+
+      <footer class="site-footer">
+        <p><a href="/Trigonometry/index.html">Retour au sommaire</a></p>
+        <p>Dernière publication : <span id="release-date"></span></p>
+      </footer>
+    </main>
+
+    <script type="module" src="/Trigonometry/assets/js/chapter-fonctions-polynomiales.js"></script>
+  </body>
+</html>
