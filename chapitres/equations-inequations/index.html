@@ -42,49 +42,123 @@
         </div>
 
         <div class="algebra-grid">
-          <article class="algebra-lab">
+          <article class="algebra-lab equation-solver-lab">
             <h3>Balance et équivalence</h3>
-            <div class="control-row">
-              <label>opération
-                <select id="balance-op">
-                  <option value="add">+7 des deux côtés</option>
-                  <option value="subtract">-2x des deux côtés</option>
-                  <option value="divide">÷4 des deux côtés</option>
-                </select>
+            <div class="equation-solver-toolbar">
+              <label>exemple
+                <select id="equation-example"></select>
               </label>
+              <button class="btn btn-secondary" type="button" id="equation-reset">Recommencer</button>
             </div>
-            <div class="equation-balance">
-              <div class="balance-pan" id="balance-left"></div>
-              <div class="balance-pivot"></div>
-              <div class="balance-pan" id="balance-right"></div>
+
+            <div class="expression-display equation-start" id="equation-start"></div>
+
+            <div class="equation-solver-layout">
+              <div class="equivalence-balance" id="equivalence-balance" aria-label="Balance d'équivalence">
+                <div class="solver-stand"></div>
+                <div class="solver-pivot"></div>
+                <div class="solver-beam" id="solver-beam">
+                  <div class="solver-beam-line"></div>
+                  <div class="solver-chain solver-chain-left"></div>
+                  <div class="solver-chain solver-chain-right"></div>
+                  <div class="solver-pan solver-pan-left" id="balance-left"></div>
+                  <div class="solver-pan solver-pan-right" id="balance-right"></div>
+                </div>
+              </div>
+
+              <div class="equation-command-panel">
+                <div class="equation-step-label" id="equation-step-label"></div>
+                <div class="equation-command-grid">
+                  <label>action
+                    <select id="equation-action">
+                      <option value="add">Ajouter</option>
+                      <option value="divide">Diviser</option>
+                    </select>
+                  </label>
+                  <label id="equation-value-field">valeur
+                    <input id="equation-value" type="number" step="1" value="-7" />
+                  </label>
+                  <label id="equation-unit-field">type
+                    <select id="equation-unit">
+                      <option value="number">nombre</option>
+                      <option value="x">x</option>
+                    </select>
+                  </label>
+                  <label>côté
+                    <select id="equation-side">
+                      <option value="both">les deux membres</option>
+                      <option value="left">gauche seulement</option>
+                      <option value="right">droite seulement</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="equation-actions">
+                  <button class="btn btn-primary" type="button" id="equation-apply">Poser l'opération</button>
+                  <button class="btn btn-secondary" type="button" id="equation-simplify">Calculer / simplifier</button>
+                  <button class="btn btn-ghost" type="button" id="equation-undo">Retour</button>
+                </div>
+                <div class="equation-feedback" id="equation-feedback" aria-live="polite"></div>
+              </div>
             </div>
-            <div class="expression-display" id="balance-result"></div>
+
+            <div class="equation-resolution">
+              <h4>Résolution</h4>
+              <ol id="equation-history"></ol>
+            </div>
+
+            <div class="equation-verification" id="equation-verification">
+              <h4>Vérification</h4>
+              <div class="expression-display" id="equation-check"></div>
+            </div>
           </article>
 
-          <article class="algebra-lab">
+          <article class="algebra-lab quadratic-lab">
             <h3>Discriminant</h3>
-            <div class="control-row">
+            <div class="quad-control-row">
               <label>a <input id="quad-a" type="number" value="1" step="1" /></label>
               <label>b <input id="quad-b" type="number" value="-2" step="1" /></label>
               <label>c <input id="quad-c" type="number" value="1" step="1" /></label>
             </div>
+            <div class="expression-display formula-display" id="quad-polynomial"></div>
             <div class="expression-display" id="quad-result"></div>
             <div class="parabola-board" id="parabola-board"></div>
           </article>
 
-          <article class="algebra-lab">
+          <article class="algebra-lab linear-system-lab">
             <h3>Système linéaire</h3>
-            <div class="expression-display">2x + y = 4 et 3x + 2y = 7</div>
-            <canvas class="graph-canvas" id="system-canvas" width="520" height="300"></canvas>
-            <p class="chapter-meta">La solution est le point d’intersection des deux droites.</p>
+            <div class="control-row">
+              <label>cas
+                <select id="system-case">
+                  <option value="one">Une solution</option>
+                  <option value="parallel">Aucune solution</option>
+                  <option value="coincident">Une infinité de solutions</option>
+                </select>
+              </label>
+            </div>
+            <div class="linear-system-layout">
+              <div class="linear-system-panel">
+                <div class="linear-system-display" id="system-display"></div>
+                <div class="expression-display" id="system-result"></div>
+              </div>
+              <canvas class="graph-canvas" id="system-canvas" width="520" height="300"></canvas>
+            </div>
           </article>
 
           <article class="algebra-lab">
             <h3>Intervalles</h3>
-            <div class="control-row">
-              <button class="btn btn-secondary" data-interval="intersection">Intersection</button>
-              <button class="btn btn-secondary" data-interval="union">Réunion</button>
-              <button class="btn btn-secondary" data-interval="difference">Différence</button>
+            <p class="chapter-meta">On choisit deux intervalles I et J, puis on observe l’opération demandée.</p>
+            <div class="interval-picker-grid">
+              <label><span class="interval-chip interval-chip-i">I</span>
+                <select id="interval-i-select"></select>
+              </label>
+              <label><span class="interval-chip interval-chip-j">J</span>
+                <select id="interval-j-select"></select>
+              </label>
+            </div>
+            <div class="interval-mode-row">
+              <button class="btn btn-secondary" type="button" data-interval="intersection">Intersection</button>
+              <button class="btn btn-secondary" type="button" data-interval="union">Réunion</button>
+              <button class="btn btn-secondary" type="button" data-interval="difference">Différence I \ J</button>
             </div>
             <div class="interval-line" id="interval-line"></div>
             <div class="expression-display" id="interval-result"></div>

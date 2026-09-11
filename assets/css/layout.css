@@ -163,6 +163,27 @@
   box-shadow: var(--shadow-strong);
 }
 
+.chapter-card-worked {
+  position: relative;
+  border-color: #8fc59b;
+  background:
+    linear-gradient(90deg, rgba(62, 125, 88, 0.13), rgba(62, 125, 88, 0.02) 46%),
+    var(--surface);
+}
+
+.chapter-card-worked::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  border-radius: var(--radius) 0 0 var(--radius);
+  background: #3f7d58;
+}
+
+.chapter-card-worked:hover {
+  border-color: #3f7d58;
+}
+
 .chapter-card-header {
   display: flex;
   align-items: center;
@@ -225,6 +246,12 @@
   background: rgba(255, 255, 255, 0.85);
   border-color: rgba(255, 255, 255, 0.92);
   color: #17222b;
+}
+
+.status-pill-worked {
+  border-color: #9fd0a9;
+  background: #e7f5ea;
+  color: #22613e;
 }
 
 .notion-grid {
@@ -977,29 +1004,510 @@
   border-radius: 999px;
 }
 
-.parabola-board {
-  min-height: 170px;
+.equation-solver-lab {
+  grid-column: 1 / -1;
+}
+
+.equation-solver-toolbar,
+.equation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.equation-solver-toolbar {
+  justify-content: space-between;
+}
+
+.equation-start {
+  background: #eef5eb;
+  border-color: #c8d9c8;
+}
+
+.equation-solver-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.15fr) minmax(280px, 0.85fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.equivalence-balance {
+  position: relative;
+  min-height: 315px;
+  overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 8px;
   background:
-    radial-gradient(circle at center, transparent 0 44px, rgba(23,107,135,0.14) 45px 47px, transparent 48px),
-    linear-gradient(90deg, transparent 49%, #cbd5c8 50%, transparent 51%),
-    linear-gradient(0deg, transparent 49%, #cbd5c8 50%, transparent 51%),
-    #f8faf8;
-  display: grid;
-  place-items: center;
+    linear-gradient(90deg, transparent 0 49%, rgba(84, 96, 110, 0.12) 49% 51%, transparent 51%),
+    linear-gradient(180deg, #fbfcfa 0%, #f4f7f2 100%);
 }
 
-.delta-badge {
+.solver-stand {
+  position: absolute;
+  left: 50%;
+  top: 92px;
+  width: 8px;
+  height: 154px;
+  transform: translateX(-50%);
   border-radius: 999px;
-  padding: 0.55rem 0.85rem;
+  background: #54606e;
+}
+
+.solver-stand::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 112px;
+  height: 8px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #54606e;
+}
+
+.solver-pivot {
+  position: absolute;
+  left: 50%;
+  top: 75px;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%);
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 24px solid #54606e;
+  z-index: 2;
+}
+
+.solver-beam {
+  position: absolute;
+  left: 50%;
+  top: 86px;
+  width: min(92%, 680px);
+  height: 220px;
+  transform: translateX(-50%) rotate(0deg);
+  transform-origin: 50% 0;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.solver-beam-line {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  top: 0;
+  height: 8px;
+  border-radius: 999px;
+  background: #54606e;
+}
+
+.solver-chain {
+  position: absolute;
+  top: 6px;
+  width: 2px;
+  height: 48px;
+  background: #9aa5b1;
+}
+
+.solver-chain::before,
+.solver-chain::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  width: 2px;
+  height: 54px;
+  background: #9aa5b1;
+}
+
+.solver-chain::before {
+  left: -48px;
+  transform: rotate(62deg);
+  transform-origin: top center;
+}
+
+.solver-chain::after {
+  right: -48px;
+  transform: rotate(-62deg);
+  transform-origin: top center;
+}
+
+.solver-chain-left {
+  left: 22%;
+}
+
+.solver-chain-right {
+  right: 22%;
+}
+
+.solver-pan {
+  position: absolute;
+  top: 54px;
+  width: 39%;
+  min-height: 118px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  place-items: center;
+  gap: 0.35rem;
+  padding: 0.7rem;
+  border: 2px solid currentColor;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 18px rgba(22, 31, 38, 0.08);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.solver-pan-left {
+  left: 0;
+  color: #176b87;
+}
+
+.solver-pan-right {
+  right: 0;
+  color: #d96c3f;
+}
+
+.solver-pan strong {
+  color: var(--text);
+  font-size: clamp(1.04rem, 2vw, 1.45rem);
+  line-height: 1.15;
+  text-align: center;
+}
+
+.solver-pan-name {
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.solver-weight-row {
+  min-height: 1.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.solver-weight {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.1rem;
+  min-height: 1.72rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
   color: #fff;
   font-weight: 900;
+  box-shadow: 0 5px 10px rgba(22, 31, 38, 0.15);
+  animation: solver-weight-in 0.22s ease-out;
 }
 
-.delta-positive { background: #1d7b53; }
-.delta-zero { background: #d96c3f; }
-.delta-negative { background: #7a2323; }
+.solver-weight-addition {
+  background: #1d7b53;
+}
+
+.solver-weight-division {
+  background: #6f5cc2;
+}
+
+@keyframes solver-weight-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.equation-command-panel {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.equation-step-label {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.equation-command-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.equation-command-grid label {
+  display: grid;
+  gap: 0.25rem;
+  align-items: start;
+}
+
+.equation-command-grid select,
+.equation-command-grid input {
+  width: 100%;
+  min-height: 2.35rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  padding: 0.28rem 0.55rem;
+  font: inherit;
+}
+
+.equation-actions .btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.48;
+  transform: none;
+  box-shadow: none;
+}
+
+.equation-feedback {
+  min-height: 3.1rem;
+  border-left: 4px solid var(--border);
+  border-radius: 8px;
+  background: #f8faf8;
+  padding: 0.7rem 0.85rem;
+  color: var(--muted);
+  font-weight: 750;
+}
+
+.equation-feedback-ok {
+  border-left-color: #1d7b53;
+  background: #eef7f0;
+  color: #22613e;
+}
+
+.equation-feedback-warn {
+  border-left-color: #d96c3f;
+  background: #fff3ec;
+  color: #793c24;
+}
+
+.equation-feedback-error {
+  border-left-color: #9f2f2f;
+  background: #f8e7e7;
+  color: #7a2323;
+}
+
+.equation-resolution,
+.equation-verification {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.equation-verification[hidden] {
+  display: none;
+}
+
+.equation-resolution h4,
+.equation-verification h4 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 0.98rem;
+}
+
+.equation-resolution ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.equation-resolution li {
+  padding-left: 0.15rem;
+}
+
+.equation-resolution li span,
+.equation-resolution li em {
+  display: block;
+  color: var(--muted);
+  font-size: 0.93rem;
+  font-style: normal;
+}
+
+.equation-resolution li strong {
+  display: block;
+  color: var(--text);
+  font-size: 1.02rem;
+}
+
+.linear-system-lab {
+  grid-column: 1 / -1;
+}
+
+.quad-control-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.quad-control-row label {
+  display: inline-grid;
+  grid-template-columns: auto 4.6rem;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.quad-control-row input {
+  width: 4.6rem;
+  min-height: 2.2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  padding: 0.25rem 0.45rem;
+  font: inherit;
+  font-weight: 800;
+}
+
+.delta-positive {
+  border-color: #9fd0a9;
+  background: #eef7f0;
+  color: #22613e;
+}
+
+.delta-zero {
+  border-color: #f0c1a8;
+  background: #fff3ec;
+  color: #793c24;
+}
+
+.delta-negative {
+  border-color: #e6b8b8;
+  background: #f8e7e7;
+  color: #7a2323;
+}
+
+.parabola-board {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.parabola-case {
+  display: grid;
+  gap: 0.28rem;
+  align-content: start;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfcfa;
+  padding: 0.65rem;
+}
+
+.parabola-case.is-active {
+  border-color: #176b87;
+  background: #eef6f8;
+}
+
+.parabola-case strong {
+  font-size: 0.9rem;
+}
+
+.parabola-case span {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.parabola-case p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.parabola-current {
+  grid-template-columns: minmax(130px, 190px) minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  max-width: none;
+}
+
+.parabola-copy {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.parabola-mini {
+  width: 100%;
+  max-height: 110px;
+  color: #176b87;
+}
+
+.parabola-current.is-concave .parabola-mini {
+  color: #d96c3f;
+}
+
+.parabola-current.is-linear .parabola-mini {
+  color: #697586;
+}
+
+.parabola-axis {
+  stroke: #54606e;
+  stroke-width: 3;
+}
+
+.parabola-curve {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.parabola-root {
+  fill: #1d7b53;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.linear-system-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) minmax(360px, 1.28fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.linear-system-panel {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.linear-system-display {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  align-items: center;
+  min-height: 112px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f8faf8;
+  padding: 0.75rem;
+}
+
+.system-brace {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(4rem, 7vw, 5.4rem);
+  line-height: 0.82;
+  color: #54606e;
+}
+
+.system-equations {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.system-equation {
+  display: block;
+  font-size: clamp(1.05rem, 1.7vw, 1.28rem);
+  line-height: 1.2;
+}
+
+.system-equation-blue {
+  color: #176b87;
+}
+
+.system-equation-orange {
+  color: #d96c3f;
+}
 
 .graph-canvas {
   width: 100%;
@@ -1008,6 +1516,15 @@
   border-radius: 8px;
   background: #fff;
   display: block;
+}
+
+.graph-canvas-compact {
+  aspect-ratio: 16 / 7.4;
+}
+
+.derived-function-stack {
+  display: grid;
+  gap: 0.65rem;
 }
 
 .coming-soon-grid {
@@ -1052,73 +1569,139 @@
   font-weight: 700;
 }
 
-.interval-line {
-  min-height: 150px;
+.interval-picker-grid,
+.interval-mode-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.interval-picker-grid label {
+  display: inline-grid;
+  grid-template-columns: auto minmax(6.3rem, 1fr);
+  gap: 0.45rem;
+  align-items: center;
+  flex: 1 1 12rem;
+}
+
+.interval-picker-grid select {
+  width: 100%;
+  min-height: 2.25rem;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: #f8faf8;
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  align-items: end;
-  padding: 0.8rem 1rem 1.2rem;
-}
-
-.interval-line::before {
-  content: "";
-  position: absolute;
-  left: 1rem;
-  right: 1rem;
-  top: 72px;
-  height: 4px;
-  background: #54606e;
-  border-radius: 999px;
-}
-
-.interval-line span {
-  text-align: center;
-  color: var(--muted);
+  background: #fff;
+  color: var(--text);
+  padding: 0.25rem 0.5rem;
+  font: inherit;
   font-weight: 800;
 }
 
-.interval {
-  position: absolute;
-  height: 12px;
+.interval-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 1.8rem;
   border-radius: 999px;
+  color: #fff;
+  font-weight: 900;
 }
 
-.interval-i {
-  left: 1rem;
-  width: calc((100% - 2rem) * 0.5);
-  top: 54px;
+.interval-chip-i {
   background: #176b87;
 }
 
-.interval-j {
-  left: calc(1rem + (100% - 2rem) * 0.25);
-  width: calc((100% - 2rem) * 0.75);
-  top: 86px;
+.interval-chip-j {
   background: #d96c3f;
 }
 
-.interval-result {
-  top: 70px;
-  background: #1d7b53;
+.interval-mode-row .btn.is-active {
+  border-color: #176b87;
+  background: #eef6f8;
+  color: #0d4f66;
+  box-shadow: inset 0 0 0 1px rgba(23, 107, 135, 0.18);
 }
 
-.interval-line[data-mode="intersection"] .interval-result {
-  left: calc(1rem + (100% - 2rem) * 0.25);
-  width: calc((100% - 2rem) * 0.25);
+.interval-line {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f8faf8;
+  padding: 0.45rem;
+  overflow: hidden;
 }
 
-.interval-line[data-mode="union"] .interval-result {
-  left: 1rem;
-  width: calc(100% - 2rem);
+.interval-svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.interval-line[data-mode="difference"] .interval-result {
-  left: 1rem;
-  width: calc((100% - 2rem) * 0.25);
+.interval-main-axis,
+.interval-row-axis,
+.interval-tick {
+  stroke: #54606e;
+  stroke-linecap: round;
+}
+
+.interval-main-axis {
+  stroke-width: 3;
+}
+
+.interval-axis-arrow {
+  fill: #54606e;
+}
+
+.interval-row-axis {
+  stroke-width: 2;
+  opacity: 0.28;
+}
+
+.interval-tick {
+  stroke-width: 2;
+}
+
+.interval-number,
+.interval-row-label,
+.interval-empty {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 850;
+}
+
+.interval-number {
+  fill: #65717f;
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.interval-row-label {
+  font-size: 18px;
+}
+
+.interval-segment {
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.interval-endpoint {
+  stroke-width: 3;
+}
+
+.interval-empty {
+  fill: #65717f;
+  font-size: 18px;
+  text-anchor: middle;
+}
+
+#interval-result {
+  display: grid;
+  gap: 0.25rem;
+}
+
+#interval-result span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .sign-table {
@@ -1181,6 +1764,14 @@
     padding: 0.9rem;
   }
 
+  .equation-solver-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .linear-system-layout {
+    grid-template-columns: 1fr;
+  }
+
   .control-row {
     gap: 0.75rem;
   }
@@ -1199,6 +1790,71 @@
 @media (max-width: 760px) {
   .algebra-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .equation-solver-toolbar,
+  .equation-actions {
+    align-items: stretch;
+  }
+
+  .equation-solver-toolbar > *,
+  .equation-actions .btn {
+    width: 100%;
+  }
+
+  .equation-solver-toolbar label {
+    display: grid;
+    width: 100%;
+  }
+
+  .equation-solver-toolbar select {
+    width: 100%;
+  }
+
+  .equation-command-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quad-control-row {
+    flex-wrap: wrap;
+  }
+
+  .quad-control-row label {
+    grid-template-columns: auto minmax(4.4rem, 1fr);
+    flex: 1 1 7rem;
+  }
+
+  .quad-control-row input {
+    width: 100%;
+  }
+
+  .parabola-current {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .equivalence-balance {
+    min-height: 292px;
+  }
+
+  .solver-beam {
+    width: 96%;
+  }
+
+  .solver-pan {
+    width: 42%;
+    min-height: 112px;
+    padding: 0.55rem 0.45rem;
+  }
+
+  .solver-pan-name {
+    font-size: 0.68rem;
+  }
+
+  .solver-pan strong {
+    font-size: 0.96rem;
   }
 }
 
@@ -1237,6 +1893,24 @@
 
   .graph-canvas {
     aspect-ratio: 4 / 3;
+  }
+
+  .parabola-board {
+    grid-template-columns: 1fr;
+  }
+
+  .equivalence-balance {
+    min-height: 285px;
+  }
+
+  .solver-pan {
+    width: 42%;
+    min-height: 112px;
+    padding: 0.55rem 0.45rem;
+  }
+
+  .solver-pan strong {
+    font-size: 0.95rem;
   }
 
   .sign-table {

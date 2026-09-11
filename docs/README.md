@@ -158,4 +158,4 @@ Le parseur commun :
 - `v0.2.0` : ajout notable de notion ou fonctionnalité majeure
 - `v0.2.1` : correction mineure
 
-Version actuelle : `v0.1.7`
+Version actuelle : `v0.2.0`

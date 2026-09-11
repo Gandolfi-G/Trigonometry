@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.2.0 - 2026-09-11
+
+- Accueil :
+  - marquage du chapitre 2 `Équations / Inéquations` comme déjà travaillé.
+  - conservation du marquage visuel vert pour les chapitres déjà travaillés.
+- Chapitre 2 :
+  - finalisation d’un ensemble cohérent d’animations JavaScript et de vidéos Manim.
+  - amélioration des vidéos Manim sur la balance, le discriminant, les systèmes, les intervalles, les racines/division et le tableau de signes.
+  - tableau de signes revu au format classique avec racines en droites verticales et zéros placés sur les lignes concernées.
+- Version :
+  - passage du site en `v0.2.0`.
+
 ## v0.1.8 - 2026-04-27
 
 - Déploiement GitHub Pages (repo `Trigonometry`) :

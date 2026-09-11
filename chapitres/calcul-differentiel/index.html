@@ -55,16 +55,16 @@
           <article class="algebra-lab">
             <h3>Sécante vers tangente</h3>
             <div class="control-row">
-              <label>h <input id="tangent-h" type="range" min="0.1" max="3" step="0.05" value="2" /></label>
+              <label>h <input id="tangent-h" type="range" min="0.1" max="2" step="0.05" value="2" /></label>
             </div>
             <div class="expression-display" id="tangent-result"></div>
             <canvas class="graph-canvas" id="tangent-canvas" width="520" height="320"></canvas>
           </article>
 
           <article class="algebra-lab">
-            <h3>Dérivée de x² en x0</h3>
+            <h3>Dérivée de x² en x₀</h3>
             <div class="control-row">
-              <label>x0 <input id="derivative-x0" type="range" min="-3" max="3" step="0.1" value="1.5" /></label>
+              <label>x₀ <input id="derivative-x0" type="range" min="-3" max="3" step="0.1" value="1.5" /></label>
             </div>
             <div class="expression-display" id="derivative-result"></div>
             <canvas class="graph-canvas" id="derivative-canvas" width="520" height="320"></canvas>
@@ -72,8 +72,14 @@
 
           <article class="algebra-lab">
             <h3>Fonction dérivée</h3>
-            <div class="expression-display">f(x) = x² et f’(x) = 2x</div>
-            <canvas class="graph-canvas" id="derived-function-canvas" width="520" height="320"></canvas>
+            <div class="control-row">
+              <label>x₀ <input id="derived-x0" type="range" min="-3" max="3" step="0.1" value="1.5" /></label>
+            </div>
+            <div class="expression-display" id="derived-function-result"></div>
+            <div class="derived-function-stack">
+              <canvas class="graph-canvas graph-canvas-compact" id="derived-source-canvas" width="520" height="240"></canvas>
+              <canvas class="graph-canvas graph-canvas-compact" id="derived-function-canvas" width="520" height="240"></canvas>
+            </div>
           </article>
 
           <article class="algebra-lab">

@@ -4,6 +4,7 @@ import { VERSION_LABEL, RELEASE_DATE } from './core/version.js';
 const versionNode = document.getElementById('site-version');
 const releaseNode = document.getElementById('release-date');
 const chapterListNode = document.getElementById('chapter-list');
+const workedChapterIds = new Set(['calcul-litteral', 'equations-inequations', 'trigonometrie']);
 
 if (versionNode) {
   versionNode.textContent = VERSION_LABEL;
@@ -17,8 +18,9 @@ if (chapterListNode) {
   const sortedChapters = [...chapters].sort((a, b) => a.order - b.order);
 
   sortedChapters.forEach((chapter) => {
+    const isWorkedChapter = workedChapterIds.has(chapter.id);
     const card = document.createElement('a');
-    card.className = 'chapter-card chapter-link-card';
+    card.className = `chapter-card chapter-link-card${isWorkedChapter ? ' chapter-card-worked' : ''}`;
     card.href = chapter.path;
 
     const index = document.createElement('span');
@@ -28,6 +30,12 @@ if (chapterListNode) {
     const header = document.createElement('div');
     header.className = 'chapter-card-header';
     header.append(index);
+    if (isWorkedChapter) {
+      const worked = document.createElement('span');
+      worked.className = 'status-pill status-pill-worked';
+      worked.textContent = 'Déjà travaillé';
+      header.append(worked);
+    }
     if (chapter.status === 'À préparer') {
       const status = document.createElement('span');
       status.className = 'status-pill';
